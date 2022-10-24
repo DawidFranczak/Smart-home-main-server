@@ -1,0 +1,35 @@
+
+.stairs_containers{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	padding: 100px;
+	display: none;
+}
+.stairs_containers label{
+	font-size: 25px;
+}
+
+.stairs_containers div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 10px
+}
+.stairs_containers input {
+ margin-left: auto;
+ margin-right: auto;
+}
+
+.stairs_containers div input {
+	width:70px ;
+}
+
+
+.select-stairs{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}

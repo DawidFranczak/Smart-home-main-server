@@ -1,0 +1,57 @@
+.container{
+	display: flex;
+	justify-content: center;
+}
+#calibration{
+	margin-top: 15px;
+	width: 100px;
+	height: 20px;
+}
+
+
+.rolety_pojemnik {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+
+}
+
+.rolety_pojemnik div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 400px;
+}
+.rolety_pojemnik p {
+	display: flex;
+	justify-content: center;
+	width: 100px;
+	margin: 0px;
+	font-size: large;
+}
+.rolety_pojemnik input {
+	display: flex;
+	justify-content: center;
+	width: 100px;
+}
+.rolety_pojemnik a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	text-decoration: none;
+	color: black;
+}
+
+.rolety_pojemnik a:hover {
+	border-radius: 10%;
+	background-color: green;
+	font-size: large;
+}
+.rolety_pojemnik div div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100px;
+}

@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<script src='{% static "script/wykres.js" %}'></script>
+<script src='{% static "script/Chart.js" %}'></script>
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/chart.css" %}'>
+<div class="container">
+    <div class="char-containers">
+    <div>
+            <form method="post" class="get-data">
+                {% csrf_token %}
+                <div class="select-data">
+                    <div>
+                        <p>Wybierz datę od</p>
+                        <input type="date" name="dataod">
+                    </div>
+                    <div>
+                        <p>Wybierz datę do</p>
+                        <input type="date" name="datado">
+                    </div>
+                </div>
+                <div>
+                    <select name="lista">
+                        {% for i in list_place %}
+                        <option>{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Pokaz">
+                </div>
+            </form>
+        </div>
+        {% if  data_average_data|length > 7 %}
+        <div class="display-char">
+            <canvas id="myChart_srednia_dzien"></canvas>
+        </div>
+        <div class="display-char"> 
+            <canvas id="myChart_srednia_noc"></canvas>
+        </div>
+        <script>
+                wykres_srednia_dzien({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
+                wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
+            </script>
+        {% else %}
+        <div class="display-char">
+        <canvas id="myChart" class="dispaly-char"></canvas>
+        </div>
+        {%block scripts%}
+        <script>
+                wykres({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");
+        </script>
+        {%endblock scripts%}
+    {% endif %}
+            <div  class = temp_containers>
+                <div class="temp-avarage-containers-h">
+
+                </div>
+                <ul id = "temp_avarage_containers">
+                    <il>
+                        <p>Data</p>
+                        <p>Średnia w nocy</p>
+                        <p>Średnia w dzień</p>
+                    </il>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+   <script>avarage_temp({{data_average_data|safe}},{{data_average_temp_night|safe}},{{data_average_temp_day|safe}})</script>
+{% endblock content %}

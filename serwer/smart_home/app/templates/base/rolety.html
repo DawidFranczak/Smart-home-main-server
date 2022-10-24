@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'script/sunblind.js' %}"></script>
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/sunblind.css" %}'>
+<div class="container">
+    <input type="button" value="Kalibracja" id="calibration">
+    <div class ="rolety_pojemnik" id="rolety_pojemnik">
+        <div class ="sensor_h">
+            <p class="sensor_name_h">Nazwa</p>
+            <p class="sensor_fun_h">Suwak</p>
+            <div class="calBtn" style="display: none;" id="cal_button_h">Kalibracja</div>
+        </div>
+        {% for sensor in sensors %}
+            {% for sunblind in sunblinds %}
+                {% if sensor.id == sunblind.sensor_id %}
+                    <div class ="sensor">
+                        <p>{{sensor.name}}</p>
+                        <div>
+                            <input type="range" value = "{{sunblind.value}}" class="slider" placeholder ={{sensor.pk}} >
+                            <p id ={{sensor.pk}}>{{sunblind.value}}</p>
+                        </div>
+                        <a href="{% url 'calibration' sensor.pk %}" class="calBtn" style="display:none" id = "calibration">Kalibruj</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+
+.led_container {
+	display: flex;
+	justify-content: center;
+	flex-direction:column;
+	align-items:center;
+}
+.led_container div{
+	width: 200px;
+	display: flex;
+	justify-content: space-between;
+}
+.led_container p{
+	color: rgb(255, 255, 255);
+}

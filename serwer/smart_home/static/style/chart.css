@@ -1,0 +1,65 @@
+#temp_avarage_containers{
+display: flex;
+flex-direction: column;
+}
+
+#temp_avarage_containers il{
+    width: 450px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#temp_avarage_containers il p{
+    width: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.char-containers{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+.char-containers div{
+	margin: 10px;
+}
+
+.get-data{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.select-data{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.display-char{
+	width:1000px; 
+	background-color: aliceblue;
+}
+
+.temp_containers{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+.temp-avarage-containers-h{
+	width: 450px;
+	display: flex;
+	flex-direction: row;
+}
+
+.temp-avarage-containers-h div{
+	width: 150px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+}

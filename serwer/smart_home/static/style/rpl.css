@@ -1,0 +1,19 @@
+.rpl-containers {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.rpl-containers div {
+	display: flex;
+	flex-direction: row;
+}
+
+.rpl-containers div div {
+	display: flex;
+	flex-direction: column;
+	margin: 10px;
+}
+.rpl-containers div div div {
+	display: flex;
+	flex-direction: row;
+}

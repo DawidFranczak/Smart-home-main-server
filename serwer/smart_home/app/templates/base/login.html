@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/login.css" %}'>
+<div class="container">
+    <form method="post" class="login">
+      {% csrf_token %}
+      <input type="login" name="username" placeholder="login">
+      <input type="password" name="password" placeholder="hasło">
+      <input type="submit" value="Zaloguj">
+      {% if messages %}
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+      {% endif %}
+
+    </form>
+</div>
+{% endblock content %}

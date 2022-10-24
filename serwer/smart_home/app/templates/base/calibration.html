@@ -1,0 +1,21 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<script src="{% static 'script/calibration.js' %}" ></script>
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/calibration.css" %}'>
+<div class="container">
+  <div class="calibration">
+    <div class="clbBtn" id="clbBtn">
+      <input type="button" value="Góra" id="up" />
+      <input type="button" value="Dół" id="down" />
+      <input type="button" value="Zapisz" id="save" />
+    </div>
+    <div id="confBtn" style="display: none">
+      <input type="button" value="Tak" id="rep" />
+      <button><a href="{% url 'rolety' %}">Nie</a></button>
+    </div>
+    <p id="message">
+      Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk "zapisz"
+    </p>
+  </div>
+</div>
+
+{% endblock content %}

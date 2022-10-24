@@ -1,0 +1,57 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/aqua.css" %}'>
+
+<div class="container">
+  <div>
+    <h1>Wybierz akwarium</h1>
+    {% for aqua in aquas %}
+    <input
+      type="button"
+      class="button"
+      value="{{aqua.name}}"
+      id="{{aqua.id}}"
+    />
+    {% endfor %}
+  </div>
+
+  <div id="aqua_containers">
+    <h1>Wybierz kolor</h1>
+
+    <input
+      id="color"
+      value="rgb(255,255,255)"
+      data-jscolor="{}"
+      class="jscolor jscolor-active"
+      data-current-color="rgba(255,0,0)"
+    />
+
+    <div id="settings_aqua">
+      <h1>Ustawienia</h1>
+      <h3>Załączenie led</h3>
+      <input type="time" id="ledStart" />
+      <input type="time" id="ledStop" /> <br /><br />
+      <p id="ledMess"></p>
+      <input type="button" id="ledButton" value="Ustaw" />
+
+      <h3>Załączenie swietlówki</h3>
+      <input type="time" id="fluoLampStart" />
+      <input type="time" id="fluoLampStop" /> <br /><br />
+      <p id="fluoLampMess"></p>
+      <input type="button" id="fluoLampButton" value="Ustaw" />
+    </div>
+    
+    <h3>Ustaw tryb pracy</h3>
+    <input type="button" id="mode" value="Automat" />
+    <div id="modeButtons" style="display: none">
+      <h3>LED</h3>
+      <input type="button" id="modeLedButton" />
+      <h3>Świetlówka</h3>
+      <input type="button" id="modeFluoLampButton" />
+    </div>
+  </div>
+</div>
+<script src="{% static 'script/aqua.js' %}" ></script>
+<script src='{% static "script/jscolor.min.js" %}'></script>
+
+
+{% endblock content %}
