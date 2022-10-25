@@ -1,6 +1,6 @@
 async function select_aqua() {
   id = this.id;
-  settings = await fetch('/api/akwarium/'+id)
+  settings = await fetch(`/api/akwarium/${id}`)
   settings = await settings.json()
   console.log(settings)
 

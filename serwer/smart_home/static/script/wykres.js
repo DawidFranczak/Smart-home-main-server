@@ -15,6 +15,7 @@ function avarage_temp(data_average_data,data_average_temp_night,data_average_tem
     }
 }
 
+
 function wykres(dane_temp, dane_czas, place){
 const ctx = document.getElementById('myChart');
 const myChart = new Chart(ctx, {
@@ -44,6 +45,7 @@ const myChart = new Chart(ctx, {
         },
     }
 })}
+
 
 function wykres_srednia_dzien(dane_temp, dane_czas, place){
 const ctx = document.getElementById('myChart_srednia_dzien');
@@ -100,4 +102,3 @@ const myChart = new Chart(ctx, {
         }
     }
 });}
-

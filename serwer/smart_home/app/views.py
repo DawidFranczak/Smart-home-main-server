@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 
+
 from speaker import checkAquaAll
 from .models import *
 import socket
@@ -24,6 +25,7 @@ def loginUser(request):
         password = request.POST['password']
         try:
             user = User.objects.get(username=username)
+            print(user.id)
         except:
             messages.error(request, 'Użytkownik nie istenieje.')
             return redirect('login')
@@ -123,9 +125,8 @@ def wykres(request):
 def sensor(request):
     if request.method == "POST":
         get_data = json.loads(request.body)
-        print(get_data)
+        
         if get_data["action"] == "add" and get_data["fun"] == "uid" :
-            print('tu')
             return JsonResponse(add_uid(get_data))
         else:
             return JsonResponse(add_sensor(get_data))
@@ -150,32 +151,33 @@ def stairs(request):
         print(get_data)
         stairs = Stairs.objects.get(sensor_id=get_data['id'])
         sensor = Sensor.objects.get(id = get_data['id'])
-        
-        if get_data['action'] == 'set-lightingTime':
-            stairs.lightTime = int(get_data['lightingTime'])
-            stairs.save()
-            send_data("te"+str(get_data['lightingTime']),sensor.ip,sensor.port)
+        match get_data['action']:
             
-        elif get_data['action'] == 'set-brightness':
-            stairs.brightness = int(get_data['brightness'])
-            stairs.save()
-            send_data("bs"+str(get_data['brightness']),sensor.ip,sensor.port)
-            
-        elif get_data['action'] == 'set-step':
-            stairs.steps = int(get_data['step'])
-            stairs.save()
-            send_data("sp"+str(get_data['step']),sensor.ip,sensor.port)
-        
-        elif get_data['action'] == 'change-stairs':
-            if stairs.mode:
-                stairs.mode = False
+            case 'set-lightingTime':
+                stairs.lightTime = int(get_data['lightingTime'])
                 stairs.save()
-                send_data("OFF",sensor.ip,sensor.port)
-            else:    
-                stairs.mode = True
+                send_data("te"+str(get_data['lightingTime']),sensor.ip,sensor.port)
+                
+            case 'set-brightness':
+                stairs.brightness = int(get_data['brightness'])
                 stairs.save()
-                send_data("ON",sensor.ip,sensor.port)
+                send_data("bs"+str(get_data['brightness']),sensor.ip,sensor.port)
+                
+            case 'set-step':
+                stairs.steps = int(get_data['step'])
+                stairs.save()
+                send_data("sp"+str(get_data['step']),sensor.ip,sensor.port)
             
+            case 'change-stairs':
+                if stairs.mode:
+                    stairs.mode = False
+                    stairs.save()
+                    send_data("OFF",sensor.ip,sensor.port)
+                else:    
+                    stairs.mode = True
+                    stairs.save()
+                    send_data("ON",sensor.ip,sensor.port)
+                
         # stairs = json.dumps(stairs)
         stairs = Stairs.objects.filter(sensor_id=get_data['id']).values()
         return JsonResponse(stairs[0])
@@ -198,48 +200,50 @@ def akwarium(request):
         get_data = json.loads(request.body)
         sensor = Sensor.objects.get(id=get_data['id'])
         aqua = Aqua.objects.get(sensor_id = get_data['id'])
-        if get_data['action'] == 'changeRGB':
-            message = "r"+str(get_data['r'])+"g" + str(get_data['g'])+ "b" + str(get_data['b'])
-            send_data(message, sensor.ip, sensor.port)
-            aqua.color = message
+        match get_data['action']:
             
-        elif get_data['action'] == 'changeLedTime':
-            aqua.led_start = get_data['ledStart']
-            aqua.led_stop = get_data['ledStop']
-            checkAqua(sensor,aqua)
+            case 'changeRGB':
+                message = "r"+str(get_data['r'])+"g" + str(get_data['g'])+ "b" + str(get_data['b'])
+                send_data(message, sensor.ip, sensor.port)
+                aqua.color = message
             
-        elif get_data['action'] == 'changeFluoLampTime':
-            aqua.fluo_start = get_data['fluoLampStart']
-            aqua.fluo_stop = get_data['fluoLampStop']
-            checkAqua(sensor,aqua)
-            
-        elif get_data['action'] == 'changeMode':
-            aqua.mode = get_data['mode']
-            if get_data['mode'] == False:
+            case 'changeLedTime':
+                aqua.led_start = get_data['ledStart']
+                aqua.led_stop = get_data['ledStop']
                 checkAqua(sensor,aqua)
-            else:
-                aqua.save()
-                dict = {
-                    'fluo': aqua.fluo_mode,
-                    'led' : aqua.led_mode
-                }
-                return JsonResponse(dict)
                 
-        elif get_data['action'] == 'changeFluoLampState':
-            if get_data['value'] == True:
-                mess = "s1"
-            else:
-                mess = "s0"
-            send_data(mess, sensor.ip, sensor.port)
-            aqua.fluo_mode=get_data['value']
-            
-        elif get_data['action'] == 'changeLedState': 
-            if get_data['value'] == True:
-                mess = "r1"
-            else:
-                mess = "r0"
-            send_data(mess, sensor.ip, sensor.port)
-            aqua.led_mode=get_data['value']
+            case 'changeFluoLampTime':
+                aqua.fluo_start = get_data['fluoLampStart']
+                aqua.fluo_stop = get_data['fluoLampStop']
+                checkAqua(sensor,aqua)
+                
+            case 'changeMode':
+                aqua.mode = get_data['mode']
+                if get_data['mode'] == False:
+                    checkAqua(sensor,aqua)
+                else:
+                    aqua.save()
+                    dict = {
+                        'fluo': aqua.fluo_mode,
+                        'led' : aqua.led_mode
+                    }
+                    return JsonResponse(dict)
+                    
+            case 'changeFluoLampState':
+                if get_data['value'] == True:
+                    mess = "s1"
+                else:
+                    mess = "s0"
+                send_data(mess, sensor.ip, sensor.port)
+                aqua.fluo_mode=get_data['value']
+                
+            case 'changeLedState': 
+                if get_data['value'] == True:
+                    mess = "r1"
+                else:
+                    mess = "r0"
+                send_data(mess, sensor.ip, sensor.port)
+                aqua.led_mode=get_data['value']
             
         aqua.save()   
         return render(request,'base/akwarium.html') 
