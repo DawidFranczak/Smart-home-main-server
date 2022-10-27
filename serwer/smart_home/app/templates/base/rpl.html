@@ -10,7 +10,7 @@
                 {% for sensor in sensors %}
                     {% if sensor.fun == 'lamp' %}
                         <div>
-                            <input type="radio" id="lamp" name="sen_fun" value="{{sensor.id}}">
+                            <input type="radio" id="lamp" name="sen_fun" value={{sensor.id}}>
                             <label for="{{sensor.name}}">{{sensor.name}}</label>
                         </div>
                     {% endif %}
@@ -21,7 +21,7 @@
                 {% for sensor in sensors %}
                     {% if sensor.fun == 'rfid' %}
                         <div>
-                            <input type="checkbox" id="rfid" value="{{sensor.id}}">
+                            <input type="checkbox" id="rfid" value={{sensor.id}}>
                             <label for="rfid">{{sensor.name}}</label>
                         </div>
                     {% endif %}
@@ -32,7 +32,7 @@
                 {% for sensor in sensors %}
                     {% if sensor.fun == 'btn' %}
                         <div>
-                            <input type="checkbox" id="btn" value="{{sensor.id}}">
+                            <input type="checkbox" id="btn" value={{sensor.id}}>
                             <label for="btn">{{sensor.name}}</label>
                         </div>
                     {% endif %}
@@ -40,6 +40,7 @@
             </div>
         </div>
         <input type="button" id="rpl-btn" value="Zapisz">
+        <p class="mess"></p>
     </div>
 </div>
 <script src='{% static "script/rpl.js" %}'></script>

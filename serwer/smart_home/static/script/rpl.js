@@ -27,9 +27,20 @@ async function select_rpl(e){
             } 
           }    
         })
+        document.querySelector('.mess').innerHTML = "";
         break;
       case 'rpl-btn':
-        rpl_connect()
+        const lamps = document.querySelectorAll('#lamp');
+        for(lamp of lamps){
+          if (lamp.checked){
+            rpl_connect();
+            document.querySelector('.mess').innerHTML = "Połączono"
+            break;
+          }
+          else{
+            document.querySelector('.mess').innerHTML = "Wybierz lampy"
+          } 
+        }
         break;
     }
   }
