@@ -5,11 +5,13 @@
 
 
 // Przypisanie pinów
-#define WIFILED D4
-#define REDPIN D7    
-#define GREENPIN  D6 
-#define BLUEPIN  D5 
 #define SWIETLOWKA D3 
+#define WIFILED D4
+#define BLUEPIN  D5 
+#define GREENPIN  D6 
+#define REDPIN D7   
+#define ADDBUTTON D8 
+
 
 // Dane do sieci wifi
 // const char* ssid     = "Tenda";
@@ -47,7 +49,7 @@ void setup() {
   
   //konfiguracja pinów
   pinMode(SWIETLOWKA,OUTPUT); // swietlowka
-
+  pinMode(ADDBUTTON,INPUT_PULLUP);
   //Łączenie z wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)  delay(1);
@@ -97,10 +99,12 @@ void loop(){
     else if (date == "s1"){
       digitalWrite(SWIETLOWKA,LOW);
     }
-    else if (date == "password_aqua"){
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-      UDP.write("respond_aqua");
-      UDP.endPacket();
+    else if(digitalRead(ADDBUTTON)==LOW){
+      if (date == "password_aqua" && digitalRead(ADDBUTTON)==LOW){
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.write("respond_aqua");
+        UDP.endPacket();
+      }
     }
   }
 }

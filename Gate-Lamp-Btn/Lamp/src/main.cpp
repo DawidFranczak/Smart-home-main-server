@@ -5,7 +5,7 @@
 #include <Wire.h>
 
 #define WIFILED 1 // Sygnalizcja podłączenia do wifi
-
+#define ADDBUTTON 3 
 // Połączenie z siecą WiFi
 // const char* ssid = "Tenda";
 // const char* password = "1RKKHAPIEJ";
@@ -48,6 +48,7 @@ void turnOffFromRFID();   // Zgaszenie świateł zapalonych poprzez czytnik rfid
 void setup() {
   // Inicjalizacja
   pinMode(WIFILED,OUTPUT);
+  pinMode(ADDBUTTON,INPUT_PULLUP); // przycisk do dodania 
   // Serial.begin(9600);
   Wire.begin(2,0); // Ustawienie magistarli i2c na gpio 2 oraz 0
   WiFi.begin(ssid,password);
@@ -71,10 +72,13 @@ void loop() {
     date = dataPackage;
     // Serial.println("\n");
     // Serial.println(date);
-    if (date == "password_lamp") { 
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-      UDP.write("respond_lamp");
-      UDP.endPacket();
+     if (digitalRead(ADDBUTTON) == LOW){
+      delay(20);
+      if (date == "password_lamp" && digitalRead(ADDBUTTON) == LOW ) { 
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+        UDP.write("respond_lamp");
+        UDP.endPacket();
+      }
     }
     else if(date == "RFID" ){
       if (lightOnSwitch== false && lightOn == false && lightOnRFID == false){

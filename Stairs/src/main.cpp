@@ -6,6 +6,8 @@
 #define WIFILED D4
 #define SENSORDOWN D5
 #define SENSORUP D6
+#define ADDBUTTON D7
+
 
 // Połączenie z siecą WiFi
 const char* ssid = "Tenda";
@@ -51,7 +53,9 @@ void turnOnSensorUp();
 void setup() {
   pinMode(WIFILED,OUTPUT);
   pinMode(SENSORDOWN,INPUT_PULLUP);
-  // pinMode(SENSORUP,INPUT_PULLUP);
+  pinMode(SENSORUP,INPUT_PULLUP);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
+
   digitalWrite(WIFILED,HIGH);
   WiFi.begin(ssid,password);
   UDP.begin(udpPort);
@@ -75,10 +79,13 @@ void loop() {
     Serial.println(date);
     Serial.println("\n");
 
-    if (date == "password_stairs") { 
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-      UDP.write("respond_stairs");
-      UDP.endPacket();
+    if (digitalRead(ADDBUTTON) == LOW){
+      delay(20);
+      if (date == "password_stairs" && digitalRead(ADDBUTTON) == LOW) { 
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+        UDP.write("respond_stairs");
+        UDP.endPacket();
+      }
     }
     else if(date =="ON") {
       if(!lightOn) turnOnSensorDown();

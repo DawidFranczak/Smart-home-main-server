@@ -2,8 +2,10 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
-#define BUTTON 2     // Przycisk do włączenia oświetlenia
+
 #define WIFILED 1    // Sygnalizcja podłączenia do wifi
+#define BUTTON 2     // Przycisk do włączenia oświetlenia
+#define ADDBUTTON 3
 
 // Połączenie z siecą WiFi
 // const char* ssid = "Tenda";
@@ -37,6 +39,8 @@ void setup() {
   // Inicjalizacja
   pinMode(BUTTON,INPUT_PULLUP);
   pinMode(WIFILED,OUTPUT);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
+
 
   // Serial.begin(9600);
   WiFi.begin(ssid,password);
@@ -58,11 +62,14 @@ void loop() {
       date = dataPackage;
       
        // Dodanie urządzneia
-    if (date == "password_btn") { 
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-      UDP.write("respond_btn");
-      UDP.endPacket();
-    } 
+    if (digitalRead(ADDBUTTON) == LOW){ 
+      delay(20);
+      if (date == "password_btn" && digitalRead(ADDBUTTON) == LOW){
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+        UDP.write("respond_btn");
+        UDP.endPacket();
+      } 
+    }
   }
 
   // Włączenie lamp z przycisku 

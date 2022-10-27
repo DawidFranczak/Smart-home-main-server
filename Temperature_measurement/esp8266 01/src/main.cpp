@@ -5,6 +5,7 @@
 #include <DHT.h>
 #include <Adafruit_Sensor.h>
 
+#define ADDBUTTON 0
 #define DHTPIN 2
 #define DHTTYPE DHT11 
 
@@ -24,6 +25,7 @@ WiFiUDP UDP;
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  pinMode(ADDBUTTON,INPUT_PULLUP);
   WiFi.begin(ssid,password);
   while (WiFi.status() != WL_CONNECTED) delay(1);
   UDP.begin(UdpPort);
@@ -40,11 +42,14 @@ void loop() {
         data_package[len] = 0;
       }
       date = data_package;
-      if(date == "password_temp"){
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-        UDP.write("respond_temp");
-        UDP.endPacket(); 
-        delay(200);
+      if(digitalRead(ADDBUTTON)==LOW){
+        delay(20);
+        if(date == "password_temp" && digitalRead(ADDBUTTON)==LOW){
+          UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+          UDP.write("respond_temp");
+          UDP.endPacket(); 
+          delay(200);
+        }
       }
       else if(date == "pomiar"){
         float h = dht.readHumidity();

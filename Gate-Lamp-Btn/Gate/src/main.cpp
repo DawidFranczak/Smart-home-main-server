@@ -8,6 +8,7 @@
 #define SS_PIN  D8 // Czujnik RFID
 
 #define BUZZER D1  // Sygnalizacja otwarcia furki 
+#define ADDBUTTON D3 
 #define WIFILED D4 // Sygnalizcja podłączenia do wifi
 
 #define GATE D2    // Furtka
@@ -77,6 +78,8 @@ void setup() {
   pinMode(WIFILED,OUTPUT);
   pinMode(OPTO,INPUT_PULLUP);
   digitalWrite(WIFILED,LOW);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
+
 
   // Uruchomienie czujnika RFID, magistarali SPI, wifi, oraz protokołu UDP 
   SPI.begin(); 
@@ -110,11 +113,14 @@ void loop() {
       Serial.print(date); 
 
       // Dodanie urządzneia
-    if (date == "password_rfid") { 
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-      UDP.write("respond_rfid");
-      UDP.endPacket();
-      serwerIP = UDP.remoteIP(); 
+  if(digitalRead(ADDBUTTON) == LOW){
+      delay(20);
+      else if (date == "password_rfid" && digitalRead(ADDBUTTON) == LOW) { 
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+        UDP.write("respond_rfid");
+        UDP.endPacket();
+        serwerIP = UDP.remoteIP(); 
+      }
     }
      // Otwarcie furtki poprzez wifi
     else if(date == "access") {

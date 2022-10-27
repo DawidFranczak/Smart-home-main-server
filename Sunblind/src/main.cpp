@@ -3,6 +3,7 @@
 #include <WiFiUdp.h>
 #include <string.h>
 
+#define ADDBUTTON D3
 #define WIFILED D4
 
 #define IN1 D5
@@ -37,6 +38,8 @@ void setup() {
   pinMode(IN3,OUTPUT);
   pinMode(IN4,OUTPUT);
   pinMode(WIFILED,OUTPUT);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
+
 
   Serial.begin(9600);
   WiFi.begin(ssid,password);
@@ -56,10 +59,13 @@ void loop() {
     date = data_package;
     // Serial.print(date);
 
-    if(date == "password_sunblind"){
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-      UDP.write("respond_sunblind");
-      UDP.endPacket(); 
+    if(digitalRead(ADDBUTTON)==LOW){
+      delay(20);
+      if(date == "password_sunblind" && digitalRead(ADDBUTTON) == LOW){
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.write("respond_sunblind");
+        UDP.endPacket(); 
+      }
     }
     else if(date.substring(0,3) == "set"){
       int position = (maxMove * date.substring(3).toInt())/100;

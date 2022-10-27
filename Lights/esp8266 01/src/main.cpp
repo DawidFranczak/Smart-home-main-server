@@ -4,6 +4,8 @@
 #include <string.h>
 
 #define LIGHT 0
+#define ADDBUTTON 2
+
 
 // const char* ssid = "Tenda";
 // const char* password = "1RKKHAPIEJ";
@@ -20,6 +22,8 @@ WiFiUDP UDP;
 void setup() {
   // Serial.begin(9600);
   pinMode(LIGHT,OUTPUT);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
+
   digitalWrite(LIGHT,HIGH);
   WiFi.begin(ssid,password);
   while (WiFi.status() != WL_CONNECTED){ delay(1);  Serial.print(WiFi.localIP());}
@@ -36,10 +40,13 @@ void loop() {
     }
     // date = data_package;
     // Serial.print(date);
-    if(date == "password_light"){
-      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-      UDP.write("respond_light");
-      UDP.endPacket(); 
+     if (digitalRead(ADDBUTTON) == LOW){
+      delay(20);
+      if(date == "password_light" && digitalRead(ADDBUTTON) == LOW){
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.write("respond_light");
+        UDP.endPacket(); 
+      }
     }
     else if(date == "change"){
       digitalWrite(LIGHT,!digitalRead(LIGHT));

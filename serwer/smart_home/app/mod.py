@@ -93,45 +93,47 @@ from .models import *
 # ////////////////////////ADD///////////////////////////////////////////////////////////////
 
 def add_sensor(get_data):
-    if get_data["fun"] == "temp":
-        port = 1265
-        wiad = str.encode("password_temp")
-        ans = "respond_temp"
-        
-    elif get_data["fun"] =="sunblind":
-        port = 9846
-        wiad = str.encode("password_sunblind")
-        ans = "respond_sunblind"
-        
-    elif get_data["fun"] =="light":
-        port = 4324
-        wiad = str.encode("password_light")
-        ans = "respond_light"
-        
-    elif get_data["fun"] == "aqua":
-        port = 7863
-        wiad = str.encode("password_aqua")
-        ans = "respond_aqua"
-        
-    elif get_data["fun"] == "stairs":
-        port = 2965
-        wiad = str.encode("password_stairs")
-        ans = "respond_stairs"
-        
-    elif get_data["fun"] == "rfid":
-        port = 3984
-        wiad = str.encode("password_rfid")
-        ans = "respond_rfid"
-        
-    elif get_data["fun"] =="btn":
-        port = 7894
-        wiad = str.encode("password_btn")
-        ans = "respond_btn"
-        
-    elif get_data["fun"] =="lamp":
-        port = 4569
-        wiad = str.encode("password_lamp")
-        ans = "respond_lamp"
+    
+    match get_data["fun"]:
+        case "temp":
+            port = 1265
+            wiad = str.encode("password_temp")
+            ans = "respond_temp"
+            
+        case "sunblind":
+            port = 9846
+            wiad = str.encode("password_sunblind")
+            ans = "respond_sunblind"
+            
+        case "light":
+            port = 4324
+            wiad = str.encode("password_light")
+            ans = "respond_light"
+            
+        case "aqua":
+            port = 7863
+            wiad = str.encode("password_aqua")
+            ans = "respond_aqua"
+            
+        case "stairs":
+            port = 2965
+            wiad = str.encode("password_stairs")
+            ans = "respond_stairs"
+            
+        case "rfid":
+            port = 3984
+            wiad = str.encode("password_rfid")
+            ans = "respond_rfid"
+            
+        case "btn":
+            port = 7894
+            wiad = str.encode("password_btn")
+            ans = "respond_btn"
+            
+        case "lamp":
+            port = 4569
+            wiad = str.encode("password_lamp")
+            ans = "respond_lamp"
         
     ipList = []        
     sensors = Sensor.objects.all()
@@ -150,24 +152,25 @@ def add_sensor(get_data):
                     s = Sensor(name=get_data['name'], ip=str(data[1][0]), port=port, fun=get_data['fun'] )
                     s.save()
                     sensor_id=Sensor.objects.get(ip=str(data[1][0])).id
-                    if get_data['fun'] == 'aqua':
-                        a = Aqua(sensor_id = sensor_id)
-                        a.save()
-                    elif get_data['fun'] == 'light':
-                        l = Light(sensor_id = sensor_id, light = False)
-                        l.save()
-                    elif get_data['fun'] == 'sunblind':
-                        s = Sunblind(sensor_id = sensor_id, value = 0)
-                        s.save()
-                    elif get_data['fun'] == 'stairs':
-                        s = Stairs(sensor_id = sensor_id)
-                        s.save()
-                    elif get_data['fun'] == 'btn':
-                        b = Button(sensor_id = sensor_id)
-                        b.save()
-                    elif get_data['fun'] == 'rfid':
-                        r = Rfid(sensor_id = sensor_id)
-                        r.save()
+                    match get_data['fun']:
+                        case 'aqua':
+                            a = Aqua(sensor_id = sensor_id)
+                            a.save()
+                        case 'light':
+                            l = Light(sensor_id = sensor_id, light = False)
+                            l.save()
+                        case 'sunblind':
+                            s = Sunblind(sensor_id = sensor_id, value = 0)
+                            s.save()
+                        case 'stairs':
+                            s = Stairs(sensor_id = sensor_id)
+                            s.save()
+                        case 'btn':
+                            b = Button(sensor_id = sensor_id)
+                            b.save()
+                        case 'rfid':
+                            r = Rfid(sensor_id = sensor_id)
+                            r.save()
     
                     respond = {"response": "Udało sie dodać czujnik", "id": sensor_id}  
                     sock.close()
@@ -307,6 +310,7 @@ def send_data(_mess, _ip, _port):
     except:
         sock.close()
         return "Nie udało się wysłać"
+    
     
 def checkAqua(sensor,aqua):
     if datetime.now().hour < 10:
