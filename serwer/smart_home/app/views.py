@@ -80,7 +80,7 @@ def light(request):
     return render(request,'base/light.html', context)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def wykres(request):
     if request.method == 'POST':
         data_od = request.POST["dataod"]
@@ -317,21 +317,50 @@ def rpl(request):
             return JsonResponse(respond)
         
         elif get_data['action'] == 'connect':
-            lamp = Sensor.objects.get(id = get_data['lamp'])           
+            lamp = Sensor.objects.get(id = get_data['lamp'])   
+            rfids = Rfid.objects.filter(lamp = lamp.ip)
+            rfid_list =[]
+            
+            for rfid in rfids:
+                rfid_list.append(rfid.sensor_id)     
+
             for id in get_data["rfids"]:
-                print(id)
                 s = Sensor.objects.get(id=id)
                 r = Rfid.objects.get(sensor_id = id)
                 r.lamp = lamp.ip
+                try:
+                    rfid_list.remove(int(id))
+                except:
+                    print('meh')
                 r.save()
                 # send_data("lampIP"+lamp.ip,s.ip,s.port)
+            for id in rfid_list:
+                r = Rfid.objects.get(sensor_id = id)
+                r.lamp = ''
+                r.save()
+                
+                
+            btns = Button.objects.filter(lamp = lamp.ip)
+            btn_list = []
+            for btn in btns:
+                btn_list.append(btn.sensor_id)    
                 
             for id in get_data['btns']:
                 s = Sensor.objects.get(id=id)
                 b = Button.objects.get(sensor_id=id)
                 b.lamp = lamp.ip
+                try:
+                    btn_list.remove(int(id))
+                except:
+                    print('meh')
                 b.save()
                 # send_data("lampIP"+lamp.ip,s.ip,s.port)
+                
+            for id in btn_list:
+                b = Button.objects.get(sensor_id=id)
+                b.lamp = ''
+                b.save()
+                
         
         
     sensors = Sensor.objects.all()

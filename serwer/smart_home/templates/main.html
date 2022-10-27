@@ -10,19 +10,21 @@
     <script src='{% static "script/script.js" %}'></script>
 </head>
 <body>
-    <nav class="navbar">
-    {% if request.user.is_authenticated %}
-    
-        {% include 'navbar.html'%}
-        <a href = "{% url 'logout' %}">Wyloguj</a>
-    
-    {% else %}
-        {% include 'navbar.html'%}
-        <a href = "{% url 'login' %}">Zaloguj</a>
-    {% endif %}
-    </nav>
-    <div class="clock"></div>
-
+    <header>
+        <nav class="navbar">
+            <div></div>
+            {% if request.user.is_authenticated %}
+            
+                {% include 'navbar.html'%}
+                <a href = "{% url 'logout' %}">Wyloguj</a>
+            
+            {% else %}
+                {% include 'navbar.html'%}
+                <a href = "{% url 'login' %}">Zaloguj</a>
+            {% endif %}
+        </nav>
+        <div class="clock"></div>
+    </header>
     {% block content %}
     {% endblock %}
 

@@ -2,10 +2,23 @@ body {
 	margin: 0;
 	background-color: rgb(80, 80, 80);
 }
-.navbar{
+/* .navbar{
 	display: flex;
 	flex-direction: column;
 }
+.navbar a {
+	visibility: hidden;
+}
+.navbar div {
+	width: 40px;
+	height: 40px;
+	background-color: blue;
+}
+.navbar div:target + a {
+	visibility: visible;
+
+} */
+
 
 
 
@@ -18,20 +31,23 @@ body {
 		justify-content: center;
 		background-color: rgb(48, 48, 48);
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 	}
 	
 	.navbar a {
 		color: rgb(255, 255, 255);
-		font-size: 30px;
+		font-size: 20px;
 		text-decoration: none;
 		padding: 14px 16px;
-	
+
 	}
 	
 	.navbar a:hover{
 		color:black;
 		background-color: rgb(80, 80, 80);
+		transform: scale(1.1);
+		transition: 0.5s;
 	}
 }
 
