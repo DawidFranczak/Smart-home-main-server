@@ -1,47 +1,42 @@
-{% extends 'main.html' %}
-{% load static %}
-{% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/rpl.css" %}'>
+{% extends 'main.html' %} {% load static %} {% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/rpl.css" %}'
+/>
 <div class="container">
-    <div class="rpl-containers">
-        <div>
-            <div class="lamp" >
-                <p>Wybierz lampy</p>
-                {% for sensor in sensors %}
-                    {% if sensor.fun == 'lamp' %}
-                        <div>
-                            <input type="radio" id="lamp" name="sen_fun" value={{sensor.id}}>
-                            <label for="{{sensor.name}}">{{sensor.name}}</label>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <div class="rfid">
-                <p>Wybierz czujnik</p>
-                {% for sensor in sensors %}
-                    {% if sensor.fun == 'rfid' %}
-                        <div>
-                            <input type="checkbox" id="rfid" value={{sensor.id}}>
-                            <label for="rfid">{{sensor.name}}</label>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <div class="btn" >
-                <p>Wybierz przyciski</p>
-                {% for sensor in sensors %}
-                    {% if sensor.fun == 'btn' %}
-                        <div>
-                            <input type="checkbox" id="btn" value={{sensor.id}}>
-                            <label for="btn">{{sensor.name}}</label>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <input type="button" id="rpl-btn" value="Zapisz">
-        <p class="mess"></p>
-    </div>
+  <ul>
+    <li class="lamp">
+      <p>Wybierz lampy</p>
+      {% for sensor in sensors %} {% if sensor.fun == 'lamp' %}
+      <ul>
+        <input type="radio" id="lamp" name="sen_fun" value="{{sensor.id}}" />
+        <label for="{{sensor.name}}">{{sensor.name}}</label>
+      </ul>
+      {% endif %} {% endfor %}
+    </li>
+    <li class="rfid">
+      <p>Wybierz czujnik</p>
+      {% for sensor in sensors %} {% if sensor.fun == 'rfid' %}
+      <ul>
+        <input type="checkbox" id="rfid" value="{{sensor.id}}" />
+        <label for="rfid">{{sensor.name}}</label>
+      </ul>
+      {% endif %} {% endfor %}
+    </li>
+    <li class="btn">
+      <p>Wybierz przyciski</p>
+      {% for sensor in sensors %} {% if sensor.fun == 'btn' %}
+      <ul>
+        <input type="checkbox" id="btn" value="{{sensor.id}}" />
+        <label for="btn">{{sensor.name}}</label>
+      </ul>
+      {% endif %} {% endfor %}
+    </li>
+  </ul>
+  <input type="button" id="rpl-btn" value="Zapisz" />
+  <p class="mess"></p>
 </div>
 <script src='{% static "script/rpl.js" %}'></script>
 {% endblock content %}

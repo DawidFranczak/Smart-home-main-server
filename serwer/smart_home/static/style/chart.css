@@ -1,65 +1,71 @@
-#temp_avarage_containers{
-display: flex;
-flex-direction: column;
+.char-containers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.get-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.select-data {
+  display: flex;
+  justify-content: space-around;
+}
+.select-place {
+  height: 4rem;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
 }
 
-#temp_avarage_containers il{
-    width: 450px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.display-char {
+  display: none;
 }
-#temp_avarage_containers il p{
-    width: 150px;
+
+.display-char p {
+  display: flex;
+  justify-content: center;
+}
+
+#temp_avarage_containers {
+  margin: 2rem;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#temp_avarage_containers li {
+  display: flex;
+  flex-direction: row;
+}
+#temp_avarage_containers li p {
+  display: flex;
+  justify-content: center;
+  font-size: 0.9rem;
+  margin: 0;
+  width: 33%;
+  height: 2rem;
+}
+@media only screen and (min-width: 650px) {
+  .display-char {
+    margin: 0;
     display: flex;
     justify-content: center;
-}
-
-
-.char-containers{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-}
-.char-containers div{
-	margin: 10px;
-}
-
-.get-data{
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-.select-data{
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-
-.display-char{
-	width:1000px; 
-	background-color: aliceblue;
-}
-
-.temp_containers{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-}
-
-.temp-avarage-containers-h{
-	width: 450px;
-	display: flex;
-	flex-direction: row;
-}
-
-.temp-avarage-containers-h div{
-	width: 150px;
-	height: 50px;
-	display: flex;
-	justify-content: center;
+    width: 100%;
+    display: block;
+    background-color: white;
+  }
+  .temp_containers {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  #temp_avarage_containers {
+    width: 50%;
+  }
 }

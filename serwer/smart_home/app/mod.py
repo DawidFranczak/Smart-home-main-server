@@ -3,40 +3,39 @@ import socket
 from .models import *
 
 
-# ////////////////////////////
-#   miesiac = 1
+# miesiac = 1
+# dzien = 1
+# godzina = 0
+# pokoje=["Pokój","Garaż"]
+# iddd = 1
+# for i in range(12):
+#     while(dzien != 32):
+#         try:
+#             y = datetime(2022,miesiac,dzien,godzina,0,0)
+#             # print(y)
+#         except ValueError:
+#             dzien = 1
+#             miesiac += 1
+#             godzina = 0
+#         x = randint(0,20)
+#         yy = randint(0,100)
+#         iddd += 1
+#         pomiar = [(iddd, y, x, y,31)]
+#         p = Temp(sensor_id = 31,time = y, temp = x , humi = yy )
+#         p.save()
+#         print(pomiar)
+#         # data = "temp/" + i + str(x) + "/" + str(y)
+#         # data = bytes(str(data), 'utf-8')
+#         # print(data)
+#         # sleep(0.01)
+#         # sock.sendto(data, (str(socket.gethostbyname(socket.gethostname())), 1234))
+#         godzina += 1
+#         if (godzina == 24):
+#             godzina = 0
+#             dzien += 1
+#         sleep(0.01)
 #     dzien = 1
-#     godzina = 0
-#     pokoje=["Pokój","Garaż"]
-#     iddd = 1
-#     for i in range(12):
-#         while(dzien != 32):
-#             try:
-#                 y = datetime(2022,miesiac,dzien,godzina,0,0)
-#                 # print(y)
-#             except ValueError:
-#                 dzien = 1
-#                 miesiac += 1
-#                 godzina = 0
-#             x = randint(0,20)
-#             yy = randint(0,100)
-#             iddd += 1
-#             pomiar = [(iddd, y, x, y,31)]
-#             p = Temp(sensor_id = 31,time = y, temp = x , humi = yy )
-#             p.save()
-#             print(pomiar)
-#             # data = "temp/" + i + str(x) + "/" + str(y)
-#             # data = bytes(str(data), 'utf-8')
-#             # print(data)
-#             # sleep(0.01)
-#             # sock.sendto(data, (str(socket.gethostbyname(socket.gethostname())), 1234))
-#             godzina += 1
-#             if (godzina == 24):
-#                 godzina = 0
-#                 dzien += 1
-#             sleep(0.01)
-#         dzien = 1
-#         miesiac += 1
+#     miesiac += 1
 
 
 

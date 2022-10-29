@@ -1,19 +1,34 @@
-.rpl-containers {
+.container {
 	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+
 }
-.rpl-containers div {
+.container ul{
+	width: 100%;
+	padding: 0;
+	margin: 0;
 	display: flex;
-	flex-direction: row;
+	justify-content: center;
+}
+.container ul ul {
+	padding-left: 0.3rem;
+	display: flex;
+	justify-content: start;
 }
 
-.rpl-containers div div {
-	display: flex;
-	flex-direction: column;
-	margin: 10px;
+.container ul li{
+	list-style-type: none;
+	width: 120px;
 }
-.rpl-containers div div div {
-	display: flex;
-	flex-direction: row;
+.container ul li p {
+	margin-bottom: 1rem;
+}
+
+
+
+
+#rpl-btn{
+	margin-top:1rem;
 }

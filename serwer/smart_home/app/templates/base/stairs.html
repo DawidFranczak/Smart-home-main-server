@@ -1,48 +1,69 @@
-{% extends 'main.html' %}
-{% load static %}
-{% block content %}
-<script src="{% static 'script/stairs.js'%}" ></script>
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/stairs.css" %}'>
-
+{% extends 'main.html' %} {% load static %} {% block content %}
+<script src="{% static 'script/stairs.js'%}"></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/stairs.css" %}'
+/>
 
 <div class="container">
   <div class="select-stairs">
-      <h1>Wybierz schody</h1>
+    <h1>Wybierz schody</h1>
       {% for sensor in sensors %}
         {% for stairs in stairses %}
           {% if sensor.id == stairs.sensor_id %}
             <input
-              type="button"
-              class="button"
-              value="{{sensor.name}}"
-              id="{{sensor.id}}"
+            type="button"
+            class="button"
+            value="{{sensor.name}}"
+            id="{{sensor.id}}"
             />
           {% endif %}
         {% endfor %}
       {% endfor %}
+    <h2 class="mess"> </h2>
+  </div>
+
+  <div id="stairs_containers" class="stairs_containers">
+    <div>
+      <label for="lightingTime">Czas świecenia [s]</label>
+      <input type="number" id="lightingTime" min="1" />
+      <input
+        type="button"
+        class="stairs-btn"
+        value="Ustaw"
+        placeholder="lightingTime"
+      />
     </div>
-
-    <div id="stairs_containers" class="stairs_containers">
-      <div>
-        <label for="lightingTime">Czas świecenia [s]</label>
-        <input type="number" id ="lightingTime" min="1">
-        <input type="button" class="stairs-btn" value="Ustaw" placeholder="lightingTime">
-      </div>
-      <div>
-        <label for="brightness">Jasność [%]</label>
-        <input type="number" id ="brightness" min="0" max="100">
-        <input type="button" class="stairs-btn" value="Ustaw" placeholder="brightness">
-      </div>
-      <div>
-        <label for="step">Ilość kroków</label>
-        <input type="number" id ="step" min="1">
-        <input type="button" class="stairs-btn" value="Ustaw" placeholder="step">
-        <br/>
-        <input type="button" class="stairs-btn" id="stairs-btn" placeholder="stairs-btn">
-      </div>
+    <div>
+      <label for="brightness">Jasność [%]</label>
+      <input type="number" id="brightness" min="0" max="100" />
+      <input
+        type="button"
+        class="stairs-btn"
+        value="Ustaw"
+        placeholder="brightness"
+      />
     </div>
-
-
+    <div>
+      <label for="step">Ilość kroków</label>
+      <input type="number" id="step" min="1" />
+      <input
+        type="button"
+        class="stairs-btn"
+        value="Ustaw"
+        placeholder="step"
+      />
+      <br />
+      <input
+        type="button"
+        class="stairs-btn"
+        id="stairs-btn"
+        placeholder="stairs-btn"
+      />
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

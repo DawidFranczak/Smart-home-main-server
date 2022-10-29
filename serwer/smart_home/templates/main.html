@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pl-PL">
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>{{title}}</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/style.css" %}'>
-    <script src='{% static "script/script.js" %}'></script>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href='{% static "style/style.css" %}'
+    />
+  </head>
+  <body>
     <header>
-        <nav class="navbar">
-            <div></div>
-            {% if request.user.is_authenticated %}
-            
-                {% include 'navbar.html'%}
-                <a href = "{% url 'logout' %}">Wyloguj</a>
-            
-            {% else %}
-                {% include 'navbar.html'%}
-                <a href = "{% url 'login' %}">Zaloguj</a>
-            {% endif %}
-        </nav>
-        <div class="clock"></div>
+      {% include 'navbar.html'%}
+      <div class="clock"></div>
     </header>
-    {% block content %}
-    {% endblock %}
+    <script src='{% static "script/script.js" %}'></script>
+    {% block content %} {% endblock %}
 
     <div class="footer"></div>
-</body>
+  </body>
 </html>
-
-

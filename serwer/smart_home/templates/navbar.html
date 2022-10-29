@@ -1,9 +1,25 @@
+<nav class="navbar">
+  <div class="path" >
+    <p class="path-name">321</p>
+    <div class="nav-toggle">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="{% url 'light' %}">Światła</a></li>
+    <li><a href="{% url 'stairs' %}">Schody</a></li>
+    <li><a href="{% url 'wykres' %}">Temperatura</a></li>
+    <li><a href="{% url 'akwarium' %}">Akwarium</a></li>
+    <li><a href="{% url 'rolety' %}">Rolety</a></li>
+    <li><a href="{% url 'sensor' %}">Urządzenia</a></li>
+    <li><a href="{% url 'rpl' %}">RPL</a></li>
 
-    <a href = "{% url 'light' %}">Światła</a>
-    <a href = "{% url 'stairs' %}">Schody</a>
-    <a href = "{% url 'wykres' %}">Temperatura</a>
-    <a href = "{% url 'akwarium' %}">Akwarium</a>
-    <a href = "{% url 'rolety' %}">Rolety</a>
-    <a href = "{% url 'sensor' %}">Urządzenia</a>
-    <a href = "{% url 'rpl' %}">RPL</a>
-
+    {% if request.user.is_authenticated %}
+    <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+    {% else %}
+    <li><a href="{% url 'login' %}">Zaloguj</a></li>
+    {% endif %}
+  </ul>
+</nav>

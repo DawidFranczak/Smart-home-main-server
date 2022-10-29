@@ -1,54 +1,102 @@
 body {
-	margin: 0;
-	background-color: rgb(80, 80, 80);
-}
-/* .navbar{
-	display: flex;
-	flex-direction: column;
-}
-.navbar a {
-	visibility: hidden;
-}
-.navbar div {
-	width: 40px;
-	height: 40px;
-	background-color: blue;
-}
-.navbar div:target + a {
-	visibility: visible;
-
-} */
-
-
-
-
-
-@media only screen and (min-width:400px){
-	.navbar {
-		overflow: hidden;
-		height: 45px;
-		display:flex;
-		justify-content: center;
-		background-color: rgb(48, 48, 48);
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-	}
-	
-	.navbar a {
-		color: rgb(255, 255, 255);
-		font-size: 20px;
-		text-decoration: none;
-		padding: 14px 16px;
-
-	}
-	
-	.navbar a:hover{
-		color:black;
-		background-color: rgb(80, 80, 80);
-		transform: scale(1.1);
-		transition: 0.5s;
-	}
+  margin: 0;
+  background-color: rgb(80, 80, 80);
 }
 
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: black;
+}
+.path {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 
+}
+.path-name{
+  margin: 0;
+  width: 40px;
+  padding-left: 2rem;;
+  font-family: Arial, Helvetica, sans-serif;
+  color: azure;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.nav-toggle {
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+.bar {
+  width: 100%;
+  height: 0.25rem;
+  border-radius: 0.1rem;
+  background-color: white;
+}
+
+.nav-links {
+  width: 100%;
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.nav-links li {
+  list-style-type: none;
+  padding: 0.25rem;
+}
+
+a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+}
+
+
+.active {
+  display: flex;
+}
+
+@media only screen and (min-width: 1000px) {
+  .nav-toggle {
+    display: none;
+  }
+  .navbar {
+    overflow: hidden;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(48, 48, 48);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .navbar a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    text-decoration: none;
+    padding: 14px 16px;
+  }
+
+  .navbar a:hover {
+    color: black;
+    background-color: rgb(80, 80, 80);
+    transform: scale(1.1);
+    transition: 0.5s;
+  }
+}

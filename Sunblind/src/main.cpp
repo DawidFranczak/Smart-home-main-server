@@ -11,11 +11,11 @@
 #define IN3 D7
 #define IN4 D8
 
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 int oldPosition = 2048;
 int phase = 0;
@@ -43,6 +43,7 @@ void setup() {
 
   Serial.begin(9600);
   WiFi.begin(ssid,password);
+  digitalWrite(WIFILED,HIGH);
   while (WiFi.status() != WL_CONNECTED) delay(1);
   UDP.begin(UdpPort);
 }
@@ -59,13 +60,10 @@ void loop() {
     date = data_package;
     // Serial.print(date);
 
-    if(digitalRead(ADDBUTTON)==LOW){
-      delay(20);
-      if(date == "password_sunblind" && digitalRead(ADDBUTTON) == LOW){
+    if(date == "password_sunblind"){
         UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
         UDP.write("respond_sunblind");
         UDP.endPacket(); 
-      }
     }
     else if(date.substring(0,3) == "set"){
       int position = (maxMove * date.substring(3).toInt())/100;

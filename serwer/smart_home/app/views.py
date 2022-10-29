@@ -17,6 +17,9 @@ import socket
 from .mod import *
 import json
 
+from time import sleep
+from random import randint
+
 # Create your views here.
 
 def loginUser(request):
@@ -99,13 +102,17 @@ def wykres(request):
             "data_average_temp_night":data_average_temp_night,
             "data_average_data":data_average_data,
             "place":place,
-            "list_place":list_place
+            "list_place":list_place,
+            'title':'Temperatura'
             }
         return render(request,'base/wykres.html',context)
 
     data_od = str(datetime.now() - timedelta(days=7))  # wyświetlenie danych z ostatnich 7 dni
     data_do = str(datetime.now())
     list_place = Sensor.objects.filter(fun = 'temp')
+    if len(list_place) == 0:
+         return render(request,'base/wykres.html')
+        
     place = list_place[0]
     data_temp, data_time, data_average_temp_day, data_average_temp_night, \
         data_average_data = data_for_chart(data_od, data_do, place)
@@ -116,7 +123,8 @@ def wykres(request):
                 "data_average_temp_night":data_average_temp_night,
                 "data_average_data":data_average_data,
                 "place":place,
-                "list_place":list_place
+                "list_place":list_place,
+                'title':'Temperatura'
     }
     return render(request,'base/wykres.html', context)
 

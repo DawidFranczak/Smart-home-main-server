@@ -6,30 +6,33 @@
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/chart.css" %}'>
 <div class="container">
     <div class="char-containers">
-    <div>
-            <form method="post" class="get-data">
-                {% csrf_token %}
-                <div class="select-data">
-                    <div>
-                        <p>Wybierz datę od</p>
-                        <input type="date" name="dataod">
-                    </div>
-                    <div>
-                        <p>Wybierz datę do</p>
-                        <input type="date" name="datado">
-                    </div>
+        <form method="post" class="get-data">
+            {% csrf_token %}
+            <div class="select-data">
+                <div>
+                    <p>Wybierz datę od</p>
+                    <input type="date" name="dataod">
                 </div>
                 <div>
-                    <select name="lista">
-                        {% for i in list_place %}
-                        <option>{{i}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Pokaz">
+                    <p>Wybierz datę do</p>
+                    <input type="date" name="datado">
                 </div>
-            </form>
+            </div>
+            <div class="select-place">
+                <select name="lista">
+                    {% for i in list_place %}
+                    <option>{{i}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Pokaz">
+            </div>
+        </form>
+        {% if data_average_data|length == 0  %}
+        <div class="display-char">
+             <p>Brak danych do wyświetlenia</p>
         </div>
-        {% if  data_average_data|length > 7 %}
+
+        {% elif  data_average_data|length > 7 %}
         <div class="display-char">
             <canvas id="myChart_srednia_dzien"></canvas>
         </div>
@@ -42,7 +45,7 @@
             </script>
         {% else %}
         <div class="display-char">
-        <canvas id="myChart" class="dispaly-char"></canvas>
+        <canvas id="myChart"></canvas>
         </div>
         {%block scripts%}
         <script>
@@ -50,18 +53,13 @@
         </script>
         {%endblock scripts%}
     {% endif %}
-            <div  class = temp_containers>
-                <div class="temp-avarage-containers-h">
-
-                </div>
-                <ul id = "temp_avarage_containers">
-                    <il>
-                        <p>Data</p>
-                        <p>Średnia w nocy</p>
-                        <p>Średnia w dzień</p>
-                    </il>
-                </ul>
-            </div>
+            <ul id = "temp_avarage_containers">
+                <li>
+                    <p>Data</p>
+                    <p>Średnia w nocy</p>
+                    <p>Średnia w dzień</p>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
