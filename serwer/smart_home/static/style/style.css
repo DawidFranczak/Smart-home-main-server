@@ -1,6 +1,8 @@
+
 body {
   margin: 0;
   background-color: rgb(80, 80, 80);
+  font-size: 20px;
 }
 
 .navbar {
@@ -16,9 +18,10 @@ body {
 
 }
 .path-name{
-  margin: 0;
+  margin-left: 1em;
+  padding: 0;
   width: 40px;
-  padding-left: 2rem;;
+  padding-left: 2em;;
   font-family: Arial, Helvetica, sans-serif;
   color: azure;
   font-weight: bold;
@@ -75,7 +78,7 @@ a {
     height: 2rem;
     display: flex;
     justify-content: center;
-    background-color: rgb(48, 48, 48);
+    background-color: black;
     display: flex;
     flex-direction: row;
     align-items: center;

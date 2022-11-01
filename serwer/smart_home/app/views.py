@@ -1,14 +1,18 @@
 from email.errors import MessageParseError
 from inspect import Attribute
+from multiprocessing import context
 from urllib import request
 from urllib.request import Request
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
+
+from .forms import CreateUserForm
 
 
 from speaker import checkAquaAll
@@ -22,13 +26,25 @@ from random import randint
 
 # Create your views here.
 
+def registerUser(request):
+    form = CreateUserForm()
+    
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            messages.success(request,'Rejestracja przebiegła pomyślnie.')
+            return redirect('login') 
+        
+    context = {'form': form}
+    return render(request, 'base/register.html',context)
+
 def loginUser(request):
     if request.method =='POST':
         username = request.POST.get('username')
         password = request.POST['password']
         try:
             user = User.objects.get(username=username)
-            print(user.id)
         except:
             messages.error(request, 'Użytkownik nie istenieje.')
             return redirect('login')
@@ -62,6 +78,7 @@ def home(request):
     # sensor = Sensor.objects.get(name = 'room').id
 
     # context = {'sensor': sensor}
+    
     return render(request, 'main.html')
 
 
@@ -72,18 +89,18 @@ def light(request):
         if get_data['action'] == 'change':
             return JsonResponse(change_light(get_data['id']))
         
-        
     sensors = Sensor.objects.filter(fun = "light")
     lights = Light.objects.all()
     context = {
-            "title":"Światło",
             'sensors': sensors,
             "lights":lights
     }
+    
+    print(request.user.id)
     return render(request,'base/light.html', context)
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def wykres(request):
     if request.method == 'POST':
         data_od = request.POST["dataod"]
@@ -93,6 +110,7 @@ def wykres(request):
             data_od = str(datetime.now() - timedelta(days=7))  # wyświetlenie danych z ostatnich 7 dni
             data_do = str(datetime.now())
         list_place = Sensor.objects.filter(fun = 'temp')
+        
         data_temp, data_time, data_average_temp_day, data_average_temp_night, \
             data_average_data= data_for_chart(data_od, data_do, place)
         context = {
@@ -103,7 +121,6 @@ def wykres(request):
             "data_average_data":data_average_data,
             "place":place,
             "list_place":list_place,
-            'title':'Temperatura'
             }
         return render(request,'base/wykres.html',context)
 
@@ -145,7 +162,7 @@ def sensor(request):
     
     sensors = Sensor.objects.all()
     cards = Card.objects.all()
-    context = {"title": "Czujniki",
+    context = {
                 'sensors': sensors,
                 'cards':cards}
 
@@ -195,7 +212,6 @@ def stairs(request):
     sensors = Sensor.objects.filter(fun="stairs")
     stairses = Stairs.objects.all()
     context= {
-        "title": "Schody",
         "sensors": sensors,
         "stairses": stairses
     }
@@ -258,7 +274,6 @@ def akwarium(request):
 
     aquas = Sensor.objects.filter(fun = "aqua")
     context = {
-            "title":"Akwarium",
             "aquas":aquas
     }
     return render(request,'base/akwarium.html',context)
@@ -276,7 +291,7 @@ def rolety(request):
         s.save()  
     sensors = Sensor.objects.filter(fun = 'sunblind')
     sunblinds = Sunblind.objects.all()
-    context = {"title": "Rolety",
+    context = {
                 'sensors': sensors,
                 'sunblinds': sunblinds}
     return render(request,'base/rolety.html', context)
@@ -296,9 +311,8 @@ def calibration(request, pk):
     if request.method == 'GET':
         ip_port = Sensor.objects.get(id=pk)
         send_data("calibration",ip_port.ip,ip_port.port)
-        
-    context = {"title": "Kalibracja"}
-    return render(request,'base/calibration.html',context)
+
+    return render(request,'base/calibration.html')
 
 
 @login_required(login_url='login')
@@ -366,6 +380,5 @@ def rpl(request):
         
         
     sensors = Sensor.objects.all()
-    context= {'sensors':sensors,
-            'title': 'RPL'}
+    context= {'sensors':sensors}
     return render(request,'base/rpl.html',context)

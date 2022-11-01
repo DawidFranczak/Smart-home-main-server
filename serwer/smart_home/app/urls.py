@@ -13,5 +13,6 @@ urlpatterns = [
     path('rolety/',views.rolety, name="rolety"),
     path('rolety/kaibracja/<int:pk>',views.calibration, name="calibration"),
     path('rpl/',views.rpl, name="rpl"),
+    path('rejestracja/',views.registerUser, name="registerUser"),
     
 ]

@@ -1,19 +1,20 @@
 {% extends 'main.html' %}
 {% load static %}
+{% block title %} Logowanie {% endblock %}
 {% block content %}
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/login.css" %}'>
 <div class="container">
     <form method="post" class="login">
       {% csrf_token %}
-      <input type="login" name="username" placeholder="login">
-      <input type="password" name="password" placeholder="hasło">
-      <input type="submit" value="Zaloguj">
+      <input type="login" name="username" placeholder="Login">
+      <input type="password" name="password" placeholder="Hasło">
+      <input type="submit" class="btn-login" value="Zaloguj">
       {% if messages %}
       {% for message in messages %}
-      {{ message }}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
       {% endfor %}
       {% endif %}
-
     </form>
+    <a href="{% url 'registerUser' %}">Rejestracja</a>
 </div>
 {% endblock content %}
