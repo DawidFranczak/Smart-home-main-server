@@ -37,197 +37,144 @@ from .models import *
 #     dzien = 1
 #     miesiac += 1
 
-
-
-# ////////////////////////// GET/////////////////////////////////////////////////////////
-# def get_settings(place):
-#     con = sqlite3.connect('db/pomiar2.db')  # otwarcie bazy danych
-#     cur = con.cursor()
-#     settings = []
-#     for i in cur.execute('SELECT value FROM ls WHERE name = ?', (place,)):
-#         settings = i[0]
-#     cur.close()
-#     return settings
-
-
-# def get_chart_place():
-#     sensors = Sensor.objects.filter(fun='temp')
-#     return sensors
-
-
-# def get_sensor_ip(_id):
-    
-#     con = sqlite3.connect('db/pomiar2.db')  # otwarcie bazy danych
-#     cur = con.cursor()
-#     for i in cur.execute('SELECT ip, port FROM sensor WHERE id = ?', (_id,)):
-#         ip = i[0]
-#         port = i[1]
-#     cur.close()
-#     return ip, port
-
-
-
-# /////////////////////////SAVE/////////////////////////////////////////////////////////
-# def save_settings(_value, _id):
-#     try:
-#         wiad = str.encode(_value)
-#         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
-#         ip, port = get_sensor_ip(_id)
-#         sock.sendto(wiad, (str(ip), port))
-#         sock.close()
-        
-#         con = sqlite3.connect('db/pomiar2.db')  # otwarcie bazy danych
-#         cur = con.cursor()
-#         cur.execute(""" UPDATE sensor SET value = ? WHERE id = ? """, (_value, _id))
-#         con.commit()
-#         con.close()
-#         print(f"zapisano w {_id} wartosc {_value}")
-#     except socket.gaierror:
-#         sock.close()
-#         print("nie udało się wysłąć")
-#     except:
-#         return "coś poszło nie tak"
-
-
 # ////////////////////////ADD///////////////////////////////////////////////////////////////
 
-def add_sensor(get_data):
+def add_sensor(get_data,user_id):
     
-    match get_data["fun"]:
-        case "temp":
+    match get_data['fun']:
+        case 'temp':
             port = 1265
-            wiad = str.encode("password_temp")
-            ans = "respond_temp"
-            
-        case "sunblind":
+            wiad = str.encode('password_temp')
+            ans = 'respond_temp'
+        case 'sunblind':
             port = 9846
-            wiad = str.encode("password_sunblind")
-            ans = "respond_sunblind"
-            
-        case "light":
+            wiad = str.encode('password_sunblind')
+            ans = 'respond_sunblind'
+        case 'light':
             port = 4324
-            wiad = str.encode("password_light")
-            ans = "respond_light"
-            
-        case "aqua":
+            wiad = str.encode('password_light')
+            ans = 'respond_light'
+        case 'aqua':
             port = 7863
-            wiad = str.encode("password_aqua")
-            ans = "respond_aqua"
-            
-        case "stairs":
+            wiad = str.encode('password_aqua')
+            ans = 'respond_aqua'
+        case 'stairs':
             port = 2965
-            wiad = str.encode("password_stairs")
-            ans = "respond_stairs"
-            
-        case "rfid":
+            wiad = str.encode('password_stairs')
+            ans = 'respond_stairs'
+        case 'rfid':
             port = 3984
-            wiad = str.encode("password_rfid")
-            ans = "respond_rfid"
-            
-        case "btn":
+            wiad = str.encode('password_rfid')
+            ans = 'respond_rfid'
+        case 'btn':
             port = 7894
-            wiad = str.encode("password_btn")
-            ans = "respond_btn"
-            
-        case "lamp":
+            wiad = str.encode('password_btn')
+            ans = 'respond_btn'
+        case 'lamp':
             port = 4569
-            wiad = str.encode("password_lamp")
-            ans = "respond_lamp"
+            wiad = str.encode('password_lamp')
+            ans = 'respond_lamp'
         
-    ipList = []        
-    sensors = Sensor.objects.all()
-    for sensor in sensors:
-        ipList.append(sensor.ip)
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
     for i in range(2,254):
-        checkip = "192.168.0."+str(i)
+        checkip = '192.168.0.'+str(i)
+        
         try:
             sock.sendto(wiad, (checkip, port))
             sock.settimeout(0.05)
             data = sock.recvfrom(128)
-            if data[0].decode("UTF-8") == ans:
-                if data[1][0] not in ipList:
-                    s = Sensor(name=get_data['name'], ip=str(data[1][0]), port=port, fun=get_data['fun'] )
-                    s.save()
-                    sensor_id=Sensor.objects.get(ip=str(data[1][0])).id
-                    match get_data['fun']:
-                        case 'aqua':
-                            a = Aqua(sensor_id = sensor_id)
-                            a.save()
-                        case 'light':
-                            l = Light(sensor_id = sensor_id, light = False)
-                            l.save()
-                        case 'sunblind':
-                            s = Sunblind(sensor_id = sensor_id, value = 0)
-                            s.save()
-                        case 'stairs':
-                            s = Stairs(sensor_id = sensor_id)
-                            s.save()
-                        case 'btn':
-                            b = Button(sensor_id = sensor_id)
-                            b.save()
-                        case 'rfid':
-                            r = Rfid(sensor_id = sensor_id)
-                            r.save()
-    
-                    respond = {"response": "Udało sie dodać czujnik", "id": sensor_id}  
-                    sock.close()
+            response = data[0].decode('UTF-8')
+            
+            if response == ans:
+                response_sensor_ip = str(data[1][0])
+                if Sensor.objects.filter(ip = response_sensor_ip).exists():
+                    respond = {'response': 'Czujnik już dodano'}
                     return respond
+
+                sensor = Sensor(name=get_data['name'], ip=response_sensor_ip, port=port, fun=get_data['fun'], user_id=user_id)
+                sensor.save()
+                sensor_id=Sensor.objects.filter(ip=response_sensor_ip).get(user_id=user_id).id
+                
+                match get_data['fun']:
+                    case 'aqua':
+                        aqua = Aqua(sensor_id = sensor_id)
+                        aqua.save()
+                    case 'light':
+                        light = Light(sensor_id = sensor_id, light = False)
+                        light.save()
+                    case 'sunblind':
+                        sensor = Sunblind(sensor_id = sensor_id, value = 0)
+                        sensor.save()
+                    case 'stairs':
+                        sensor = Stairs(sensor_id = sensor_id)
+                        sensor.save()
+                    case 'btn':
+                        btn = Button(sensor_id = sensor_id)
+                        btn.save()
+                    case 'rfid':
+                        rfid = Rfid(sensor_id = sensor_id)
+                        rfid.save()
+                respond = {'response': 'Udało sie dodać czujnik', 'id': sensor_id}  
+                sock.close()
+                return respond
+                
         except Exception as e:
             print(e)
-            pass
+            continue
+        
     else:
-        respond = {"response": "Nie udało się zapisać czujnika"}
+        respond = {'response': 'Nie udało się zapisać czujnika'}
         sock.close()
         return respond
+
 
 def add_uid(_data):
     respond = {}
     try:
-        r = Sensor.objects.get(id = _data['id'])
+        sensor = Sensor.objects.get(id = _data['id'])
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
             sock.bind(('', 6721))
         except Exception as e:
-            print(e)
-            # pass
-        wiad = str.encode("add-tag")
-        sock.sendto(wiad, (r.ip, r.port))
+            respond = {'response': 'Nie udało się otworzyć socketu'}
+            return respond
+            
+        wiad = str.encode('add-tag')
+        sock.sendto(wiad, (sensor.ip, sensor.port))
         sock.settimeout(9)
         data = sock.recvfrom(128)
-        data = int(data[0].decode('UTF-8'))
-        print(data)
+        uid = int(data[0].decode('UTF-8'))
         sock.close()
-        cards = Card.objects.filter(sensor_id = _data['id'])
-        for card in cards:
-            print(card.uid)
-            if data == card.uid:
-                respond = {"response": "Kartę już dodano do tego czujnika"} 
-                return respond
-        else:
-            u = Card(sensor_id = r.id, uid = data, name = _data['name'] )
-            u.save()
-            respond = {"response": "Udało sie dodać czujnik", "id": u.id} 
+                
+        if Card.objects.filter(uid=uid).exists():
+            respond = {'response': 'Ta karta jest już dodana'} 
+            return respond
+        
+        card = Card(sensor_id = sensor.id, uid = uid, name = _data['name'] )
+        card.save()
+        respond = {'response': 'Udało sie dodać czujnik', 'id': card.id} 
+            
     except Exception as e:
         print(e)
-        pass
-    except:
-        respond = {"response": "Nie udało dodać się czujnika"} 
+        respond = {'response': 'Nie udało dodać się czujnika'} 
     return respond
+
 
 # # ///////////////////////DELETE/////////////////////////////////////////
 def delete_sensor(get_data):
-    if get_data['id'].split(" ")[0]== 'card':
-        Card.objects.filter(id=get_data['id'].split(" ")[1]).delete()
-        response = {"response": "permission"}
-        return response
     try:
-        Sensor.objects.get(id=get_data['id']).delete()
-        response = {"response": "permission"}
+        sensor = str(get_data['id'])
+        if sensor.startswith('card'):
+            Card.objects.filter(id=get_data['id'].split(' ')[1]).delete()
+            response = {'response': 'permission'}
+            return response
+        else:
+            Sensor.objects.get(id=get_data['id']).delete()
+            response = {'response': 'permission'}
     except:
-        response = {"response": "Nie udało się usunąć czujnika"}
+        response = {'response': 'Nie udało się usunąć czujnika'}
     return response
+
 
 # # /////////////////////////REST/////////////////////////////////////////
 def data_for_chart(data_od, data_do, place):
@@ -236,68 +183,90 @@ def data_for_chart(data_od, data_do, place):
     data_average_temp_day = []
     data_average_temp_night = []
     data_average_data = []
+    
     average_day = 0
     average_night = 0
-    d = 0
-    d2 = 0
-    start_day = "06"
-    end_day = "18"
+    number_of_ours_day = 0
+    number_of_ours_night = 0
+    
+    start_day = '06'
+    end_day = '18'
     format = '%Y-%m-%d'
 
     try:
-        data_do = datetime.strptime(data_do, format) + timedelta(days=1)
+        data_do = str(datetime.strptime(data_do, format) + timedelta(days=1))
     except ValueError:
         pass
+    
     temps = Temp.objects.filter(sensor_id=Sensor.objects.get(name=place))
+    
     for temp in temps:  # wyciągnięcie danych z bazy dancyh
-        if str(temp.time) <= str(data_do) and str(temp.time) >= str(data_od):
+        if str(temp.time) <= data_do and str(temp.time) >= str(data_od):
+            
             data_temp.append(temp.temp)
             data_time.append(str(temp.time)[:16])
-            if str(temp.time).split().pop(1)[:2] > start_day and str(temp.time).split().pop(1)[:2] <= end_day:
+            
+            hour = str(temp.time).split().pop(1)[:2]
+            if hour > start_day and hour <= end_day:
                 average_day = average_day + float(temp.temp)
-                d += 1
-                if d == 12:
+                number_of_ours_day += 1
+                
+                if number_of_ours_day == 12:
                     data_average_temp_day.append(
-                        round(average_day / d, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
-                    data_average_data.append(str(temp.time)[:10])
+                        round(average_day / number_of_ours_day, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
+                    date = str(temp.time)[:10]
+                    data_average_data.append(date)
                     average_day = 0
-                    d = 0
+                    number_of_ours_day = 0
+                    
             else:
                 average_night = average_night + float(temp.temp)
-                d2 += 1
-                if d2 == 12:
+                number_of_ours_night += 1
+                
+                if number_of_ours_night == 12:
                     data_average_temp_night.append(
-                        round(average_night / d2, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
+                        round(average_night / number_of_ours_night, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
                     average_night = 0
-                    d2 = 0 
-    return data_temp, data_time, data_average_temp_day, data_average_temp_night, data_average_data
+                    number_of_ours_night = 0 
+    context = {
+            'data_temp': data_temp,
+            'data_time': data_time,
+            'data_average_temp_day': data_average_temp_day,
+            'data_average_temp_night': data_average_temp_night,
+            'data_average_data': data_average_data,
+            'place': place,
+            }                
+    return context
 
 
 def change_light(id):
     try:
-        s = Sensor.objects.get(id=id)
+        sensor = Sensor.objects.get(id=id)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
-        wiad = str.encode("change")
-        sock.sendto(wiad, (s.ip, 4324))
+        wiad = str.encode('change')
+        sock.sendto(wiad, (sensor.ip, 4324))
         sock.settimeout(1)
         data = sock.recvfrom(128)
         data = data[0].decode('UTF-8')
         sock.close()
-        if data == "ON":
-            l = Light.objects.get(sensor_id = s.id)
-            l.light = True
-            l.save()
-            return {'response': 1}
-            
+        
+        light = Light.objects.get(sensor_id = sensor.id)
+        
+        if data == 'ON':
+            light.light = True
+            response = {'response': 1}
         else:
-            l = Light.objects.get(sensor_id = s.id)
-            l.light = False
-            l.save()
-            return {'response': 0}
+            light.light = False
+            response = {'response': 0}
             
-    except InterruptedError as e:
-        # print(e)
-        pass
+        light.save()    
+        return response
+    
+    except TimeoutError:
+        print("nie udało się połączyć ")
+        sock.close()
+        response = {'response': -1}
+        return response
      
     
 def send_data(_mess, _ip, _port):
@@ -306,50 +275,46 @@ def send_data(_mess, _ip, _port):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
         sock.sendto(wiad, (_ip, _port))
         sock.close()
+        return True
     except:
         sock.close()
-        return "Nie udało się wysłać"
     
     
 def checkAqua(sensor,aqua):
     if datetime.now().hour < 10:
-        hours = "0"+str(datetime.now().hour)
+        hours = '0'+str(datetime.now().hour)
     else:
         hours = str(datetime.now().hour)
    
     if datetime.now().minute < 10:
-        minutes = ":0"+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
+        minutes = ':0'+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
     else:
-        minutes = ":"+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
+        minutes = ':'+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
         
     timeNow = hours + minutes
     ledStart = str(aqua.led_start)
     ledStop = str(aqua.led_stop)
     fluoStart = str(aqua.fluo_start)
     fluoStop = str(aqua.fluo_stop)
-    print(aqua.led_mode)
     
-
     if ledStart < timeNow and ledStop > timeNow:
         led = 'r1'
-        print(led)
         aqua.led_mode=True  
     else:
         led = 'r0'
-        print(led)
         aqua.led_mode=False
-    aqua.save()
+    aqua.save() 
+    
+    if send_data(led,sensor.ip,sensor.port):
         
-      
-    if fluoStart < timeNow and fluoStop > timeNow:
-        fluo = 's1'
-        print(fluo)
-        aqua.fluo_mode=True
-    else:
-        fluo = 's0'
-        print(fluo)
-        aqua.fluo_mode=False
-    aqua.save()
-           
-    send_data(led,sensor.ip,sensor.port)
-    send_data(fluo,sensor.ip,sensor.port)
+        if fluoStart < timeNow and fluoStop > timeNow:
+            fluo = 's1'
+            aqua.fluo_mode=True
+        else:
+            fluo = 's0'
+            aqua.fluo_mode=False
+        aqua.save()
+        
+        if send_data(fluo, sensor.ip, sensor.port):
+            return True
+    

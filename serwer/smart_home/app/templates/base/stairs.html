@@ -14,19 +14,16 @@
   <div class="select-stairs">
     <h1>Wybierz schody</h1>
       {% for sensor in sensors %}
-        {% for stairs in stairses %}
-          {% if sensor.id == stairs.sensor_id %}
-            <input
-            type="button"
-            class="button"
-            value="{{sensor.name}}"
-            id="{{sensor.id}}"
-            />
-          {% endif %}
-        {% endfor %}
+          <input
+          type="button"
+          class="button"
+          value="{{sensor.name}}"
+          id="{{sensor.id}}"
+          />
       {% endfor %}
     <h2 class="mess"> </h2>
   </div>
+  <p class="stairs-error-message"></p>
 
   <div id="stairs_containers" class="stairs_containers">
     <div>

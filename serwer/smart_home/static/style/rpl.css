@@ -20,7 +20,7 @@
 
 .container ul li{
 	list-style-type: none;
-	width: 120px;
+	margin-left: 2em;
 }
 .container ul li p {
 	margin-bottom: 1rem;

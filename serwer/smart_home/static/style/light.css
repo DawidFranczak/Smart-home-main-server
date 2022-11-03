@@ -6,10 +6,15 @@
 	align-items:center;
 }
 .led_container div{
-	width: 200px;
 	display: flex;
 	justify-content: space-between;
 }
 .led_container p{
+	margin-right: 1em;
 	color: rgb(255, 255, 255);
+}
+
+.light-error-message{
+	margin: 0;
+	padding: 0;
 }

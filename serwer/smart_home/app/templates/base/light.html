@@ -11,7 +11,7 @@
   <div class="led_container" id="led_container">
     {% for sensor in sensors %}
     <div>
-      <p>{{sensor.name}}</p>
+      <p class="light-name">{{sensor.name}}</p>
       {% for light in lights %} {% if light.sensor_id == sensor.id %}
       {% if light.light == 1 %}
       <input
@@ -29,8 +29,10 @@
         value="0"
         src="{% static 'images/lamp_off.png' %}"
       />
-      {% endif %} {% endif %} {% endfor %}
+      {% endif %} 
+      {% endif %} {% endfor %}
     </div>
+    <p class="light-error-message"></p>
     {% endfor %}
   </div>
   {% endblock content %}

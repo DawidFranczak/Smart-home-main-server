@@ -9,12 +9,12 @@
 #define DHTPIN 2
 #define DHTTYPE DHT11 
 
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 unsigned int UdpPort = 1265;
 char data_package[255];
@@ -37,19 +37,16 @@ void loop() {
     paczkaDanych = UDP.parsePacket();
     if(paczkaDanych){
       int len = UDP.read(data_package, 255);
-      if (len > 0)
-      {
-        data_package[len] = 0;
-      }
+
+      if (len > 0) data_package[len] = 0;
+
       date = data_package;
-      if(digitalRead(ADDBUTTON)==LOW){
-        delay(20);
-        if(date == "password_temp" && digitalRead(ADDBUTTON)==LOW){
-          UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-          UDP.write("respond_temp");
-          UDP.endPacket(); 
-          delay(200);
-        }
+      
+      if(date=="password_temp" && digitalRead(ADDBUTTON) == LOW ){//&& digitalRead(ADDBUTTON) == LOW 
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.write("respond_temp");
+        UDP.endPacket(); 
+        delay(200);
       }
       else if(date == "pomiar"){
         float h = dht.readHumidity();

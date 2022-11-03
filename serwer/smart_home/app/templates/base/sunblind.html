@@ -16,8 +16,8 @@
             {% for sunblind in sunblinds %}
                 {% if sensor.id == sunblind.sensor_id %}
                     <li >
-                        <p>{{sensor.name}}</p>
-                        <div>
+                        <p class="sunblind-name">{{sensor.name}}</p>
+                        <div class="sunblind-slider">
                             <input type="range" value = "{{sunblind.value}}" class="slider" placeholder ={{sensor.pk}} >
                             <p id ={{sensor.pk}}>{{sunblind.value}}</p>
                         </div>

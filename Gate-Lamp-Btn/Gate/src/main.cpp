@@ -15,11 +15,11 @@
 #define OPTO D3    // Optotranzystor
 
 // Połączenie z siecą WiFi
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 // Czas otwarcia furtki
 unsigned long presetTime = 0;
@@ -49,7 +49,7 @@ int paczkaDanych;
 String date;
 
 // Port oraz ip do komunikacji
-IPAddress serwerIP(192,168,0,52);
+IPAddress serwerIP(192,168,0,124);
 int serwerPort = 6785;
 
 
@@ -113,15 +113,12 @@ void loop() {
       Serial.print(date); 
 
       // Dodanie urządzneia
-  if(digitalRead(ADDBUTTON) == LOW){
-      delay(20);
-      else if (date == "password_rfid" && digitalRead(ADDBUTTON) == LOW) { 
+    if (date == "password_rfid" && digitalRead(ADDBUTTON) == HIGH) { 
         UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
         UDP.write("respond_rfid");
         UDP.endPacket();
         serwerIP = UDP.remoteIP(); 
       }
-    }
      // Otwarcie furtki poprzez wifi
     else if(date == "access") {
       Serial.print(analogRead(A0));
@@ -141,10 +138,10 @@ void loop() {
           Serial.print(UID);
           Serial.println('\n');
           if(UID != ""){
-          sendUID(UID,UDP.remoteIP(),UDP.remotePort());
+            sendUID(UID,UDP.remoteIP(),UDP.remotePort());
+            UID = "";
+            break;
           }
-          UID = "";
-          break;
         }
         presetTime = millis();
         if (presetTime - startAdd >= endAdd ) break;

@@ -25,10 +25,15 @@ async function sendData(method, _dict) {
   //   try {
   //     JSON.parse(data);
   //     console.log(data)
+      
   // }
   // catch (error) {
   //     console.log('Error parsing JSON:', error, data);
   // }
+  // if (data.json()){
+  //   console.log(1)
+  // }
+  
   return data.json();
 }
 

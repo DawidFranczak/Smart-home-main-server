@@ -10,6 +10,7 @@
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
+  margin-right: 4em;
 }
 .select-sensor{
   padding-top: 1rem;
@@ -42,7 +43,6 @@
 }
 
 .sensor-container li ul{
-  padding: 0;
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -53,6 +53,7 @@
   display: flex;
   justify-content: center;
   width: 100px;
+  padding: 0 0.5em 0 0.5em;
 }
 
 .sensor-container li ul input  {

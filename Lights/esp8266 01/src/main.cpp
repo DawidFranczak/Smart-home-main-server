@@ -4,14 +4,15 @@
 #include <string.h>
 
 #define LIGHT 0
+#define WIFILED 1
 #define ADDBUTTON 2
 
 
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid     = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 unsigned int UdpPort = 4324;
 char data_package[255];
@@ -20,17 +21,22 @@ String date;
 WiFiUDP UDP;
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   pinMode(LIGHT,OUTPUT);
+  pinMode(WIFILED,OUTPUT);
   pinMode(ADDBUTTON,INPUT_PULLUP);
 
   digitalWrite(LIGHT,HIGH);
-  WiFi.begin(ssid,password);
-  while (WiFi.status() != WL_CONNECTED){ delay(1);  Serial.print(WiFi.localIP());}
+  digitalWrite(WIFILED,HIGH);
   UDP.begin(UdpPort);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(1); 
+
 }
 
 void loop() {
+  if (WiFi.status() == WL_CONNECTED) digitalWrite(WIFILED,LOW);
+  else digitalWrite(WIFILED,HIGH);
   paczkaDanych = UDP.parsePacket();
   if(paczkaDanych){
     int len = UDP.read(data_package, 255);
@@ -38,16 +44,14 @@ void loop() {
     {
       data_package[len] = 0;
     }
-    // date = data_package;
-    // Serial.print(date);
-     if (digitalRead(ADDBUTTON) == LOW){
-      delay(20);
-      if(date == "password_light" && digitalRead(ADDBUTTON) == LOW){
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
-        UDP.write("respond_light");
-        UDP.endPacket(); 
-      }
+    date = data_package;
+    Serial.print(date);
+    if(date == "password_light" && digitalRead(ADDBUTTON) == HIGH){   
+      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+      UDP.write("respond_light");
+      UDP.endPacket(); 
     }
+    // }
     else if(date == "change"){
       digitalWrite(LIGHT,!digitalRead(LIGHT));
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy

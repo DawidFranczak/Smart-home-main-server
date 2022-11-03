@@ -2,13 +2,17 @@ import sqlite3
 import socket
 
 
-def checkUID(data):
+def check_uid(data):
     try:
         con = sqlite3.connect('db.sqlite3')
         cur = con.cursor()
-        id = cur.execute("SELECT id FROM app_sensor WHERE ip = ?",(data[1][0],))
+        
+        sensor_id=data[1][0]
+        sensor_uid=int(data[0].decode('UTF-8'))
+        
+        id = cur.execute("SELECT id FROM app_sensor WHERE ip = ?",(sensor_id,))
         for uid in cur.execute("SELECT uid FROM app_card WHERE sensor_id = ?",(id.fetchone()[0],)):
-            if(uid[0] == int(data[0].decode('UTF-8'))):
+            if(uid[0]==sensor_uid ):
                 sock.sendto(str.encode('access'), data[1])
                 break
         else:
@@ -16,36 +20,39 @@ def checkUID(data):
     except Exception as e:
         print(e)
         
-def lightLamp(data,sensor):
+def light_lamp(data):
     con = sqlite3.connect('smart_home/db.sqlite3')
     cur = con.cursor()
-    id = cur.execute("SELECT id FROM app_sensor WHERE ip = ?",(data[1][0],)).fetchone()[0]
-    if data_rec[0].decode('UTF-8') == 'RFID':
+    
+    sensor_id = data[1][0]
+    message = data_rec[0].decode('UTF-8')
+    
+    id = cur.execute("SELECT id FROM app_sensor WHERE ip = ?",(sensor_id,)).fetchone()[0]
+    if message == 'RFID':
         ip = cur.execute("SELECT lamp FROM app_rfid WHERE sensor_id = ?",(id,)).fetchone()[0]
-    elif data_rec[0].decode('UTF-8') == 'still' or data_rec[0].decode('UTF-8') == 'click':
+    elif message == 'still' or message == 'click':
         ip = cur.execute("SELECT lamp FROM app_button WHERE sensor_id = ?",(id,)).fetchone()[0]
         
-    print(ip)
     if ip != "":
-        print(ip)
         sock.sendto(str.encode(data_rec[0].decode('UTF-8')), (ip,4569))
         print("wysyłam wiadomość {}".format(data_rec[0].decode('UTF-8')))
-    print('tu')
+
+
+ip = str(socket.gethostbyname(socket.gethostname()))
+print(ip)
 
 if __name__ == '__main__':
-    ip = str(socket.gethostbyname(socket.gethostname()))
-    print(ip)
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
     sock.bind(('', 6785))
     while(True):
         data_rec = sock.recvfrom(1024)
-        print(data_rec[0].decode('UTF-8'))
-        if data_rec[0].decode('UTF-8') == 'RFID':
-            lightLamp(data_rec,"app_rfid")
-        if data_rec[0].decode('UTF-8') == 'still' or data_rec[0].decode('UTF-8') == 'click':
-            lightLamp(data_rec,"app_button")
+        message=data_rec[0].decode('UTF-8')
+        
+        if message == 'RFID' or message == 'still' or message == 'click':
+            light_lamp(data_rec)
         else:
-            checkUID(data_rec)
+            check_uid(data_rec)
 
 
 

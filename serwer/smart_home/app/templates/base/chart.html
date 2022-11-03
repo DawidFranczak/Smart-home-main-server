@@ -3,7 +3,7 @@
 
 {% block title %}Temperatura{% endblock %}
 {% block content %}
-<script src='{% static "script/wykres.js" %}'></script>
+<script src='{% static "script/chart2.js" %}'></script>
 <script src='{% static "script/Chart.js" %}'></script>
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/chart.css" %}'>
 <div class="container">
@@ -29,7 +29,7 @@
                 <input type="submit" value="Pokaz">
             </div>
         </form>
-        {% if data_average_data|length == 0  %}
+        {% if data_temp|length == 0  %}
         <div class="display-char">
              <p>Brak danych do wyświetlenia</p>
         </div>

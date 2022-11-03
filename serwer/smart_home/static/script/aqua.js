@@ -46,114 +46,150 @@ async function select_aqua() {
 }
 
 async function aqua() {
-  if (this.id === "color") {
-    let aqua = document.getElementById("color");
-    let color = aqua.value.substring(4, aqua.value.length - 1).split(",");
-    this.oninput = function () {
-      let dict = {
-        action: "changeRGB",
-        r: color[0],
-        g: color[1],
-        b: color[2],
-        id: document
-          .querySelector("#aqua_containers")
-          .getAttribute("placeholder"),
-      };
-      sendData("POST", dict);
-    };
-  } else if (this.id === "ledButton") {
-    let ledStart = document.getElementById("ledStart").value;
-    let ledStop = document.getElementById("ledStop").value;
+  let dict = {};
+  
+  switch (this.id){
+    case 'color':
+      const aqua = document.getElementById("color");
+      const color = aqua.value.substring(4, aqua.value.length - 1).split(",");
+         dict = {
+          action: "changeRGB",
+          r: color[0],
+          g: color[1],
+          b: color[2],
+          id: document
+            .querySelector("#aqua_containers")
+            .getAttribute("placeholder"),
+        };
+      break;
 
-    if (ledStart === "" || ledStop === "") {
-      document.getElementById("ledMess").innerHTML = "Brak jednej godziny";
-    } else {
-      let dict = {
-        action: "changeLedTime",
-        ledStart: ledStart,
-        ledStop: ledStop,
+    case 'ledButton':
+      const ledStart = document.getElementById("ledStart").value;
+      const ledStop = document.getElementById("ledStop").value;
+  
+      if (ledStart === "" || ledStop === "") {
+        document.getElementById("ledMess").innerHTML = "Brak jednej godziny";
+      } else {
+         dict = {
+          action: "changeLedTime",
+          ledStart: ledStart,
+          ledStop: ledStop,
+          id: document
+            .getElementById("aqua_containers")
+            .getAttribute("placeholder"),
+        };
+      }
+      break;
+
+    case 'fluoLampButton':
+      const fluoLampStart = document.getElementById("fluoLampStart").value;
+      const fluoLampStop = document.getElementById("fluoLampStop").value;
+
+      if (fluoLampStart === "" || fluoLampStop === "") {
+        document.getElementById("fluoLampMess").innerHTML = "Brak jednej godziny";
+      } 
+      else {
+        dict = {
+          action: "changeFluoLampTime",
+          fluoLampStart: fluoLampStart,
+          fluoLampStop: fluoLampStop,
+          id: document
+            .getElementById("aqua_containers")
+            .getAttribute("placeholder"),
+        };
+      }
+      break;
+
+    case 'mode':
+      if (this.value === "Ręczny") {
+        var mode = true;
+        this.value = "Automat";
+        document.getElementById("modeButtons").style.display = "";
+        document.getElementById("settings_aqua").style.display = "none";
+      } 
+      else {
+        mode = false;
+        this.value = "Ręczny";
+        document.getElementById("modeButtons").style.display = "none";
+        document.getElementById("settings_aqua").style.display = "";
+      }
+        dict = {
+        action: "changeMode",
+        mode: mode,
         id: document
           .getElementById("aqua_containers")
           .getAttribute("placeholder"),
       };
-      sendData("POST", dict);
-    }
-  } else if (this.id === "fluoLampButton") {
-    let fluoLampStart = document.getElementById("fluoLampStart").value;
-    let fluoLampStop = document.getElementById("fluoLampStop").value;
-    if (fluoLampStart === "" || fluoLampStop === "") {
-      document.getElementById("fluoLampMess").innerHTML = "Brak jednej godziny";
-    } else {
-      let dict = {
-        action: "changeFluoLampTime",
-        fluoLampStart: fluoLampStart,
-        fluoLampStop: fluoLampStop,
+
+      data = await sendData("POST", dict);
+      console.log(data)
+
+      if (data["fluo"])
+        document.querySelector("#modeFluoLampButton").value = "Wyłącz";
+      else document.querySelector("#modeFluoLampButton").value = "Włącz";
+  
+      if (data["led"]) document.querySelector("#modeLedButton").value = "Wyłącz";
+      else document.querySelector("#modeLedButton").value = "Włącz";
+      break;
+
+    case 'modeFluoLampButton':
+      if (this.value === "Włącz") {
+        document.getElementById("modeFluoLampButton").value = "Wyłącz";
+        var value = true;
+      } else {
+        document.getElementById("modeFluoLampButton").value = "Włącz";
+        var value = false;
+      }
+      dict = {
+        action: "changeFluoLampState",
+        value: value,
         id: document
           .getElementById("aqua_containers")
           .getAttribute("placeholder"),
       };
-      sendData("POST", dict);
-    }
-  } else if (this.id === "mode") {
-    if (this.value === "Ręczny") {
-      var mode = true;
-      this.value = "Automat";
-      document.getElementById("modeButtons").style.display = "";
-      document.getElementById("settings_aqua").style.display = "none";
-    } else {
-      mode = false;
-      this.value = "Ręczny";
-      document.getElementById("modeButtons").style.display = "none";
-      document.getElementById("settings_aqua").style.display = "";
-    }
-    let dict = {
-      action: "changeMode",
-      mode: mode,
-      id: document
-        .getElementById("aqua_containers")
-        .getAttribute("placeholder"),
-    };
-    data = await sendData("POST", dict);
+      break;
 
-    if (data["fluo"])
-      document.querySelector("#modeFluoLampButton").value = "Wyłącz";
-    else document.querySelector("#modeFluoLampButton").value = "Włącz";
-
-    if (data["led"]) document.querySelector("#modeLedButton").value = "Wyłącz";
-    else document.querySelector("#modeLedButton").value = "Włącz";
-  } else if (this.id === "modeFluoLampButton") {
-    if (this.value === "Włącz") {
-      document.getElementById("modeFluoLampButton").value = "Wyłącz";
-      var value = true;
-    } else {
-      document.getElementById("modeFluoLampButton").value = "Włącz";
-      var value = false;
-    }
-    dict = {
-      action: "changeFluoLampState",
-      value: value,
-      id: document
-        .getElementById("aqua_containers")
-        .getAttribute("placeholder"),
-    };
-    sendData("POST", dict);
-  } else if (this.id === "modeLedButton") {
-    if (this.value === "Włącz") {
-      document.getElementById("modeLedButton").value = "Wyłącz";
-      var value = true;
-    } else {
-      document.getElementById("modeLedButton").value = "Włącz";
-      var value = false;
-    }
-    dict = {
-      action: "changeLedState",
-      value: value,
-      id: document
-        .getElementById("aqua_containers")
-        .getAttribute("placeholder"),
-    };
-    sendData("POST", dict);
+    case 'modeLedButton':
+      if (this.value === "Włącz") {
+        document.getElementById("modeLedButton").value = "Wyłącz";
+        var value = true;
+      } 
+      else {
+        document.getElementById("modeLedButton").value = "Włącz";
+        var value = false;
+      }
+      dict = {
+        action: "changeLedState",
+        value: value,
+        id: document
+          .getElementById("aqua_containers")
+          .getAttribute("placeholder"),
+      };
+      break;
   }
+  const rep = await sendData("POST", dict);
+
+  if (rep['success']){
+    switch (rep['success']){
+    case 1:
+      console.log(1);
+      break;
+    case 2:
+      console.log(2)
+      break;
+    }
+  }
+  else{
+    switch (rep['error']){
+      case -1:
+        console.log(-1);
+        break;
+      case -2:
+        console.log(-2)
+        break;
+      }
+  }
+
 }
 
 window.onload = function () {

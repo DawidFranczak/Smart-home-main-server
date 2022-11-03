@@ -8,14 +8,14 @@
 #define ADDBUTTON 3
 
 // Połączenie z siecą WiFi
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 // Porty oraz ip do komunikacji
-char serwerIp [15] = "192.168.0.52";
+char serwerIp [15] = "192.168.0.124";
 int serwerPort = 6785;
 
 // Port oraz ip uC
@@ -45,6 +45,7 @@ void setup() {
   // Serial.begin(9600);
   WiFi.begin(ssid,password);
   UDP.begin(UdpPort);
+  digitalWrite(WIFILED,HIGH);
   while (WiFi.status() != WL_CONNECTED) delay(1);
   Serial.print(WiFi.localIP());
 
@@ -52,8 +53,8 @@ void setup() {
 
 void loop() {
   // Sygnalizacja podłączenia wifi
-  // if(WiFi.status() == WL_CONNECTED)  digitalWrite(WIFILED,LOW);
-  // else digitalWrite(WIFILED,HIGH);
+  if(WiFi.status() == WL_CONNECTED)  digitalWrite(WIFILED,LOW);
+  else digitalWrite(WIFILED,HIGH);
 
   paczkaDanych = UDP.parsePacket();
   if(paczkaDanych){
@@ -62,14 +63,11 @@ void loop() {
       date = dataPackage;
       
        // Dodanie urządzneia
-    if (digitalRead(ADDBUTTON) == LOW){ 
-      delay(20);
-      if (date == "password_btn" && digitalRead(ADDBUTTON) == LOW){
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-        UDP.write("respond_btn");
-        UDP.endPacket();
-      } 
-    }
+    if (date == "password_btn" && digitalRead(ADDBUTTON) == HIGH){ //&& digitalRead(ADDBUTTON) == LOW
+      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+      UDP.write("respond_btn");
+      UDP.endPacket();
+    } 
   }
 
   // Włączenie lamp z przycisku 

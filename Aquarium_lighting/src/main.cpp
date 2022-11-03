@@ -14,13 +14,12 @@
 
 
 // Dane do sieci wifi
-// const char* ssid     = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid     = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
-// IPAddress local_IP(192, 168, 1, 110);
 unsigned int UdpPort = 7863;
 char data_package[255];
 String date;
@@ -53,8 +52,6 @@ void setup() {
   //Łączenie z wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)  delay(1);
-
-
 }
 
 void loop(){
@@ -64,10 +61,7 @@ void loop(){
   paczka_danych = UDP.parsePacket();
   if(paczka_danych){
     int len = UDP.read(data_package, 255);
-    if (len > 0)
-    {
-      data_package[len] = 0;
-    }
+    if (len > 0) data_package[len] = 0;
 
     date = data_package;
     Serial.println(date);
@@ -91,7 +85,6 @@ void loop(){
       analogWrite(BLUEPIN, blue);
       analogWrite(GREENPIN, green);
       analogWrite(REDPIN, red);
-      Serial.println(blue);
     }
     else if (date == "s0"){
       digitalWrite(SWIETLOWKA,HIGH);
@@ -99,12 +92,10 @@ void loop(){
     else if (date == "s1"){
       digitalWrite(SWIETLOWKA,LOW);
     }
-    else if(digitalRead(ADDBUTTON)==LOW){
-      if (date == "password_aqua" && digitalRead(ADDBUTTON)==LOW){
+    else if (date == "password_aqua" && digitalRead(ADDBUTTON)==HIGH){
         UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
         UDP.write("respond_aqua");
         UDP.endPacket();
-      }
     }
   }
 }

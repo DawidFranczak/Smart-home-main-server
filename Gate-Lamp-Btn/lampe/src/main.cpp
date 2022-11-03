@@ -2,16 +2,16 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <Adafruit_PWMServoDriver.h>
-#include <Wire.h>
 
+#define ADDBUTTON D3
 #define WIFILED D4 // Sygnalizcja podłączenia do wifi
 
 // Połączenie z siecą WiFi
-// const char* ssid = "Tenda";
-// const char* password = "1RKKHAPIEJ";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
-const char* ssid = "UPC917D5E9";
-const char* password = "7jxkHw2efapT";
+// const char* ssid = "UPC917D5E9";
+// const char* password = "7jxkHw2efapT";
 
 // Czas zapalenia oświetlenia
 unsigned long startTime = 0;
@@ -35,6 +35,7 @@ bool lightOn = false;
 // Ustawienia jasnośći oraz ilości kroków
 int brightness = 4096;
 int step = 21;
+int lampNumber = 16;
 
 // Utworzenie obiektu pwm o adresie 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
@@ -48,9 +49,12 @@ void turnOffFromRFID();   // Zgaszenie świateł zapalonych poprzez czytnik rfid
 void setup() {
   // Inicjalizacja
   pinMode(WIFILED,OUTPUT);
+  pinMode(ADDBUTTON,INPUT_PULLUP);
   Serial.begin(9600);
-  
+
+  digitalWrite(WIFILED,HIGH);
   WiFi.begin(ssid,password);
+  while(WiFi.status() != WL_CONNECTED) delay(1);
   UDP.begin(udpPort);
   pwm.begin();
   pwm.setPWMFreq(500);
@@ -62,7 +66,6 @@ void loop() {
   if(WiFi.status() == WL_CONNECTED)   digitalWrite(WIFILED,LOW);
   else digitalWrite(WIFILED,HIGH);
 
-  // Serial.print(WiFi.localIP());
   // Zaświecenie lamp
   paczkaDanych = UDP.parsePacket();
   if(paczkaDanych){
@@ -71,7 +74,8 @@ void loop() {
     date = dataPackage;
     Serial.println("\n");
     Serial.println(date);
-    if (date == "password_lamp") { 
+
+    if (date == "password_lamp" && digitalRead(ADDBUTTON) == HIGH) { 
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
       UDP.write("respond_lamp");
       UDP.endPacket();
@@ -117,7 +121,7 @@ void loop() {
 }
 
 void turnOnFromRFID(){
-  for(int nr = 8; nr > -1; nr--){
+  for(int nr = lampNumber; nr > -1; nr--){
     for(int i = 0; i < brightness-1; i=i+step){
       pwm.setPin(nr,i);
       delay(1);
@@ -126,7 +130,7 @@ void turnOnFromRFID(){
   }
 }
 void turnOnFromSwitch(){
-  for(int nr = 0; nr < 8; nr++){
+  for(int nr = 0; nr < lampNumber; nr++){
     for(int i = 0; i < brightness-1; i=i+step){
       pwm.setPin(nr,i);
       delay(1);
@@ -135,7 +139,7 @@ void turnOnFromSwitch(){
   }
 }
 void turnOffFromSwitch(){
-  for(int nr = 0; nr < 8; nr++){
+  for(int nr = 0; nr < lampNumber; nr++){
     for(int i = brightness-1; i > 0; i=i-step){
       pwm.setPin(nr,i);
       delay(1);
@@ -147,7 +151,7 @@ void turnOffFromSwitch(){
   lightOnRFID = false;
 }
 void turnOffFromRFID(){
-  for(int nr = 8; nr > -1; nr--){
+  for(int nr = lampNumber; nr > -1; nr--){
     for(int i = brightness-1; i > 0; i=i-step){
       pwm.setPin(nr,i);
       delay(1);

@@ -9,3 +9,33 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.calibration-button{
+	margin-top: 1em;
+	width: 6rem;
+	height: 3rem;
+}
+.calibration-button:active{
+	background-color: red;
+	border-width: 0;
+}
+.save {
+	background-color: rgb(0, 255, 0);
+	border-width: 0;
+}
+
+#confBtn{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.calibration-end{
+	width: 6rem;
+	height: 4rem;
+	margin: 2em 0.5em 0 0.5em;
+	font-size: 1em;
+}
+
+.calibration-end a {
+	text-decoration: none;
+}

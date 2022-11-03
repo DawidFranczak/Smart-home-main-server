@@ -63,8 +63,6 @@ void setup() {
   pwm.setPWMFreq(500);
   off();
   Serial.begin(9600);
-  // while(WiFi.status() != WL_CONNECTED) delay(1);
-  // Serial.print(WiFi.localIP());
 }
 
 void loop() {
@@ -79,13 +77,10 @@ void loop() {
     Serial.println(date);
     Serial.println("\n");
 
-    if (digitalRead(ADDBUTTON) == LOW){
-      delay(20);
-      if (date == "password_stairs" && digitalRead(ADDBUTTON) == LOW) { 
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
-        UDP.write("respond_stairs");
-        UDP.endPacket();
-      }
+    if (date == "password_stairs" && digitalRead(ADDBUTTON) == HIGH) { 
+      UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+      UDP.write("respond_stairs");
+      UDP.endPacket();
     }
     else if(date =="ON") {
       if(!lightOn) turnOnSensorDown();
@@ -116,17 +111,17 @@ void loop() {
 
     }
   }
-  if(digitalRead(SENSORDOWN) == HIGH){
-    delay(20);
-    if(digitalRead(SENSORDOWN) == HIGH && sensorUp == false && sensorDown == false){
-      if(!lightOn) {
-        Serial.print("Sensor down");
-        turnOnSensorDown();
-        sensorDown = true;
-        startTime = millis();
-        }
-    }
-  }
+  // if(digitalRead(SENSORDOWN) == HIGH){
+  //   delay(20);
+  //   if(digitalRead(SENSORDOWN) == HIGH && sensorUp == false && sensorDown == false){
+  //     if(!lightOn) {
+  //       Serial.print("Sensor down");
+  //       turnOnSensorDown();
+  //       sensorDown = true;
+  //       startTime = millis();
+  //       }
+  //   }
+  // }
   // else if(digitalRead(SENSORUP) == HIGH){
   //   delay(20);
   //   if(digitalRead(SENSORUP) == HIGH && sensorUp == false && sensorDown == false){
