@@ -1,17 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from app.models import *
-from app.mod import data_for_chart
-from .serialized import *
-from datetime import datetime, timedelta
-from django.http import JsonResponse
+from app.models import Aqua, Stairs
+from .serialized import AquaSerializer, StairsSerializer
 
-
-
-@api_view(['GET'])
-def test(request):
-    test = ['test']
-    return Response(test)
 
 @api_view(['GET'])
 def getAqua(request,pk):

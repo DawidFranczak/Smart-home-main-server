@@ -75,21 +75,20 @@ void loop() {
     if (len > 0) dataPackage[len] = 0;
     date = dataPackage;
     Serial.println(date);
-    Serial.println("\n");
 
     if (date == "password_stairs" && digitalRead(ADDBUTTON) == HIGH) { 
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
       UDP.write("respond_stairs");
       UDP.endPacket();
     }
-    else if(date =="ON") {
-      if(!lightOn) turnOnSensorDown();
-      on = true;
-    }
-    else if(date =="OFF") {
-      if(lightOn) turnOffSensorDown();
-      on = false;
-    }
+    // else if(date =="ON") {
+    //   if(!lightOn) turnOnSensorDown();
+    //   on = true;
+    // }
+    // else if(date =="OFF") {
+    //   if(lightOn) turnOffSensorDown();
+    //   on = false;
+    // }
     else if(date.substring(0,2) == "sp"){
       step = 4096/date.substring(2).toInt(); 
       Serial.print("step ");

@@ -33,6 +33,7 @@ def measurement_temp():
     timeout = []
     not_connected = []
     wiad = str.encode("pomiar")
+    temp = ""
     # print(ip, port, place)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
     for i in range(0, len(ip)):
@@ -41,16 +42,18 @@ def measurement_temp():
             sock.sendto(wiad, (ip[i], port[i]))
             sock.settimeout(1)
             data_rec = sock.recvfrom(1024)
-            temp = data_rec[0].decode("UTF-8")
-            print(temp)
+            measurement = data_rec[0].decode("UTF-8")
             print(f"Dokonano pomiaru w miejscu : {place[i]}, pomiar : {temp}")
-            add_temp_measurment(sensor_id[i], temp,"0.0")
+            temp = measurement.split('/')[0]
+            humi = measurement.split('/')[1]
+            add_temp_measurment(sensor_id[i], temp,humi)
             
         except socket.timeout:
             print(f"timeout {place[i]}")
             timeout.append(place[i])
             
-        except :
+        except Exception as e:
+            print(e)
             not_connected.append(place[i])
             print(f"not connected {place[i]}")
 

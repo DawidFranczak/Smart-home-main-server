@@ -8,20 +8,20 @@
     <input type="button" value="Kalibracja" id="calibration">
     <ul class="sunblind-containers">
         <li>
-            <p>Nazwa</p>
-            <p>Suwak</p>
-            <p class="calBtn" style="display: none;" id="cal_button_h">Kalibracja</p>
+            <p class="sunblind-name">Nazwa</p>
+            <p class="sunblind-slider">Suwak</p>
+            <p class="calibration-button"   id="cal_button_h">Kalibracja</p>
         </li>
         {% for sensor in sensors %}
             {% for sunblind in sunblinds %}
                 {% if sensor.id == sunblind.sensor_id %}
                     <li >
                         <p class="sunblind-name">{{sensor.name}}</p>
-                        <div class="sunblind-slider">
+                        <div sunblind-slider>
                             <input type="range" value = "{{sunblind.value}}" class="slider" placeholder ={{sensor.pk}} >
-                            <p id ={{sensor.pk}}>{{sunblind.value}}</p>
+                            <p class="slider-value" id ={{sensor.pk}}>{{sunblind.value}}</p>
                         </div>
-                        <a href="{% url 'calibration' sensor.pk %}" class="calBtn" style="display:none" id = "calibration">Kalibruj</a>
+                        <a href="{% url 'calibration' sensor.pk %}" class="cal-button sunblind-name"  id = "calibration">Kalibruj</a>
                     </li>
                 {% endif %}
             {% endfor %}

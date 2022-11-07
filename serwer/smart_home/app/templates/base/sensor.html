@@ -4,51 +4,51 @@
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/sensor.css" %}'>
 
 <div class="container">
-  <div class="sensor-add">
-    <div class="select-sensor" style="display:none">
-        <input type='text' id='sensor_name' placeholder="Podaj nazwę"> <br>
+  <section class="sensor-add">
+    <div class="select-sensor" id="select-sensor" style="display:none">
+        <input type='text' id='sensor-name-add' placeholder="Podaj nazwę"> <br>
       <ul class="select">
         <li>
-          <input type="radio" name="sen-fun" class="sen-fun" value="temp" checked>
+          <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="temp" checked>
           <label for="temp">Temperatura</label>
         </li>
         <li>
-          <input type="radio" name="sen-fun" class="sen-fun" value="sunblind">
+          <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="sunblind">
           <label for="rolety">Rolety</label>
         </li>
         <li>
-        <input type="radio" name="sen-fun" class="sen-fun" value="aqua">
+        <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="aqua">
         <label for="aqua">Akwarium</label>
         </li>
         <li>
-        <input type="radio" name="sen-fun" class="sen-fun" value="light">
+        <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="light">
         <label for="led">Swiatlo</label>
         </li>
         <li>
-        <input type="radio" name="sen-fun" class="sen-fun" value="stairs">
+        <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="stairs">
         <label for="stairs">Schody</label>
         </li>
         <li>
-        <input type="radio" name="sen-fun" class="sen-fun" value="rfid">
+        <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="rfid">
         <label for="rfid">Czujnik RFID</label>
         </li>
         <li>
-        <input type="radio" name="sen-fun" class="sen-fun" value="btn">
+        <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="btn">
         <label for="btn">Przyciski</label>
         </li>
         <li>
-          <input type="radio" name="sen-fun" class="sen-fun" value="lamp">
+          <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="lamp">
           <label for="lamp">Lampy</label>
         </li>
         <li>
-          <input type="radio" name="sen-fun" class="sen-fun" value="uid" id="uid">
+          <input type="radio" name="sensor-fun" class="sensor-fun" id="sensor-fun" value="uid" id="uid">
           <label for="uid">Krata/brelok</label>
         </li>
-        <li class="select-rfid" style="display: none">
+        <li class="select-rfid" id="select-rfid">
             {% for sensor in sensors %}
               {% if sensor.fun == "rfid" %}
               <ul>
-                <input type="radio" name="rfid" class="sen-fun-uid" value="uid" id="{{sensor.id}}">
+                <input type="radio" name="rfid" class="sensor-fun-uid" id="sensor-fun-uid" value="uid" id="{{sensor.id}}">
                 <label for="uid">{{sensor.name}}</label>
               </ul>
               {% endif %}
@@ -61,127 +61,134 @@
     <div>
       <p id="response"></p>
     </div>
-    <div id="add_sensor_button">
-      <input type="button" value="Dodaj czujnik" id="f_add_sensor" />
-      <input type="button" value="Usuń czujnik" id="add_del_button" />
+    <div id="add-sensor-button">
+      <input type="button" value="Dodaj czujnik" id="add-sensor" />
+      <input type="button" value="Usuń czujnik" id="add-del-button" />
     </div>
     <input id="search" type="text" placeholder="Szukaj" />
-  </div>
-
-  <ul class="sensor-container" id="sensor_container">
+  </section>
+  <section class="sensor-container" id="sensor-container">
+  <ul>
     <li>
       <ul  class="sensor">
-        <p class="sensor_name_h">Nazwa</p>
-        <p class="sensor_fun_h">Funkcja</p>
+        <p class="sensor-name-h">Nazwa</p>
+        <p class="sensor-fun-h">Funkcja</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            class="sensor_del_but"
-            style="display: none"
+            class="sensor-del-button"
+            id="sensor-del-button"
           />
         </ul>
     </li>
     <li class="add_sensor_temp_container" id="add_sensor_temp_container">
       {% for sensor in sensors %} {% if sensor.fun == "temp" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Temperatura</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Temperatura</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_rolety_container" id="add_rolety_container">
+    <li class="add-rolety-container" id="add-rolety-container">
       {% for sensor in sensors %} {% if sensor.fun == "sunblind" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Roleta</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Roleta</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
             id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_swiatlo_container" id="add_swiatlo_container">
+    <li class="add-swiatlo-container" id="add-swiatlo-container">
       {% for sensor in sensors %} {% if sensor.fun == "light" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Światło</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Światło</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_aqua_container" id="add_aqua_container">
+    <li class="add-aqua-container" id="add-aqua-container">
       {% for sensor in sensors %} {% if sensor.fun == "aqua" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Akwarium</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Akwarium</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_stairs_container" id="add_stairs_container">
+    <li class="add-stairs-container" id="add-stairs-container">
       {% for sensor in sensors %} {% if sensor.fun == "stairs" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Schody</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Schody</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_rfid_container" id="add_rfid_container">
+    <li class="add-rfid-container" id="add-rfid-container">
       {% for sensor in sensors %} 
         {% if sensor.fun == "rfid" %}
           <ul class="sensor">
-            <p class="sensor_name">{{sensor.name}}</p>
-            <p class="sensor_fun">RFID</p>
+            <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+            <p class="sensor-fun">RFID</p>
             <input
                 type="image"
                 src="{% static 'images/cross.png' %}"
-                id="{{sensor.id}}"
-                class="sensor_del_but"
-                style="display: none"
+                id="sensor-del-button"
+                class="sensor-del-button"
+                placeholder="{{sensor.id}}"
+                
+  
               />
           </ul>
   
             {% for card in cards %}
               {% if card.sensor_id == sensor.id %}
                 <ul class="sensor">
-                  <p class="sensor_name">{{card.name}}</p>
-                  <p class="sensor_fun">Karta/brelok</p>
+                  <p class="sensor-name" id="sensor-name">{{card.name}}</p>
+                  <p class="sensor-fun">Karta/brelok</p>
                   <input
                       type="image"
                       src="{% static 'images/cross.png' %}"
-                      id="card {{card.id}}"
-                      class="sensor_del_but"
-                      style="display: none"
+                      id="sensor-del-button"
+                      class="sensor-del-button"
+                      placeholder="{{sensor.id}}"
                     />
                 </ul>
         
@@ -190,38 +197,40 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li class="add_btn_container" id="add_btn_container">
+    <li class="add-btn-container" id="add-btn-container">
       {% for sensor in sensors %} {% if sensor.fun == "btn" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Przycisk</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Przycisk</p>
         <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
-    <li class="add_lamp_container" id="add_lamp_container">
+    <li class="add-lamp-container" id="add-lamp-container">
       {% for sensor in sensors %} {% if sensor.fun == "lamp" %}
       <ul class="sensor">
-        <p class="sensor_name">{{sensor.name}}</p>
-        <p class="sensor_fun">Lampy</p>
+        <p class="sensor-name" id="sensor-name">{{sensor.name}}</p>
+        <p class="sensor-fun">Lampy</p>
           <input
             type="image"
             src="{% static 'images/cross.png' %}"
-            id="{{sensor.id}}"
-            class="sensor_del_but"
-            style="display: none"
+            id="sensor-del-button"
+            class="sensor-del-button"
+            placeholder="{{sensor.id}}"
+            
           />
       </ul>
       {% endif %} {% endfor %}
     </li>
   </ul>
-  </div>
+  </section>
 </div>
 <script src="{% static 'script/sensor.js' %}" ></script>
 {% endblock content %}

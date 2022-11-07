@@ -10,7 +10,7 @@
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  margin-right: 4em;
+  margin-right: 0em;
 }
 .select-sensor{
   padding-top: 1rem;
@@ -26,48 +26,57 @@
 .select li{
   list-style-type: none;
 }
+.select-rfid{
+  display: none;
+}
 
 .select-rfid ul {
   padding-left: 1rem;
 }
-
 .sensor-container{
   margin: 0;
   padding: 0;
 }
-
+.sensor-container ul{
+  margin: 0;
+  padding: 0;
+}
 .sensor-container li{
   display: flex;
   flex-direction: column;
 
 }
-
 .sensor-container li ul{
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   flex-direction: row;
   align-items: center;
 }
-
 .sensor-container li ul p {
   display: flex;
   justify-content: center;
   width: 100px;
   padding: 0 0.5em 0 0.5em;
 }
-
-.sensor-container li ul input  {
-  display: flex;
+.sensor-del-button{
+  display: none;
   width: 40px;
   height: 40px;
+}
+.active-block{
+  display: block;
+}
+  
+@media only screen and (min-width: 650px) {
+  .container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
   }
-
-
-  @media only screen and (min-width: 650px) {
-    .container{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-    }
+  .sensor-add{
+    margin-right: 1em;
   }
+}
 

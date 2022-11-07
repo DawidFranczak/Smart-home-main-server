@@ -1,45 +1,65 @@
-function calibration(e) {
-  let mess = document.getElementById("message");
-  switch (e.type) {
-    case "mousedown":
-      dict = { action: this.id };
-      sendData("POST", dict);
+const calibration = function(e) {
+  const mess = document.querySelector("#message");
+  const event = e.type;
+  switch (event) {
+  case "mousedown":
+
+    const action = this.id;
+    dict = { 
+      action: action 
+    };
+    break;
+  case "mouseup":
+
+    dict = { 
+      action: "stop" 
+    };
+
+    break;
+  case "click":
+    const state = this;
+    if (state.value === "Zakończ") {
+
+      dict = {
+         action: "end" 
+      };
+
+      document.querySelector("#clb-btn").classList.remove('active')
+      document.querySelector("#conf-button").classList.add('active')
+      mess.innerHTML = "Czy chcesz powtórzyć kalibrację ?";
+
       break;
-    case "mouseup":
-      dict = { action: "stop" };
-      sendData("POST", dict);
+    } else if (state.id === "rep") {
+
+      dict = { 
+        action: "calibration" 
+      };
+
+      document.querySelector("#clb-btn").classList.add('active')
+      document.querySelector("#conf-button").classList.remove('active')
+      document.querySelector("#save").value = "Zapisz";
+      mess.innerHTML =
+        "Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk 'zapisz'";
+        
       break;
-    case "click":
-      if (this.value == "Zakończ") {
-        dict = { action: "end" };
-        sendData("POST", dict);
-        document.getElementById("clbBtn").style.display = "none";
-        document.getElementById("confBtn").style.display = "";
-        mess.innerHTML = "Czy chcesz powtórzyć kalibrację ?";
-        break;
-      } else if (this.value == "Tak") {
-        dict = { action: "calibration" };
-        sendData("POST", dict);
-        document.getElementById("clbBtn").style.display = "";
-        document.getElementById("confBtn").style.display = "none";
-        document.getElementById("save").value = "Zapisz";
-        mess.innerHTML =
-          "Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk 'zapisz'";
-        break;
-      }
-      dict = { action: "save" };
-      sendData("POST", dict);
-      document.getElementById("save").value = "Zakończ";
-      mess.innerHTML = "Teraz zasuń roletę i naciśnij przycisk 'zakończ'";
-      break;
+    }
+
+    dict = { 
+      action: "save" 
+    };
+    
+    document.querySelector("#save").value = "Zakończ";
+    mess.innerHTML = "Teraz rozsuń roletę i naciśnij przycisk 'zakończ'";
+    break;
   }
+  sendData("POST", dict);
 }
 
 window.onload = function () {
-  document.getElementById("up").addEventListener("mousedown", calibration);
-  document.getElementById("up").addEventListener("mouseup", calibration);
-  document.getElementById("down").addEventListener("mousedown", calibration);
-  document.getElementById("down").addEventListener("mouseup", calibration);
-  document.getElementById("save").addEventListener("click", calibration);
-  document.getElementById("rep").addEventListener("click", calibration);
+  document.querySelector("#up").addEventListener("mousedown", calibration);
+  document.querySelector("#up").addEventListener("mouseup", calibration);
+  document.querySelector("#down").addEventListener("mousedown", calibration);
+  document.querySelector("#down").addEventListener("mouseup", calibration);
+  document.querySelector("#save").addEventListener("click", calibration);
+  document.querySelector("#rep").addEventListener("click", calibration);
 };

@@ -58,7 +58,7 @@ void loop() {
     int len = UDP.read(data_package, 255);
     if (len > 0) data_package[len] = 0;
     date = data_package;
-    Serial.print(date);
+    Serial.println(date);
 
     if(date == "password_sunblind" && digitalRead(ADDBUTTON) == HIGH){
         UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
@@ -84,7 +84,7 @@ int calibration(){
       int len = UDP.read(data_package, 255);
       if (len > 0) data_package[len] = 0;
       date = data_package;
-      Serial.print(date);
+      Serial.println(date);
       if(date == "up"){
         up = true; 
         down = false;

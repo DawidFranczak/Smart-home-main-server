@@ -65,6 +65,7 @@ void loop(){
 
     date = data_package;
     Serial.println(date);
+    Serial.println(digitalRead(ADDBUTTON));
 
     if (date == "r1"){
       analogWrite(BLUEPIN, blue);

@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-#aqua_containers{
+.containers-aqua{
     display: none;
     text-align: center;
 }
@@ -17,4 +17,8 @@
 }
 .button{
     margin: 0.5rem;
+}
+
+.active-aqua{
+    display:block;
 }

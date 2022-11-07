@@ -17,7 +17,6 @@
 	margin-top: 1em;
  	color: rgb(0, 255, 0);
 }
-
 .login{
 	display: flex;
 	justify-content: space-around;
@@ -29,7 +28,6 @@
     margin-top: 1em;
     height: 2em;
 }
-
 .container a {
 	width: 6em;
 	height: 2em;

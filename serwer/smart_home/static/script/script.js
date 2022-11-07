@@ -1,4 +1,3 @@
-
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -16,7 +15,7 @@ function getCookie(name) {
 }
 
 async function sendData(method, _dict) {
-  var csrftoken = getCookie("csrftoken");
+  const csrftoken = getCookie("csrftoken");
   const data = await fetch(window.location.href, {
     method: method,
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },

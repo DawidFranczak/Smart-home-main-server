@@ -9,7 +9,7 @@
 />
 
 <div class="container">
-  <div class="select-aqua">
+  <div class="select-aqua" id="select-aqua">
     <h1>Wybierz akwarium</h1>
       {% for aqua in aquas %}
         <input
@@ -19,10 +19,10 @@
           id="{{aqua.id}}"
         />
       {% endfor %}
-    <h2 class="mess" ></h2>
+    <h2 class="mess" id="mess" ></h2>
   </div>
 
-  <div id="aqua_containers">
+  <div id="containers-aqua" class="containers-aqua">
     <h1>Wybierz kolor</h1>
 
     <input
@@ -34,28 +34,28 @@
     />
     <P class="aqua-error-message"></P>
 
-    <div id="settings_aqua">
+    <div id="settings-aqua">
       <h1>Ustawienia</h1>
       <h3>Załączenie led</h3>
-      <input type="time" id="ledStart" />
-      <input type="time" id="ledStop" /> <br /><br />
-      <p id="ledMess"></p>
-      <input type="button" id="ledButton" value="Ustaw" />
+      <input type="time" id="led-start" />
+      <input type="time" id="led-stop" /> <br /><br />
+      <p id="led-mess"></p>
+      <input type="button" id="led-button" value="Ustaw" />
 
       <h3>Załączenie swietlówki</h3>
-      <input type="time" id="fluoLampStart" />
-      <input type="time" id="fluoLampStop" /> <br /><br />
-      <p id="fluoLampMess"></p>
-      <input type="button" id="fluoLampButton" value="Ustaw" />
+      <input type="time" id="fluolamp-start" />
+      <input type="time" id="fluolamp-stop" /> <br /><br />
+      <p id="fluolamp-mess"></p>
+      <input type="button" id="fluolamp-button" value="Ustaw" />
     </div>
 
     <h3>Ustaw tryb pracy</h3>
     <input type="button" id="mode" value="Automat" />
-    <div id="modeButtons" style="display: none">
+    <div id="mode-buttons" class="mode-buttons" style="display: none">
       <h3>LED</h3>
-      <input type="button" id="modeLedButton" />
+      <input type="button" id="mode-button-led" />
       <h3>Świetlówka</h3>
-      <input type="button" id="modeFluoLampButton" />
+      <input type="button" id="mode-button-fluolamp" />
     </div>
   </div>
 </div>

@@ -43,7 +43,7 @@
         </div>
         <script>
                 wykres_srednia_dzien({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
-                wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
+                wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
             </script>
         {% else %}
         <div class="display-char">

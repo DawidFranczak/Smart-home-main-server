@@ -1,10 +1,8 @@
-
 body {
   margin: 0;
   background-color: rgb(80, 80, 80);
   font-size: 20px;
 }
-
 .navbar {
   display: flex;
   flex-direction: column;
@@ -27,9 +25,7 @@ body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-
 }
-
 .nav-toggle {
   height: 2rem;
   width: 2rem;
@@ -43,7 +39,6 @@ body {
   border-radius: 0.1rem;
   background-color: white;
 }
-
 .nav-links {
   width: 100%;
   display: none;
@@ -55,18 +50,14 @@ body {
   list-style-type: none;
   padding: 0.25rem;
 }
-
 .nav-links li a {
   font-size: 1.5rem;
   text-decoration: none;
   color: white;
 }
-
-
 .active {
   display: flex;
 }
-
 @media only screen and (min-width: 1000px) {
   .nav-toggle {
     display: none;
@@ -81,19 +72,16 @@ body {
     flex-direction: row;
     align-items: center;
   }
-
   .nav-links {
     display: flex;
     flex-direction: row;
   }
-
   .navbar a {
     color: rgb(255, 255, 255);
     font-size: 20px;
     text-decoration: none;
     padding: 14px 16px;
   }
-
   .navbar a:hover {
     color: black;
     background-color: rgb(80, 80, 80);

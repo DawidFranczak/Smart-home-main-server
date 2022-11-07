@@ -1,58 +1,74 @@
-function add_sensor_button() {
-  const as = document.querySelector(".select-sensor");
-  const asb = document.querySelector("#add_sensor_button");
-  const s = document.getElementById("save");
-  const b = document.getElementById("back");
-  const adb = document.getElementById("add_del_button");
-  const fas = document.getElementById("f_add_sensor");
-
-  if (as.style.display == "none") {
-    as.style.display = "block";
-    asb.style.display = "none";
-    s.addEventListener("click", fadd_sensor);
-    b.addEventListener("click", add_sensor_button);
-    adb.removeEventListener("click", add_del_button);
-    fas.removeEventListener("click", add_sensor_button);
-  } else {
-    as.style.display = "none";
-    asb.style.display = "block";
-    s.removeEventListener("click", fadd_sensor);
-    b.removeEventListener("click", add_sensor_button);
-    document.querySelector("#response").innerHTML = "";
-    adb.addEventListener("click", add_del_button);
-    fas.addEventListener("click", add_sensor_button);
-  }
-  if (document.querySelector(".sensor_del_but").style.display == "")
-    add_del_button();
+const addDelButton = () => {
+  document.querySelectorAll("#sensor-del-button").forEach((sensor) => {
+    sensor.classList.toggle('active-block');
+  });
 }
 
-async function fadd_sensor() {
-  let name = document.querySelector("#sensor_name").value;
-  let fun = document.querySelectorAll(".sen-fun");
+const addSensorSelectButton = ()=> {
+
+  const selectSensor = document.querySelector("#select-sensor");
+  const addSensorButton = document.querySelector("#add-sensor-button");
+  const save = document.querySelector("#save");
+  const back = document.querySelector("#back");
+  const addSensorDelButton = document.querySelector("#add-del-button");
+  const addSensor = document.querySelector("#add-sensor");
+
+  if (selectSensor.style.display == "none") {
+    selectSensor.style.display = "block";
+    addSensorButton.style.display = "none";
+    save.addEventListener("click", addSensorSave);
+    back.addEventListener("click", addSensorSelectButton);
+    addSensorDelButton.removeEventListener("click", addDelButton);
+    addSensor.removeEventListener("click", addSensorSelectButton);
+
+  } else {
+    document.querySelector("#response").innerHTML = "";
+    selectSensor.style.display = "none";
+    addSensorButton.style.display = "block";
+    save.removeEventListener("click", addSensorSave);
+    back.removeEventListener("click", addSensorSelectButton);
+    addSensorDelButton.addEventListener("click", addDelButton);
+    addSensor.addEventListener("click", addSensorSelectButton);
+  }
+
+  document.querySelector("#sensor-del-button").classList.forEach(c =>{
+    if(c === 'active-block'){
+      addDelButton()
+      return;
+    }
+  })
+}
+
+const addSensorSave = async () => {
+  const name = document.querySelector("#sensor-name-add").value;
+  const sensorFunctions = document.querySelectorAll("#sensor-fun");
   let id;
+  let newSensorFunction;
 
   document.querySelector("#response").innerHTML = "Trwa dodawanie czujnika";
 
   if (name != "") {
-    fun.forEach((s) => {
-      if (s.checked) {
-        fun = s.value;
-        if (fun == "uid") {
-          document.querySelectorAll(".sen-fun-uid").forEach((c) => {
-            if (c.checked) {
-              id = c.id;
-            }
-          });
-          if (id === undefined) {
-            document.querySelector("#response").innerHTML = "Wybierz czujnik";
-            return false;
-          }
-        }
+    sensorFunctions.forEach((sensor) => {
+      if (sensor.checked) {
+        newSensorFunction = sensor.value;
+        return;
+      }});
+    if (newSensorFunction === "uid") {
+      document.querySelectorAll("#sensor-fun-uid").forEach((sensor) => {
+        if (sensor.checked) {
+          id = sensor.id;
+          return;
+        }});
+      if (id === undefined) {
+        document.querySelector("#response").innerHTML = "Wybierz czujnik";
       }
-    });
-    const dict = { action: "add", name: name, fun: fun, id: id };
+    }
+
+    const dict = { action: "add", name: name, fun: newSensorFunction, id: id };
     dataRep = await sendData("POST", dict);
+
     if (dataRep["response"] == "Udało sie dodać czujnik") {
+
       const div = document.createElement("ul");
       const pName = document.createElement("p");
       const pFun = document.createElement("p");
@@ -62,46 +78,47 @@ async function fadd_sensor() {
       input.setAttribute("src", "/static/images/cross.png");
       input.setAttribute("id", dataRep["id"]);
       input.setAttribute("style", "display:none");
-      input.setAttribute("class", "sensor_del_but");
+      input.setAttribute("class", "sensor-del-but");
 
-      pName.setAttribute("class", "sensor_name");
+      pName.setAttribute("class", "sensor-name");
+      pName.setAttribute("id", "sensor-name");
       pName.innerHTML = name;
 
-      pFun.setAttribute("class", "sensor_fun");
+      pFun.setAttribute("class", "sensor-fun");
 
       div.setAttribute("class", "sensor");
       div.appendChild(pName);
 
-      switch (fun) {
+      switch (newSensorFunction) {
         case "temp":
           pFun.innerHTML = "Temperatura";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_sensor_temp_container").appendChild(div);
+          document.getElementById("add-sensor-temp-container").appendChild(div);
           break;
         case "sunblind":
           pFun.innerHTML = "Roleta";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_rolety_container").appendChild(div);
+          document.getElementById("add-rolety-container").appendChild(div);
           break;
         case "light":
           pFun.innerHTML = "Światło";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_swiatlo_container").appendChild(div);
+          document.getElementById("add-swiatlo-container").appendChild(div);
           break;
         case "aqua":
           pFun.innerHTML = "Akwarium";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_aqua_container").appendChild(div);
+          document.getElementById("add-aqua-container").appendChild(div);
           break;
         case "rfid":
           pFun.innerHTML = "RFID";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_rfid_container").appendChild(div);
+          document.getElementById("add-rfid-container").appendChild(div);
           const radio = document.createElement("input");
           radio.setAttribute("type", "radio");
           radio.setAttribute("name", "rfid");
@@ -115,70 +132,67 @@ async function fadd_sensor() {
           label.innerHTML = name;
           ul.appendChild(radio);
           ul.appendChild(label);
-          document.querySelector(".select-rfid").appendChild(ul);
+          document.querySelector("#select-rfid").appendChild(ul);
           break;
         case "uid":
           pFun.innerHTML = "Karta/brelok";
           input.setAttribute("id", "card " + dataRep["id"]);
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_rfid_container").appendChild(div);
+          document.getElementById("add-rfid-container").appendChild(div);
           break;
         case "btn":
           pFun.innerHTML = "Przycisk";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_btn_container").appendChild(div);
+          document.getElementById("add-btn-container").appendChild(div);
           break;
         case "lamp":
           pFun.innerHTML = "Lampy";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_lamp_container").appendChild(div);
+          document.getElementById("add-lamp-container").appendChild(div);
           break;
         case "stairs":
           pFun.innerHTML = "Schody";
           div.appendChild(pFun);
           div.appendChild(input);
-          document.getElementById("add_stairs_container").appendChild(div);
+          document.getElementById("add-stairs-container").appendChild(div);
           break;
       }
       document.getElementById("response").innerHTML = dataRep["response"];
+
     } else document.getElementById("response").innerHTML = dataRep["response"];
   } else {
     document.getElementById("response").innerHTML = "Brak nazwy";
   }
 }
 
-function add_del_button() {
-  document.querySelectorAll(".sensor_del_but").forEach((d) => {
-    if (d.style.display == "none") {
-      d.style.display = "";
-    } else {
-      d.style.display = "none";
-    }
-  });
-}
-
-async function delete_sensor(e) {
+const deleteSensor= async (e) => {
   if (e.target.type == "image") {
-    const del = e.target.parentElement;
-    dict = { id: e.target.id };
+    const sensorDelete = e.target.parentElement;
+    const sensorId = e.target.placeholder;
+    dict = { 
+      id: sensorId
+    };
     dataRep = await sendData("DELETE", dict);
     if (dataRep["response"] == "permission") {
-      del.remove();
-      document.querySelectorAll(".sen-fun-uid").forEach((u) => {
-        if (u.id == e.target.id) {
-          u.parentElement.remove();
-        }
-      });
+      sensorDelete.remove();
+      // document.querySelectorAll(".sensor-fun-uid").forEach((u) => {
+      //   if (u.id == e.target.id) {
+      //     u.parentElement.remove();
+      //   }
+      // });
     }
   }
 }
 
 function search() {
-  let sensors = document.getElementsByClassName("sensor_name");
-  let search = document.getElementById("search").value.toLowerCase();
+  const sensors = document.querySelectorAll("#sensor-name");
+  const search = document.querySelector("#search").value.toLowerCase();
+  console.log(search)
+  console.log(sensors)
+
   for (let sensor of sensors) {
     if (sensor.innerHTML.toLowerCase().indexOf(search.toLowerCase()) > -1) {
       sensor.parentElement.style.display = "";
@@ -189,23 +203,25 @@ function search() {
 }
 
 function showRfid(e) {
-  let rfid = document.querySelector(".select-rfid");
-  if (e.target.type == "radio" && e.target.value == "uid")
-    rfid.style.display = "block";
-  else if (e.target.type == "radio" && e.target.value != "uid")
-    rfid.style.display = "none";
+  let rfid = document.querySelector("#select-rfid");
+  const target = e.target;
+  if (target.type == "radio" && target.value == "uid")
+    rfid.classList.add('active-block');
+  else if (target.type == "radio" && target.value != "uid")
+    rfid.classList.remove('active-block');
+
 }
 
 window.onload = function () {
   document
-    .querySelector("#f_add_sensor")
-    .addEventListener("click", add_sensor_button);
+    .querySelector("#add-sensor")
+    .addEventListener("click", addSensorSelectButton);
   document
-    .querySelector("#add_del_button")
-    .addEventListener("click", add_del_button);
+    .querySelector("#add-del-button")
+    .addEventListener("click", addDelButton);
   document.querySelector("#search").addEventListener("keyup", search);
   document
     .querySelector(".sensor-container")
-    .addEventListener("click", delete_sensor);
+    .addEventListener("click", deleteSensor);
   document.querySelector(".select-sensor").addEventListener("click", showRfid);
 };

@@ -17,7 +17,6 @@
 	display: flex;
 	justify-content: start;
 }
-
 .container ul li{
 	list-style-type: none;
 	margin-left: 2em;
@@ -25,10 +24,6 @@
 .container ul li p {
 	margin-bottom: 1rem;
 }
-
-
-
-
 #rpl-btn{
 	margin-top:1rem;
 }

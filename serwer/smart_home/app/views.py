@@ -47,13 +47,11 @@ def loginUser(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-        try:
-            user = User.objects.get(username=username)
-        except:
+        if  User.objects.filter(username=username).exists():
+            user = authenticate(request, username=username, password=password)
+        else:
             messages.error(request, 'Użytkownik nie istenieje.')
             return redirect('login')
-        
-        user = authenticate(request, username=username, password=password)
         
         if user is not None:
             login(request,user)
@@ -224,7 +222,10 @@ def stairs(request):
                 else:    
                     stairs.mode = True
                     message = 'ON'
-                    
+        print(message)   
+        print(sensor.ip)   
+        print(sensor.port)   
+        
         if send_data(message,sensor.ip,sensor.port):
             stairs.save()       
             stairs = Stairs.objects.filter(sensor_id=get_data['id']).values()
@@ -322,11 +323,17 @@ def sunblind(request):
         get_data = json.loads(request.body)
         ip_port = Sensor.objects.get(pk=get_data['id'])
         message = 'set'+str(get_data['value'])
-        send_data(message,ip_port.ip,ip_port.port)
-        sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
-        sunblind.value = get_data['value']
-        sunblind.save()  
-        return render(request,'base/sunblind.html')
+        
+        if send_data(message,ip_port.ip,ip_port.port):
+            sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
+            sunblind.value = get_data['value']
+            sunblind.save()  
+            return JsonResponse({'success': 1})
+        
+        else:
+            return JsonResponse({'error': -1})
+        
+        
     
     sunblinds = []
     user_id = request.user.id
