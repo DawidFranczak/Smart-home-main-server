@@ -1,25 +1,42 @@
-<nav class="navbar">
-  <div class="path" >
-    <p class="path-name">321</p>
-    <div class="nav-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+<nav class="Navbar">
+  <div class="Navbar__path">
+    <a href="{% url 'home' %}" class="Navbar__path-name" id="path-name"></a>
+    <div class="Navbar__path__nav-toggle" id="nav-toggle">
+      <div class="Navbar__path__nav-toggle__bar"></div>
+      <div class="Navbar__path__nav-toggle__bar"></div>
+      <div class="Navbar__path__nav-toggle__bar"></div>
     </div>
   </div>
-  <ul class="nav-links">
-    <li><a href="{% url 'light' %}">Światła</a></li>
-    <li><a href="{% url 'stairs' %}">Schody</a></li>
-    <li><a href="{% url 'chart' %}">Temperatura</a></li>
-    <li><a href="{% url 'aquarium' %}">Akwarium</a></li>
-    <li><a href="{% url 'sunblind' %}">Rolety</a></li>
-    <li><a href="{% url 'sensor' %}">Urządzenia</a></li>
-    <li><a href="{% url 'rpl' %}">RPL</a></li>
-
+  <ul class="Navbar__nav-links" id="nav-links">
     {% if request.user.is_authenticated %}
-    <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'light' %}">Światła</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'stairs' %}">Schody</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'chart' %}">Temperatura</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'aquarium' %}">Akwarium</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'sunblind' %}">Rolety</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'sensor' %}">Urządzenia</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'rpl' %}">RPL</a>
+    </li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'logout' %}">Wyloguj</a>
+    </li>
     {% else %}
-    <li><a href="{% url 'login' %}">Zaloguj</a></li>
+    <li class="Navbar__nav-links__li">
+      <a class="Navbar__nav-links__li__a" href="{% url 'login' %}">Zaloguj</a>
+    </li>
     {% endif %}
   </ul>
 </nav>

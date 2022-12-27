@@ -21,14 +21,14 @@ def measurement_temp():
     ip = []
     port = []
     place = []
-    sensor_id =[]
+    sensor_id = []
     
     for i in cur.execute('SELECT ip, port,name,id FROM app_sensor WHERE fun = "temp"'):
         ip.append(i[0])
         port.append(i[1])
         place.append(i[2])
         sensor_id.append(i[3])
-        
+           
     cur.close()
     timeout = []
     not_connected = []
@@ -44,9 +44,10 @@ def measurement_temp():
             data_rec = sock.recvfrom(1024)
             measurement = data_rec[0].decode("UTF-8")
             print(f"Dokonano pomiaru w miejscu : {place[i]}, pomiar : {temp}")
-            temp = measurement.split('/')[0]
-            humi = measurement.split('/')[1]
-            add_temp_measurment(sensor_id[i], temp,humi)
+            # temp = measurement.split('/')[0]
+            # humi = measurement.split('/')[1]
+            # add_temp_measurment(sensor_id[i], temp,humi)
+            add_temp_measurment(sensor_id[i], measurement,"0.0")
             
         except socket.timeout:
             print(f"timeout {place[i]}")
@@ -221,8 +222,8 @@ if __name__ == '__main__':
     #     if hourOld != hourNew:
     #         hourOld = hourNew
     #         measurement_temp()
-        # if minuteOld != minuteNew:
-        #     checkAqua()
+    #     if minuteOld != minuteNew:
+    #         check_aqua_all()
             
     # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
     # wiad = str.encode("password_temp")

@@ -198,11 +198,10 @@ def data_for_chart(data_od, data_do, place):
     except ValueError:
         pass
     
-    temps = Temp.objects.filter(sensor_id=Sensor.objects.get(name=place))
+    temps = Temp.objects.filter(sensor_id=Sensor.objects.get(name=place)).filter(time__gte = data_od).filter(time__lte = data_do)
     
     for temp in temps:  # wyciągnięcie danych z bazy dancyh
         if str(temp.time) <= data_do and str(temp.time) >= str(data_od):
-            
             data_temp.append(temp.temp)
             data_time.append(str(temp.time)[:16])
             
@@ -247,9 +246,7 @@ def change_light(id):
         sock.sendto(wiad, (sensor.ip, 4324))
         sock.settimeout(1)
         data = sock.recvfrom(128)
-        data = data[0].decode('UTF-8')
-        sock.close()
-        
+        data = data[0].decode('UTF-8')        
         light = Light.objects.get(sensor_id = sensor.id)
         
         if data == 'ON':
@@ -260,15 +257,13 @@ def change_light(id):
             response = {'response': 0}
             
         light.save()    
-        return response
-    
     except TimeoutError:
-        print("nie udało się połączyć ")
-        sock.close()
         response = {'response': -1}
+    finally: 
+        sock.close()
         return response
+        
      
-    
 def send_data(_mess, _ip, _port):
     try:
         wiad = str.encode(_mess)
@@ -278,7 +273,8 @@ def send_data(_mess, _ip, _port):
         return True
     except:
         sock.close()
-    
+        return False
+
     
 def checkAqua(sensor,aqua):
     if datetime.now().hour < 10:
@@ -291,13 +287,13 @@ def checkAqua(sensor,aqua):
     else:
         minutes = ':'+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
         
-    timeNow = hours + minutes
-    ledStart = str(aqua.led_start)
-    ledStop = str(aqua.led_stop)
-    fluoStart = str(aqua.fluo_start)
-    fluoStop = str(aqua.fluo_stop)
+    time_now = hours + minutes
+    led_start = str(aqua.led_start)
+    led_stop = str(aqua.led_stop)
+    fluo_start = str(aqua.fluo_start)
+    fluo_stop = str(aqua.fluo_stop)
     
-    if ledStart < timeNow and ledStop > timeNow:
+    if led_start < time_now and led_stop > time_now:
         led = 'r1'
         aqua.led_mode=True  
     else:
@@ -307,7 +303,7 @@ def checkAqua(sensor,aqua):
     
     if send_data(led,sensor.ip,sensor.port):
         
-        if fluoStart < timeNow and fluoStop > timeNow:
+        if fluo_start < time_now and fluo_stop > time_now:
             fluo = 's1'
             aqua.fluo_mode=True
         else:

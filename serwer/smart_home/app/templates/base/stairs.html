@@ -2,68 +2,52 @@
 
 {% block title %}Schody{% endblock %}
 {% block content %}
-<script src="{% static 'script/stairs.js'%}"></script>
 <link
   rel="stylesheet"
   type="text/css"
   media="screen"
   href='{% static "style/stairs.css" %}'
 />
-
-<div class="container">
-  <div class="select-stairs">
-    <h1>Wybierz schody</h1>
-      {% for sensor in sensors %}
-          <input
-          type="button"
-          class="button"
-          value="{{sensor.name}}"
+<div class="Select-stairs" id="select-stairs">
+  <h1>Wybierz schody</h1>
+  <div class="Select-stairs__line"></div>
+    {% for sensor in sensors %}
+        <button 
+          class="Select-stairs__button"
           id="{{sensor.id}}"
-          />
-      {% endfor %}
-    <h2 class="mess"> </h2>
-  </div>
-  <p class="stairs-error-message"></p>
-
-  <div id="stairs_containers" class="stairs_containers">
-    <div>
-      <label for="lightingTime">Czas świecenia [s]</label>
-      <input type="number" id="lightingTime" min="1" />
-      <input
-        type="button"
-        class="stairs-btn"
-        value="Ustaw"
-        placeholder="lightingTime"
-      />
-    </div>
-    <div>
-      <label for="brightness">Jasność [%]</label>
-      <input type="number" id="brightness" min="0" max="100" />
-      <input
-        type="button"
-        class="stairs-btn"
-        value="Ustaw"
-        placeholder="brightness"
-      />
-    </div>
-    <div>
-      <label for="step">Ilość kroków</label>
-      <input type="number" id="step" min="1" />
-      <input
-        type="button"
-        class="stairs-btn"
-        value="Ustaw"
-        placeholder="step"
-      />
-      <br />
-      <input
-        type="button"
-        class="stairs-btn"
-        id="stairs-btn"
-        placeholder="stairs-btn"
-      />
-    </div>
-  </div>
+        >{{sensor.name}}</button>
+    {% endfor %}
+  <h2 class="Select-stairs__mess" id="mess"></h2>
 </div>
+<p class="Stairs-error-message" id="stairs-error-message"></p>
 
+<div class="Stairs-containers" id="stairs-containers">
+  <div class="Select-stairs__line"></div>
+    <label class="Stairs-containers__label" for="lightingTime">Czas świecenia [s]</label>
+    <input class="Stairs-containers__input" type="number" id="lightingTime" min="1" />
+    <button
+      class="Stairs-containers__button"
+      id="lightingTime">
+      Ustaw
+    </button>
+    <label class="Stairs-containers__label" for="brightness">Jasność [%]</label>
+    <input class="Stairs-containers__input" type="number" id="brightness" min="0" max="100" />
+    <button
+      class="Stairs-containers__button"
+      id="brightness">
+      Ustaw
+    </button>
+    <label class="Stairs-containers__label" for="step">Ilość kroków</label>
+    <input class="Stairs-containers__input" type="number" id="step" min="1" />
+    <button
+      class="Stairs-containers__button"
+      id="step">
+      Ustaw
+    </button>
+    <button
+      class="Stairs-containers__button"
+      id="stairs-button"
+     ></button>
+</div>
+<script src="{% static 'script/stairs.js'%}"></script>
 {% endblock content %}

@@ -1,37 +1,32 @@
-async function select_stairs() {
-  settings = await fetch(`/api/schody/${this.id}`);
+const selectStairs = async (e) => {
+
+  if (e.target.type != 'submit') return;
+  settings = await fetch(`/api/schody/${e.target.id}`);
   settings = await settings.json();
 
-  document.querySelector('.stairs-error-message').innerHTML = '';
- 
+  document.querySelector('#stairs-error-message').innerHTML = '';
   document.querySelector("#lightingTime").value = settings["lightTime"];
   document.querySelector("#brightness").value = settings["brightness"];
   document.querySelector("#step").value = settings["steps"];
-  document.querySelector(".stairs_containers").id = settings["sensor"];
 
-  document
-    .querySelector(".stairs_containers")
-    .setAttribute("style", "display:block");
-    
+  const stairs = document.querySelector("#stairs-containers");
+  const stairsBtn = document.querySelector("#stairs-button");
 
-  const stairsBtn = document.querySelector("#stairs-btn");
+  stairs.placeholder = settings["sensor"];
+  stairs.classList.add('Stairs-containers--active');
+  stairs.addEventListener("click", settingsStairs);
 
-  stairsBtn.value = settings["mode"] ? "Wyłącz" : "Włącz";
+  stairsBtn.innerHTML = settings["mode"] ? "Wyłącz" : "Włącz";
 
-  document
-    .querySelector(".stairs_containers")
-    .addEventListener("click", settings_stairs);
-
-  document.querySelector(".mess").innerHTML =`Wybrano ${this.value}`; 
+  document.querySelector("#mess").innerHTML =`Wybrano ${e.target.innerHTML}`; 
 }
 
-async function settings_stairs(e) {
-  if (e.target.type == "button") {
-    id = document.querySelector(".stairs_containers").id;
-    document.querySelector('.stairs-error-message').innerHTML = '';
-
-    switch (e.target.placeholder) {
-    case "stairs-btn":
+async function settingsStairs(e) {
+  if (e.target.type == "submit") {
+    id = document.querySelector("#stairs-containers").placeholder;
+    document.querySelector('#stairs-error-message').innerHTML = '';
+    switch (e.target.id) {
+    case "stairs-button":
       dict = { 
         action: "change-stairs",
         id: id
@@ -89,6 +84,6 @@ async function settings_stairs(e) {
 
 window.onload = function () {
   document
-    .querySelectorAll(".button")
-    .forEach((btn) => btn.addEventListener("click", select_stairs));
+  .querySelector("#select-stairs")
+  .addEventListener("click", selectStairs);
 };

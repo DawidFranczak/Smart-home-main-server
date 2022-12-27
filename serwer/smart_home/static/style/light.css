@@ -1,19 +1,26 @@
 
-.led_container {
+.Led-container {
 	display: flex;
 	justify-content: center;
 	flex-direction:column;
 	align-items:center;
 }
-.led_container div{
-	display: flex;
-	justify-content: space-between;
+.Led-container__div{
+	display: grid;
+	grid-template: 70px 20px / 1fr 1fr;
+	margin: 0.5em 0 0.5em 0;
 }
-.led_container p{
-	margin-right: 1em;
-	color: rgb(255, 255, 255);
+.Led-container__div__image{
+	width: 40px;
+	place-self: center;
+
 }
-.light-error-message{
-	margin: 0;
-	padding: 0;
+.Led-container__div__light-name{
+	width: 100px;
+}
+.Led-container__div__error-message{
+	grid-area: 2/1/2/3;
+	place-self: center;
+	font-size: 0.75em;
+	color: rgba(255, 0, 0, 0.6);
 }

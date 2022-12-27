@@ -1,0 +1,89 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Data
+{
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+}
+.Data__time__clock {
+    display: grid;
+    justify-items: center;
+    font-size: 1.25em;
+    margin-top: 0.25em;
+}
+.Data__time__date{
+    display: grid;
+    justify-items: center;
+}
+.Data__weather{
+    font-size: 1.25em;
+    margin-top: 0.25em;
+}
+.Data__weather__locality {
+    display: grid;
+    justify-items: center;
+}
+.Data__weather__temp {
+    display: grid;
+    justify-items: center;
+}
+
+.Nav-home{
+    margin-top: 2em;
+    display: grid;
+    grid-template: repeat(4, 1fr)/repeat(5, 1fr);
+    height: 320px;
+    width: 320px;
+    place-items: center;
+}
+.Nav-home--size{
+    width: 3em;
+}
+.Nav-home__home{
+    grid-area: 2/2/5/5;
+    width: 10em;
+}
+
+.Nav-home--size:hover{
+    transform: scale(1.5);
+    transition: 0.5s;
+}
+.Nav-home__a{
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: black;
+}
+  
+@media only screen and (min-width:750px) {
+    .Nav-home{
+        height: 500px;
+        width: 700px;
+    }
+    .Nav-home__home{
+        width: 400px;
+    }
+    .Nav-home--size{
+        width: 70px;
+    }
+}
+
+@media only screen and (min-width:900px) {
+    .Nav-home{
+        height: 40vw;
+        width: 70vw;
+    }
+    .Nav-home__home{
+        width: 40vw;
+    }
+    .Nav-home--size{
+        width: 4.5vw;
+
+    }
+
+}
+

@@ -1,0 +1,88 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/home.css" %}'>
+<section class="Data">
+    <div class="Data__time">
+        <div class="Data__time__clock" id="clock"></div>
+        <div class="Data__time__date" id="date"></div>
+    </div>
+    <div class="Data__weather" id="weather">
+        <div class="Data__weather__locality" id="locality"></div>
+        <div class="Data__weather__temp" id="temp"></div>
+        <div class="Data__weather__wind"></div>
+    </div>
+</section>
+<section>
+    <div class="Nav-home">
+        <a class="Nav-home__a" href="{% url 'sunblind' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/window.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'chart' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/temp.png' %}"
+            />
+        </a>
+        <img
+        class="Nav-home--size"
+        src="{% static 'images/user.png' %}"
+        alt="Ładny domek"
+        />
+        <img
+        class="Nav-home__home"
+        src="{% static 'images/home.png' %}"
+        alt="Ładny domek"
+        />
+        <a class="Nav-home__a" href="{% url 'light' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/lamp.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'stairs' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/stairs.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'aquarium' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/aqua.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'sensor' %}">        
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/connect.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'rpl' %}">      
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/rfid.png' %}"
+            />
+        </a>
+        <a class="Nav-home__a" href="{% url 'logout' %}">
+            <input
+            type="image"
+            class="Nav-home--size"
+            src="{% static 'images/logout.png' %}"
+            />
+        </a>
+    </div>
+</section>
+<script src="{% static 'script/home.js' %}"></script>
+{% endblock content %}

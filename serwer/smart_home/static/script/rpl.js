@@ -2,7 +2,7 @@ const rplConnect = async () =>{
 
   const lamp = document.querySelectorAll("#lamp");
   const rfid = document.querySelectorAll("#rfid");
-  const btn = document.querySelectorAll("#btn");
+  const btn = document.querySelectorAll("#button");
 
   let rfids = [];
   let btns = [];
@@ -58,7 +58,7 @@ const selectRpl = async (e)=>{
       }
     });
 
-    document.querySelectorAll("#btn").forEach((r) => {
+    document.querySelectorAll("#button").forEach((r) => {
       r.checked = false;
       for (id of data["btn"]) {
         if (r.value == id) {

@@ -4,18 +4,15 @@
 
 
 #define WIFILED 1    // Sygnalizcja podłączenia do wifi
-#define BUTTON 2     // Przycisk do włączenia oświetlenia
-#define ADDBUTTON 3
+#define ADDBUTTON 2     // Przycisk do włączenia oświetlenia
+#define BUTTON 3  // Dodanie urządzenia do systemu
 
 // Połączenie z siecą WiFi
-const char* ssid = "Tenda";
-const char* password = "1RKKHAPIEJ";
-
-// const char* ssid = "UPC917D5E9";
-// const char* password = "7jxkHw2efapT";
+const char* ssid = "Nazwa _sieci_wifi";
+const char* password = "Hasło_sieci_wifi";
 
 // Porty oraz ip do komunikacji
-char serwerIp [15] = "192.168.0.124";
+IPAddress serwerIp(192,168,0,124);
 int serwerPort = 6785;
 
 // Port oraz ip uC
@@ -23,10 +20,9 @@ unsigned int UdpPort = 7894;
 WiFiUDP UDP;
 
 // Odbieranie oraz wysyłani danych
-int paczkaDanych;
+int incomingData;
 char dataPackage[255];
 String date;
-
 
 // Ustawienie czasu wciśnięcia przycisku 
 unsigned long presenTime;
@@ -36,37 +32,35 @@ bool click = false;
 
 
 void setup() {
-  // Inicjalizacja
+
+  // Inicjalizacja wejść/wyjść
   pinMode(BUTTON,INPUT_PULLUP);
   pinMode(WIFILED,OUTPUT);
   pinMode(ADDBUTTON,INPUT_PULLUP);
 
-
-  // Serial.begin(9600);
-  WiFi.begin(ssid,password);
-  UDP.begin(UdpPort);
+  // Połączenie z siecią wifi oraz uruchomienie protokołu UDP
   digitalWrite(WIFILED,HIGH);
+  WiFi.begin(ssid,password);
   while (WiFi.status() != WL_CONNECTED) delay(1);
-  Serial.print(WiFi.localIP());
-
+  UDP.begin(UdpPort);
 }
 
 void loop() {
   // Sygnalizacja podłączenia wifi
   if(WiFi.status() == WL_CONNECTED)  digitalWrite(WIFILED,LOW);
   else digitalWrite(WIFILED,HIGH);
-
-  paczkaDanych = UDP.parsePacket();
-  if(paczkaDanych){
+  incomingData = UDP.parsePacket();
+  if(incomingData){
     int len = UDP.read(dataPackage, 255);
     if (len > 0) dataPackage[len] = 0;
       date = dataPackage;
       
        // Dodanie urządzneia
-    if (date == "password_btn" && digitalRead(ADDBUTTON) == HIGH){ //&& digitalRead(ADDBUTTON) == LOW
+    if (date == "password_btn" && digitalRead(ADDBUTTON) == HIGH){
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
       UDP.write("respond_btn");
       UDP.endPacket();
+      serwerIp = UDP.remoteIP(); 
     } 
   }
 
@@ -80,6 +74,7 @@ void loop() {
   }
   presenTime = millis();
   if(presenTime - startTime >= pressTime && click ){
+
   // Włączenie lamp bez limitu czasowego
     if(digitalRead(BUTTON) == LOW){
       UDP.beginPacket(serwerIp, serwerPort);
@@ -88,6 +83,7 @@ void loop() {
       while(digitalRead(BUTTON) == LOW) delay(1);
       click = false;
     }
+
     // Włączenie lamp z limitem czasowym 
     else{
       UDP.beginPacket(serwerIp, serwerPort);

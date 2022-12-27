@@ -1,33 +1,31 @@
-const sunblind = function (e){
-  const sunblindValue = document.getElementById(this.placeholder);
+const sunblind = (e) =>{
+  const slider = e.target;
+  const sunblindValue = document.getElementById(slider.placeholder);
+  if(e.target.type === "range"){
   switch (e.type) {
-    case "mousedown":
-      this.oninput = function () {
-        sunblindValue.innerHTML = this.value;
-      };
+    case "pointermove":
+        sunblindValue.innerHTML = slider.value;
       break;
-
-    case "mouseup":
+    case "pointerup":
       let dict = { 
         action: "set", 
-        value: this.value, 
-        id: this.placeholder 
+        value: slider.value, 
+        id: slider.placeholder 
       };
       sendData("POST", dict)
       break;
+    }
+  }
+  else if(e.target.type ==="submit" && e.type === "pointerdown" ){
+    document.querySelectorAll("#button-calibration").forEach(button => {
+      button.classList.toggle('Sunblind-containers__calibration-button--avtive');
+    });
   }
 }
 
-window.onload = function () {
-  document.querySelector("#calibration").addEventListener("click", () => {
-    document.querySelector(".calibration-button").classList.toggle('calibration-button-active');
-    document.querySelectorAll(".cal-button").forEach((btn) => {
-      btn.classList.toggle('calibration-button-active');
-    });
-  });
 
-  document.querySelectorAll(".slider").forEach((slider) => {
-    slider.addEventListener("mousedown",sunblind);
-    slider.addEventListener("mouseup", sunblind);
-  });
+window.onload = function () {
+  document.querySelector('#container').addEventListener('pointermove',sunblind);
+  document.querySelector('#container').addEventListener('pointerup',sunblind);
+  document.querySelector('#container').addEventListener('pointerdown',sunblind);
 };

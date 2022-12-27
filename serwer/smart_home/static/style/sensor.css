@@ -1,82 +1,217 @@
-.container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sensor-add{
-  display: flex;
+.Sensor-add{
+  display: none;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
   margin-right: 0em;
-}
-.select-sensor{
   padding-top: 1rem;
 }
-#search{
-  margin: 1rem;
+.Sensor-add--active{
+  display: flex;
 }
 
-.select {
+.Sensor-add__name{
+  border-radius: 10px;
+	border-color: white;
+	font-size: 0.75em;
+  margin-top: 1em;
+  height: 1.5em;
+}
+.Sensor-add__select {
   margin: 0;
   padding: 1rem;
 }
-.select li{
+.Sensor-add__select__li{
   list-style-type: none;
 }
-.select-rfid{
+.Sensor-add__select__li__sensor-fun{
+  place-self: center;
+  position: relative;
+}
+.Sensor-add__select__li__sensor-fun::before{
+	content: "";
+  width: 150px;
+  height: 30px;
+  position: absolute;
+  top: -7.5px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background-color: #81d4fa;
+  /* background-color: rgba(255,255,255,0.5); */
+  transition: transform 0.3s;
+  border-radius: 15px;
+  transform:scaleX(0);
+}
+.Sensor-add__select__li__sensor-fun:checked::before{
+  transform:scaleX(1)
+}
+.Sensor-add__select__li__sensor-fun + label{
+
+  font-family: cursive;
+
+}
+.Sensor-add__select__select-rfid{
   display: none;
 }
-
-.select-rfid ul {
-  padding-left: 1rem;
+.Sensor-add__select__select-rfid ul{
+  margin-top:0.25em;
 }
-.sensor-container{
-  margin: 0;
-  padding: 0;
-}
-.sensor-container ul{
-  margin: 0;
-  padding: 0;
-}
-.sensor-container li{
-  display: flex;
-  flex-direction: column;
-
-}
-.sensor-container li ul{
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-}
-.sensor-container li ul p {
-  display: flex;
-  justify-content: center;
-  width: 100px;
-  padding: 0 0.5em 0 0.5em;
-}
-.sensor-del-button{
-  display: none;
-  width: 40px;
-  height: 40px;
-}
-.active-block{
+.Sensor-add__select__select-rfid--active{
   display: block;
 }
-  
-@media only screen and (min-width: 650px) {
+.Sensor-add__select__select-rfid__uid{
+  position: relative;
+}
+.Sensor-add__select__select-rfid__uid::before{
+	content: "";
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  top: -7.5px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background-color: rgba(255,255,255,0.5);
+  transition: transform 0.3s;
+  border-radius: 15px;
+  transform:scaleX(0);
+}
+.Sensor-add__select__select-rfid__uid:checked::before{
+  transform:scaleX(1)
+}
+.Sensor-add__select__select-rfid__uid + label{
+  font-family: cursive;
+}
+
+.Sensor-add__button-save,
+.Sensor-add__button-back{
+  margin-top: 0.25em;
+	font-size: 1em;
+	width: 6.5em;
+	background: none;
+	border-radius: 15px;
+	border-color: rgba(0,0,0,0.2);
+	border-width: 2px;
+	font-family: cursive;
+	cursor: pointer;
+	position: relative;
+}
+
+
+.Add-sensor-button{
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1em;
+}
+.Add-sensor-button--active{
+  display: flex;
+}
+.Add-sensor-button__add,
+.Add-sensor-button__delete {
+  margin-top: 0.25em;
+	font-size: 1em;
+	width:7.5em;
+	background: none;
+	border-radius: 15px;
+	border-color: rgba(0,0,0,0.2);
+	border-width: 2px;
+	font-family: cursive;
+	cursor: pointer;
+	position: relative;
+}
+
+
+.Sensor-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.Sensor-container__search{
+  border-radius: 10px;
+	border-color: white;
+	font-size: 0.75em;
+  margin-top: 1em;
+  height: 1.5em;
+}
+.Sensor-container__ul{
+  list-style: none;
+  padding: 0.75em;
+}
+
+.Sensor-container__ul__sensor{
+  width: 300px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Sensor-container__ul__sensor__sensor-img{
+  width: 2em;
+  place-self: center;
+}
+
+.Sensor-container__ul__sensor__del-button{
+  display: none;
+  place-self: center;
+  width: 3.5em;
+}
+
+.Sensor-container__ul__sensor__del-button--active{
+  display: block;
+}
+
+@media only screen and (min-width: 700px) {
   .container{
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: flex-start;
   }
-  .sensor-add{
-    margin-right: 1em;
+  .Sensor-add{
+    padding-top: 0.5em;
   }
+
+  .Sensor-container__search{
+    position: relative;
+    top: 10px;
+    left: -50px;
+  }
+  .Add-sensor-button {
+    margin-top: 1em;
+  }
+  .Add-sensor-button__delete::before,
+  .Add-sensor-button__add::before,
+  .Sensor-add__button-save::before,
+  .Sensor-add__button-back::before{
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: -1;
+		transition: transform 0.3s;
+		border-radius: 15px;
+		transform:scaleX(0);
+    background-color: white;
+  }
+  .Add-sensor-button__delete:hover::before,
+	.Add-sensor-button__add:hover::before,
+  .Sensor-add__button-save:hover::before,
+  .Sensor-add__button-back:hover::before{
+		transform:scaleX(1)
+	}
+
+  .Add-sensor-button__delete::before{
+    background-color: rgb(255, 0, 0);
+  }
+  .Add-sensor-button__add::before{
+    background-color: rgb(0, 255, 0);
+  }
+
+
 }
 

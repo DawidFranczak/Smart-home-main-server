@@ -1,10 +1,12 @@
-async function changeLight() {
-  const lamp = this;
+const changeLight = async (e) =>{
+  const lamp = e.target;
 
+  if (lamp.type === "image"){
   dict = { 
     action: "change", 
     id: lamp.id 
   };
+
   const dataRep = await sendData("POST", dict);
 
   switch(dataRep["response"]){
@@ -15,13 +17,12 @@ async function changeLight() {
      lamp.src = "/static/images/lamp_off.png";
      break;
   case -1:
-    lamp.parentElement.nextElementSibling.innerHTML = 'Nie udało się połączyć z lampą';
+    lamp.nextElementSibling.innerHTML = 'Nie udało się połączyć z lampą';
     break;
+  }
   }
 }
 
 window.onload = function () {
-  document.querySelectorAll(".button").forEach((b) => {
-    b.addEventListener("click", changeLight);
-  });
+  document.querySelector("#led-container").addEventListener("click", changeLight);
 };

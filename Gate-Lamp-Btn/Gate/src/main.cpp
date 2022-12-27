@@ -8,18 +8,15 @@
 #define SS_PIN  D8 // Czujnik RFID
 
 #define BUZZER D1  // Sygnalizacja otwarcia furki 
-#define ADDBUTTON D3 
+#define ADDBUTTON D3 // Dodanie urządenia do serwera
 #define WIFILED D4 // Sygnalizcja podłączenia do wifi
 
 #define GATE D2    // Furtka
-#define OPTO D3    // Optotranzystor
+#define OPTO D5    // Domofon
 
 // Połączenie z siecą WiFi
 const char* ssid = "Tenda";
 const char* password = "1RKKHAPIEJ";
-
-// const char* ssid = "UPC917D5E9";
-// const char* password = "7jxkHw2efapT";
 
 // Czas otwarcia furtki
 unsigned long presetTime = 0;
@@ -52,18 +49,16 @@ String date;
 IPAddress serwerIP(192,168,0,124);
 int serwerPort = 6785;
 
-
 // Logika
 bool openGate = false;
 bool zgoda = false;
-
 
 // Czujnik RFID
 MFRC522 rfid(SS_PIN, RST_PIN); 
 String UID = "";
 
 
-void access();        // Funkcja otwierająca furtkę oraz sprawdzająca jasność oświetlenia słonecznego 
+void access(IPAddress serwerIP, int serwerPort);        // Funkcja otwierająca furtkę oraz sprawdzająca jasność oświetlenia słonecznego 
 void accessDenied();  // Funkcja dająca sygnał dzwiękowy o braku możliwości otwarcia
 void sendUID(String UID, IPAddress serwerIP, int serwerPort); // Wysłanie UID do serwera 
 String readUID(); // Odczytanie UID z breloka/karty
@@ -80,17 +75,14 @@ void setup() {
   digitalWrite(WIFILED,LOW);
   pinMode(ADDBUTTON,INPUT_PULLUP);
 
-
   // Uruchomienie czujnika RFID, magistarali SPI, wifi, oraz protokołu UDP 
   SPI.begin(); 
   rfid.PCD_Init(); 
   WiFi.begin(ssid, password);
   UDP.begin(localUdpPort);
-  Serial.begin(9600);
   digitalWrite(WIFILED,HIGH);
 
-  while(WiFi.status() != WL_CONNECTED){delay(1);}
-  Serial.print(WiFi.localIP()); 
+  while(WiFi.status() != WL_CONNECTED) delay(1);
 }
 
 void loop() {
@@ -98,10 +90,10 @@ void loop() {
   if(WiFi.status() == WL_CONNECTED){digitalWrite(WIFILED,LOW);} 
   else digitalWrite(WIFILED,HIGH);
 
-  // Otwarcie furtki poprzez przycisk 
+  // Otwarcie furtki poprzez domofon 
   if(digitalRead(OPTO) == LOW){
     delay(20);
-    if(digitalRead(OPTO) == LOW) access();
+    if(digitalRead(OPTO) == LOW) access(serwerIP, serwerPort);
   }
   
   // Odebranie danych 
@@ -120,15 +112,7 @@ void loop() {
         serwerIP = UDP.remoteIP(); 
       }
      // Otwarcie furtki poprzez wifi
-    else if(date == "access") {
-      Serial.print(analogRead(A0));
-      if(analogRead(A0)<light){
-        UDP.beginPacket(serwerIP, serwerPort);
-        UDP.write("RFID");
-        UDP.endPacket();
-        }
-      access();
-      }
+    else if(date == "access") access(serwerIP, serwerPort);
     else if(date == "access-denied") accessDenied();
     else if(date == "add-tag"){
       startAdd = millis();
@@ -174,7 +158,12 @@ void loop() {
   }
 }
 
-void access(){
+void access(IPAddress serwerIP, int serwerPort){
+    if(analogRead(A0)<light){
+      UDP.beginPacket(serwerIP, serwerPort);
+      UDP.write("RFID");
+      UDP.endPacket();
+    }
     digitalWrite(GATE,HIGH);
     tone(BUZZER,1000);
     openGate = true;

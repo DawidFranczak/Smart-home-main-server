@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-#include <string.h>
 
 #define ADDBUTTON D3
 #define WIFILED D4
@@ -11,8 +10,13 @@
 #define IN3 D7
 #define IN4 D8
 
-const char* ssid = "Tenda";
-const char* password = "1RKKHAPIEJ";
+const char* ssid = "Nazwa_sieci_wifi";
+const char* password = "Hasło_siecie_wifi";
+
+unsigned int udpPort = 9846;
+char dataPackage[255];
+String date;
+WiFiUDP UDP;
 
 // const char* ssid = "UPC917D5E9";
 // const char* password = "7jxkHw2efapT";
@@ -22,10 +26,6 @@ int phase = 0;
 int maxMove = 2048;
 bool up = false, down = false, save = false;
 
-unsigned int UdpPort = 9846;
-char data_package[255];
-String date;
-WiFiUDP UDP;
 
 void step(bool direction);
 int calibration();
@@ -33,6 +33,8 @@ void setPosition(int newPosition);
 void off();
 
 void setup() {
+
+  // Konfiguracja pinów
   pinMode(IN1,OUTPUT);
   pinMode(IN2,OUTPUT);
   pinMode(IN3,OUTPUT);
@@ -40,35 +42,45 @@ void setup() {
   pinMode(WIFILED,OUTPUT);
   pinMode(ADDBUTTON,INPUT_PULLUP);
 
-
-  Serial.begin(9600);
-  WiFi.begin(ssid,password);
+  // Ustawienie pinu na stan wysoki
   digitalWrite(WIFILED,HIGH);
+
+  // Połączenie z siecią wifi
+  WiFi.begin(ssid,password);
+
+  // oczekiwanie na połączenie
   while (WiFi.status() != WL_CONNECTED) delay(1);
-  UDP.begin(UdpPort);
+
+  // uruchomienie protokołu UDP do przesyłu danych
+  UDP.begin(udpPort);
 }
 
 void loop() {
- if (WiFi.status() == WL_CONNECTED) digitalWrite(WIFILED,LOW);
- else digitalWrite(WIFILED,HIGH);
 
+  //Sprawdzeni połączenia z siecią wifi
+  if (WiFi.status() == WL_CONNECTED) digitalWrite(WIFILED,LOW);
+  else digitalWrite(WIFILED,HIGH);
 
   int dataSize = UDP.parsePacket();
   if(dataSize){
-    int len = UDP.read(data_package, 255);
-    if (len > 0) data_package[len] = 0;
-    date = data_package;
-    Serial.println(date);
+    int len = UDP.read(dataPackage, 255);
+    if (len > 0) dataPackage[len] = 0;
+    date = dataPackage;
 
+    // Dodanie rolery do serwera
     if(date == "password_sunblind" && digitalRead(ADDBUTTON) == HIGH){
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
         UDP.write("respond_sunblind");
         UDP.endPacket(); 
     }
+
+    // Ustawienie pozycji rolety
     else if(date.substring(0,3) == "set"){
       int position = (maxMove * date.substring(3).toInt())/100;
       setPosition(position);
     }
+
+    // Kalibracja rolty
     else if(date == "calibration"){
       maxMove = calibration();
       oldPosition = maxMove;
@@ -81,9 +93,9 @@ int calibration(){
   while(true){
     int dataSize = UDP.parsePacket();
     if(dataSize){
-      int len = UDP.read(data_package, 255);
-      if (len > 0) data_package[len] = 0;
-      date = data_package;
+      int len = UDP.read(dataPackage, 255);
+      if (len > 0) dataPackage[len] = 0;
+      date = dataPackage;
       Serial.println(date);
       if(date == "up"){
         up = true; 

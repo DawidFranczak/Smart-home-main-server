@@ -19,7 +19,7 @@ class Sensor(models.Model):
     
 class Temp(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now_add = True)
+    time = models.DateTimeField(auto_now_add = False)
     temp = models.CharField(max_length=10)
     humi = models.CharField(max_length=10,default="")
 

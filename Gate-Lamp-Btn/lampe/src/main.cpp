@@ -3,24 +3,15 @@
 #include <WiFiUdp.h>
 #include <Adafruit_PWMServoDriver.h>
 
-#define ADDBUTTON D3
+#define ADDBUTTON D3 // Dodane urządzenia do systemu
 #define WIFILED D4 // Sygnalizcja podłączenia do wifi
 
 // Połączenie z siecą WiFi
-const char* ssid = "Tenda";
-const char* password = "1RKKHAPIEJ";
+const char* ssid = "Nazwa_sieci_wifi";
+const char* password = "Hasło_sieci_wifi";
 
-// const char* ssid = "UPC917D5E9";
-// const char* password = "7jxkHw2efapT";
-
-// Czas zapalenia oświetlenia
-unsigned long startTime = 0;
-unsigned long presentTime = 0;
-unsigned long lightingTime = 3000;
-
-// Port oraz ip uC
+// Komunikacja uC
 unsigned int udpPort = 4569;
-WiFiUDP UDP;
 
 // Odbieranie oraz wysyłani danych
 char dataPackage[255];
@@ -32,6 +23,11 @@ bool lightOnRFID = false;
 bool lightOnSwitch = false;
 bool lightOn = false;
 
+// Czas zapalenia oświetlenia
+unsigned long startTime = 0;
+unsigned long presentTime = 0;
+unsigned long lightingTime = 3000;
+
 // Ustawienia jasnośći oraz ilości kroków
 int brightness = 4096;
 int step = 21;
@@ -40,6 +36,10 @@ int lampNumber = 16;
 // Utworzenie obiektu pwm o adresie 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 
+// Utworzenie obiektu UDP
+WiFiUDP UDP;
+
+
 void off();               // Zgaszenie wszytskich lamp
 void turnOnFromRFID();    // Zapalenie poprzez czytkin rfid
 void turnOnFromSwitch();  // Zapalenie poprzez przycisk 
@@ -47,15 +47,20 @@ void turnOffFromSwitch(); // Zgaszenie świateł zapalonych poprzez przycisk
 void turnOffFromRFID();   // Zgaszenie świateł zapalonych poprzez czytnik rfid
 
 void setup() {
-  // Inicjalizacja
+  // Inicjalizacja wejść/wyjść
   pinMode(WIFILED,OUTPUT);
   pinMode(ADDBUTTON,INPUT_PULLUP);
-  Serial.begin(9600);
 
   digitalWrite(WIFILED,HIGH);
+
+  // Łączenie z siecia wifi
   WiFi.begin(ssid,password);
   while(WiFi.status() != WL_CONNECTED) delay(1);
+
+  // Uruchomienie portu UDP
   UDP.begin(udpPort);
+
+  // Konfiguracja PCA9685
   pwm.begin();
   pwm.setPWMFreq(500);
   off();
@@ -72,14 +77,13 @@ void loop() {
     int len = UDP.read(dataPackage, 255);
     if (len > 0) dataPackage[len] = 0;
     date = dataPackage;
-    Serial.println("\n");
-    Serial.println(date);
 
     if (date == "password_lamp" && digitalRead(ADDBUTTON) == HIGH) { 
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
       UDP.write("respond_lamp");
       UDP.endPacket();
     }
+    // Załączenie lamp w stronę drzwi
     else if(date == "RFID" ){
       if (lightOnSwitch== false && lightOn == false && lightOnRFID == false){
         turnOnFromRFID();
@@ -88,6 +92,7 @@ void loop() {
       }
       else if (lightOnRFID) startTime = millis();
     }
+    // Załączenie lamp w stronę drzwi z włączonym limitem czasowym
     else if(date == "click"){
       if (lightOnRFID== false && lightOn == false && lightOnSwitch == false){
         turnOnFromSwitch();
@@ -96,6 +101,7 @@ void loop() {
       }
       else if (lightOnSwitch) startTime = millis();
     }
+    // Załączenie lamp w stronę drzwi z wyłączonym limitem czasowym
     else if(date == "still" ){
       if (lightOnSwitch == false && lightOnRFID == false && lightOn == false){
         turnOnFromSwitch();
@@ -110,6 +116,8 @@ void loop() {
     else if(date.substring(0,2) == "sp") step = 4096/date.substring(2).toInt(); 
     else if(date.substring(0,2) == "te") lightingTime = 1000*date.substring(2).toInt();
   }
+
+  
   // Odmierzanie czasu do zgaszenia lamp
   presentTime = millis();
   if(presentTime - startTime >=lightingTime && lightOnRFID){

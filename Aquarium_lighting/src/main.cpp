@@ -1,11 +1,10 @@
+#include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <Wire.h>
-#include <String.h>
 #include <WiFiUdp.h>
 
 
 // Przypisanie pinów
-#define SWIETLOWKA D3 
+#define FLUOLAMP D3 
 #define WIFILED D4
 #define BLUEPIN  D5 
 #define GREENPIN  D6 
@@ -14,29 +13,24 @@
 
 
 // Dane do sieci wifi
-const char* ssid     = "Tenda";
-const char* password = "1RKKHAPIEJ";
+const char* ssid = "Nazwa_sieci_wifi";
+const char* password = "Hasło_sieci_wifi";
 
-// const char* ssid = "UPC917D5E9";
-// const char* password = "7jxkHw2efapT";
+// Port uC
+unsigned int udpPort = 7863;
 
-unsigned int UdpPort = 7863;
-char data_package[255];
+// Odbieranie oraz wysyłanie dancyh
+char dataPackage[255];
 String date;
+int incomingData;
 
-int paczka_danych;
-
-int blue = 255, red = 255, green =255;
-
-bool mode = false;
+// Obsługa oświetlenia
+int blue = 255, red = 255, green = 255;
+bool ledMode = false;
 
 WiFiUDP UDP;
 
 void setup() {
-  UDP.begin(UdpPort);
-  Serial.begin(9600);
-  pinMode(D4,OUTPUT);
-  digitalWrite(D4,HIGH);
 
   // Konfiguracja pwm
   analogWriteRange(255);
@@ -45,41 +39,44 @@ void setup() {
   analogWrite(GREENPIN, 0);
   analogWrite(BLUEPIN, 0);
 
-  
-  //konfiguracja pinów
-  pinMode(SWIETLOWKA,OUTPUT); // swietlowka
+  // Konfiguracja pinów
+  pinMode(FLUOLAMP,OUTPUT); 
   pinMode(ADDBUTTON,INPUT_PULLUP);
-  //Łączenie z wifi
+  pinMode(WIFILED,OUTPUT);
+  digitalWrite(WIFILED,HIGH);
+
+  // Łączenie z wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)  delay(1);
+
+  // Uruchomienie protokołu UDP
+  UDP.begin(udpPort);
 }
 
 void loop(){
   if (WiFi.status() == WL_CONNECTED) digitalWrite(D4,LOW);
   else digitalWrite(D4,HIGH);
 
-  paczka_danych = UDP.parsePacket();
-  if(paczka_danych){
-    int len = UDP.read(data_package, 255);
-    if (len > 0) data_package[len] = 0;
+  incomingData = UDP.parsePacket();
+  if(incomingData){
+    int len = UDP.read(dataPackage, 255);
+    if (len > 0) dataPackage[len] = 0;
 
-    date = data_package;
-    Serial.println(date);
-    Serial.println(digitalRead(ADDBUTTON));
+    date = dataPackage;
 
     if (date == "r1"){
       analogWrite(BLUEPIN, blue);
       analogWrite(GREENPIN, green);
       analogWrite(REDPIN, red);
-      mode = true;
+      ledMode = true;
     }
     else if (date == "r0"){
       analogWrite(BLUEPIN,0);
       analogWrite(GREENPIN, 0);
       analogWrite(REDPIN, 0);
-      mode = false;
+      ledMode = false;
     }
-    else if(date.substring(0,1) == "r" && mode){
+    else if(date.substring(0,1) == "r" && ledMode){
       blue = date.substring(1,date.indexOf("g")).toInt();
       green = date.substring(date.indexOf("g")+1,date.indexOf("b")).toInt();
       red = date.substring(date.indexOf("b")+1).toInt();
@@ -88,13 +85,13 @@ void loop(){
       analogWrite(REDPIN, red);
     }
     else if (date == "s0"){
-      digitalWrite(SWIETLOWKA,HIGH);
+      digitalWrite(FLUOLAMP,HIGH);
     }
     else if (date == "s1"){
-      digitalWrite(SWIETLOWKA,LOW);
+      digitalWrite(FLUOLAMP,LOW);
     }
     else if (date == "password_aqua" && digitalRead(ADDBUTTON)==HIGH){
-        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); // odesłanie do nadawcy
+        UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
         UDP.write("respond_aqua");
         UDP.endPacket();
     }

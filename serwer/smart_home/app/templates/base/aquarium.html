@@ -7,24 +7,23 @@
   media="screen"
   href='{% static "style/aqua.css" %}'
 />
-
-<div class="container">
-  <div class="select-aqua" id="select-aqua">
+  <section class="Select-aqua" id="select-aqua">
     <h1>Wybierz akwarium</h1>
+    <div class="Select-aqua__line"></div>
       {% for aqua in aquas %}
-        <input
-          type="button"
-          class="button"
-          value="{{aqua.name}}"
+        <button
+          class="Select-aqua__button"
           id="{{aqua.id}}"
-        />
+          >
+          {{aqua.name}}
+        </button>
       {% endfor %}
-    <h2 class="mess" id="mess" ></h2>
-  </div>
-
-  <div id="containers-aqua" class="containers-aqua">
-    <h1>Wybierz kolor</h1>
-
+    <h2 class="Select-aqua__select" id="select"></h2>
+  </section>
+  <section class="Containers-aqua" id="containers-aqua">
+    <div class="Select-aqua__line"></div>
+    <p class="Containers-aqua__p-header">Ustawienia</p>
+    <p class="Containers-aqua__p">Wybierz kolor</p>
     <input
       id="color"
       value="rgb(255,255,255)"
@@ -33,32 +32,32 @@
       data-current-color="rgba(255,0,0)"
     />
     <P class="aqua-error-message"></P>
-
-    <div id="settings-aqua">
-      <h1>Ustawienia</h1>
-      <h3>Załączenie led</h3>
-      <input type="time" id="led-start" />
-      <input type="time" id="led-stop" /> <br /><br />
+    <div class="Containers-aqua__settings-aqua" id="settings-aqua">
+      <p class="Containers-aqua__settings-aqua__p">Załączenie led</p>
+      <div class="Containers-aqua__settings-aqua__led">
+        <input type="time" id="led-start"/>
+        <input type="time" id="led-stop"/>
+      </div>
       <p id="led-mess"></p>
-      <input type="button" id="led-button" value="Ustaw" />
-
-      <h3>Załączenie swietlówki</h3>
-      <input type="time" id="fluolamp-start" />
-      <input type="time" id="fluolamp-stop" /> <br /><br />
+      <button class="Containers-aqua__settings-aqua__button" id="led-button">Ustaw</button>
+      <p class="Containers-aqua__settings-aqua__p">Załączenie swietlówki</p>
+      <div class="Containers-aqua__settings-aqua__fluolamp">
+        <input type="time" id="fluolamp-start" />
+        <input type="time" id="fluolamp-stop" />
+      </div>
       <p id="fluolamp-mess"></p>
-      <input type="button" id="fluolamp-button" value="Ustaw" />
+      <button class="Containers-aqua__settings-aqua__button" id="fluolamp-button" >Ustaw</button>
     </div>
 
-    <h3>Ustaw tryb pracy</h3>
-    <input type="button" id="mode" value="Automat" />
-    <div id="mode-buttons" class="mode-buttons" style="display: none">
-      <h3>LED</h3>
-      <input type="button" id="mode-button-led" />
-      <h3>Świetlówka</h3>
-      <input type="button" id="mode-button-fluolamp" />
+    <p class="Containers-aqua__settings-aqua__p">Ustaw tryb pracy</p>
+    <button class="Containers-aqua__mode-button" id="mode"></button>
+    <div class="Containers-aqua__mode-buttons" id="mode-buttons" >
+      <p class="Containers-aqua__settings-aqua__p">LED</p>
+      <button class="Containers-aqua__mode-buttons__led" id="mode-button-led"></button>
+      <p class="Containers-aqua__settings-aqua__p">Świetlówka</p>
+      <button class="Containers-aqua__mode-buttons__fluolamp" id="mode-button-fluolamp"></button>
     </div>
-  </div>
-</div>
+  </section>
 <script src="{% static 'script/aqua.js' %}"></script>
 <script src='{% static "script/jscolor.min.js" %}'></script>
 {% endblock content %}

@@ -3,67 +3,66 @@
 
 {% block title %}Temperatura{% endblock %}
 {% block content %}
-<script src='{% static "script/chart2.js" %}'></script>
 <script src='{% static "script/Chart.js" %}'></script>
+<script src='{% static "script/chart2.js" %}'></script>
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/chart.css" %}'>
-<div class="container">
-    <div class="char-containers">
-        <form method="post" class="get-data">
-            {% csrf_token %}
-            <div class="select-data">
-                <div>
-                    <p>Wybierz datę od</p>
-                    <input type="date" name="dataod">
-                </div>
-                <div>
-                    <p>Wybierz datę do</p>
-                    <input type="date" name="datado">
-                </div>
+<div class="char-containers">
+    <form class="Get-data" method="post">
+        {% csrf_token %}
+        <div class="Get-data__select-data">
+            <div class="Get-data__select-data__div">
+                <p class="Get-data__select-data__div__p">Wybierz datę od</p>
+                <input class="Get-data__select-data__div__select" type="date" name="dataod">
             </div>
-            <div class="select-place">
-                <select name="lista">
-                    {% for i in list_place %}
-                    <option>{{i}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit" value="Pokaz">
+            <div class="Get-data__select-data__div">
+                <p class="Get-data__select-data__div__p">Wybierz datę do</p>
+                <input class="Get-data__select-data__div__select" type="date" name="datado">
             </div>
-        </form>
-        {% if data_temp|length == 0  %}
-        <div class="display-char">
-             <p>Brak danych do wyświetlenia</p>
         </div>
+        <div class="Select-place">
+            <select class="Select-place__list" name="lista">
+                {% for i in list_place %}
+                <option>{{i}}</option>
+                {% endfor %}
+            </select>
+            <button class="Select-place__button">Pokaż</button>
+        </div>
+    </form>
+    {% if data_temp|length == 0  %}
+    <div class="Display-char">
+            <p>Brak danych do wyświetlenia</p>
+    </div>
 
-        {% elif  data_average_data|length > 7 %}
-        <div class="display-char">
-            <canvas id="myChart_srednia_dzien"></canvas>
-        </div>
-        <div class="display-char"> 
-            <canvas id="myChart_srednia_noc"></canvas>
-        </div>
-        <script>
-                wykres_srednia_dzien({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
-                wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
-            </script>
-        {% else %}
-        <div class="display-char">
-        <canvas id="myChart"></canvas>
-        </div>
-        {%block scripts%}
-        <script>
-                wykres({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");
+    {% elif  data_average_data|length > 7 %}
+    <div class="Display-char">
+        <canvas id="myChart_average_temp_day"></canvas>
+    </div>
+    <div class="Display-char"> 
+        <canvas id="myChart_average_temp_night"></canvas>
+    </div>
+    <script>
+            wykres_srednia_dzien({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
+            wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
         </script>
-        {%endblock scripts%}
-    {% endif %}
-            <ul id = "temp_avarage_containers">
-                <li>
-                    <p>Data</p>
-                    <p>Średnia w nocy</p>
-                    <p>Średnia w dzień</p>
-                </li>
-            </ul>
-        </div>
+    {% else %}
+    <div class="Display-char">
+    <canvas id="myChart"></canvas>
+    </div>
+    {%block scripts%}
+    <script>
+            wykres({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");
+    </script>
+    {%endblock scripts%}
+{% endif %}
+        <ul class="Temp-avarage" id = "temp_avarage_containers">
+            <li class="Temp-avarage__li-header">
+                <p class="Temp-avarage__li__p-header">Średnie temperatury</p>
+                <p class="Temp-avarage__li__p-data">Data</p>
+                <img class="Temp-avarage__li__p-sun" src="{% static 'images/sun.png' %}" alt="Sun icon">
+                <img class="Temp-avarage__li__p-moon" src="{% static 'images/moon.png' %}" alt="Moon icon">
+            </li>
+        </ul>
     </div>
 </div>
-   <script>avarage_temp({{data_average_data|safe}},{{data_average_temp_night|safe}},{{data_average_temp_day|safe}})</script>
+<script>avarage_temp({{data_average_data|safe}},{{data_average_temp_night|safe}},{{data_average_temp_day|safe}})</script>
 {% endblock content %}
