@@ -21,8 +21,8 @@ function avarage_temp(
 
     li.setAttribute('class','Temp-avarage__li')
     li.appendChild(data);
-    li.appendChild(tempNight);
     li.appendChild(tempDay);
+    li.appendChild(tempNight);
 
     document.querySelector("#temp_avarage_containers").appendChild(li);
   }
