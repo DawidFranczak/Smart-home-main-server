@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+{% block title %} Panel użytkownika {% endblock %}
+{% block content %}
+<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/user_page.css" %}'>
+<section class="Nav__profil" id="profil-buttons">
+    <a class="Nav__profil__a" href="{% url 'userChangePassword'%}">Zmień hasło</a>
+    <a class="Nav__profil__a" id="email">Zmień email</a>
+    <a class="Nav__profil__a" id="avatar">Zmień awatara</a>
+    <a class="Nav__profil__a" id="phone-number">Zmień numer telefonu</a>
+</section>
+{% if action == 'password'%}
+    {% include 'base\user_page_password.html'%}
+{% endif %}
+
+
+<script src="{% static 'script/user_page.js'%}"></script>
+
+
+
+{% endblock content %}
