@@ -6,16 +6,21 @@ import smtplib
 
 
 def add_temp_measurment(place, temp,humi):
+    '''
+    Add new measurement temperature to user sensor
+    '''
     con = sqlite3.connect('db.sqlite3')
     cur = con.cursor()
     pomiar = [(temp,humi,place,datetime.now())]
     cur.executemany("INSERT INTO app_temp(temp,humi,sensor_id,time) VALUES (?,?,?,?)", pomiar)
     con.commit()
     cur.close()
-    print("{}".format(pomiar))
 
 
 def measurement_temp():
+    '''
+    Measurement temperature every user sensor and send email with name sensor who can't connected
+    '''
     con = sqlite3.connect('db.sqlite3')  # otwarcie bazy danych
     cur = con.cursor()
     ip = []
@@ -30,6 +35,7 @@ def measurement_temp():
         sensor_id.append(i[3])
            
     cur.close()
+    
     timeout = []
     not_connected = []
     wiad = str.encode("pomiar")
@@ -101,6 +107,9 @@ def measurement_temp():
 
 
 def send_email(subject, content):
+    ''' 
+    Send email to user
+    '''
     gmailaddress = "zawierzyciel98@gmail.com"
     gmailpassword = "lgoiurgujoebzxfj"
 
@@ -119,6 +128,9 @@ def send_email(subject, content):
 
 
 def check_aqua_all():
+    '''
+    Check all aquarium in database
+    '''
     con = sqlite3.connect('db.sqlite3')  # otwarcie bazy danych
     cur = con.cursor()
     for i in cur.execute('SELECT id FROM app_sensor WHERE fun = "aqua"'):
@@ -127,6 +139,10 @@ def check_aqua_all():
 
     
 def time_check(_id):
+    '''
+    Check time and set fluo lamp and len dependence on it
+    '''
+    
     question = """SELECT fluo_start,fluo_stop,led_start,led_stop,fluo_mode,led_mode,mode FROM app_aqua WHERE sensor_id = ?"""
     resp = aqua_database_settings(question,_id)
     print(resp)
@@ -174,21 +190,24 @@ def time_check(_id):
                 aqua_database_settings(question,_id)
       
                 
-def aqua_database_settings(_q,_p):
-    con = sqlite3.connect('db.sqlite3')  # otwarcie bazy danych
+def aqua_database_settings(question,_id):
+    ''' Select or update information about aquarium in database'''
+    
+    con = sqlite3.connect('db.sqlite3')
     cur = con.cursor()
-    if _q[0] == "S":
-        for i in  cur.execute(_q,(_p,)):
+    if question[0] == "S":
+        for i in  cur.execute(question,(_id,)):
             resp = i
         cur.close()
         return resp
-    elif _q[0] == "U":
-        cur.execute(_q,(_p,))
+    elif question[0] == "U":
+        cur.execute(question,(_id,))
         con.commit()
         cur.close()
         
 
 def get_sensor_ip(_id):
+    ''' Get sensor id from database '''
     ip =[]
     con = sqlite3.connect('db.sqlite3')  # otwarcie bazy danych
     cur = con.cursor()
@@ -199,6 +218,9 @@ def get_sensor_ip(_id):
 
 
 def send_data(_mess, _ip, _port):
+    '''
+    Send message to microcontroler on _port and _ip 
+    '''
     try:
         wiad = str.encode(_mess)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
@@ -212,27 +234,12 @@ def send_data(_mess, _ip, _port):
 minuteOld = datetime.now().minute
 hourOld = datetime.now().hour
 if __name__ == '__main__':
-    # measurement_temp()
-    # print("zaczynam")
-    # check_aqua_all()
-    measurement_temp()
-    # while True:
-    #     hourNew = datetime.now().hour
-    #     minuteNew = datetime.now().minute
-    #     if hourOld != hourNew:
-    #         hourOld = hourNew
-    #         measurement_temp()
-    #     if minuteOld != minuteNew:
-    #         check_aqua_all()
+    while True:
+        hourNew = datetime.now().hour
+        minuteNew = datetime.now().minute
+        if hourOld != hourNew:
+            hourOld = hourNew
+            measurement_temp()
+        if minuteOld != minuteNew:
+            check_aqua_all()
             
-    # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
-    # wiad = str.encode("password_temp")
-    # sock.sendto(wiad, ("192.168.43.80", 3984))
-    # print("wysłano")
-    # sock.settimeout(5)
-    # data_rec = sock.recvfrom(1024)
-    # print(data_rec)
-    # temp = data_rec[0].decode("UTF-8")
-    # print(temp)
-    # sock.close()
-    

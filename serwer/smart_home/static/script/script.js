@@ -15,31 +15,36 @@ function getCookie(name) {
 
 async function sendData(method, _dict) {
   const csrftoken = getCookie("csrftoken");
-   const data = await fetch(window.location.href, {
-      method: method,
-      headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
-      body: JSON.stringify(_dict),
+  let data = await fetch(window.location.href, {
+    method: method,
+    headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
+    body: JSON.stringify(_dict),
+  });
+  return await data
+    .json()
+    .then((data) => {
+      return data;
     })
-      return data.json()
+    .catch((e) => {});
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
- const waitForElement = (selector, callback) =>{
-  let interval = setInterval(function(){
-      if(document.querySelector(selector)){
-          callback()
-          clearInterval(interval)
-      }
-  },50)
-}
+const waitForElement = (selector, callback) => {
+  let interval = setInterval(function () {
+    if (document.querySelector(selector)) {
+      callback();
+      clearInterval(interval);
+    }
+  }, 50);
+};
 
-
-waitForElement('#nav-toggle', function(){
+waitForElement("#nav-toggle", function () {
   document.querySelector("#nav-toggle").addEventListener("click", () => {
-    document.querySelector("#nav-links").classList.toggle("Navbar__nav-links--active");
+    document
+      .querySelector("#nav-links")
+      .classList.toggle("Navbar__nav-links--active");
   });
- })
- waitForElement('#path-name', function(){
-document.querySelector("#path-name").innerHTML = document.title;
- })
-
+});
+waitForElement("#path-name", function () {
+  document.querySelector("#path-name").innerHTML = document.title;
+});

@@ -1,105 +1,105 @@
-.container{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Calibration-buttons{
-	display: none;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-	gap:10px;
+.Calibration-buttons {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
-.Calibration-buttons--active{
-	display: flex;
+.Calibration-buttons--active {
+  display: flex;
 }
-.Calibration-button__up{
-	margin-top:2em;
-	translate: transform 0.3s;
+.Calibration-button__up {
+  margin-top: 2em;
+  translate: transform 0.3s;
 }
-.Calibration-button__down{
-	margin-bottom:2em;
-	translate: transform 0.3s;
-	rotate:-2deg;
+.Calibration-button__down {
+  margin-bottom: 2em;
+  translate: transform 0.3s;
+  rotate: -2deg;
 }
 .Calibration-button__up:active,
-.Calibration-button__down:active{
-	transform: scale(1.1);
+.Calibration-button__down:active {
+  transform: scale(1.1);
 }
-.Calibration-button__save{
-	margin: 1em 0 1em 0;
-	background: none;
-	height: 3em;
-	width: 6em;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.5);
-	position: relative;
-	font-family: cursive;
-	transition: transform 0.3s;
-	cursor: pointer;
+.Calibration-button__save {
+  margin: 1em 0 1em 0;
+  background: none;
+  height: 3em;
+  width: 6em;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+  font-family: cursive;
+  transition: transform 0.3s;
+  cursor: pointer;
 }
-.Save-button{
-	display: none;
+.Save-button {
+  display: none;
 }
-.Save-button--active{
-	display: block;
+.Save-button--active {
+  display: block;
 }
 .Save-button__repeat,
-.Save-button__end{
-	margin: 1em 0 1em 0;
-	background: none;
-	height: 3em;
-	width: 6em;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.5);
-	position: relative;
-	font-family: cursive;
-	transition: transform 0.3s;
-	cursor: pointer;
+.Save-button__end {
+  margin: 1em 0 1em 0;
+  background: none;
+  height: 3em;
+  width: 6em;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+  font-family: cursive;
+  transition: transform 0.3s;
+  cursor: pointer;
 }
-.Message{
-	width: 290px;
-	text-align: justify;
+.Message {
+  width: 290px;
+  text-align: justify;
 }
-@media only screen and (min-width:700px) {
-	.Calibration-button__save::before{
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -1;
-		transition: transform 0.3s;
-		border-radius: 15px;
-		transform:scaleX(0);
-		background-color: rgba(0,255,0);
-	}
-	.Calibration-button__save:hover::before{
-		transform:scaleX(1);
-	}
-	.Save-button__repeat::before,
-	.Save-button__end::before{
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -1;
-		transition: transform 0.3s;
-		border-radius: 15px;
-		transform:scaleX(0);
-	}
-	.Save-button__repeat::before{
-		background-color: rgb(255, 0, 0);
-	}
-	.Save-button__end::before{
-		background-color: rgba(0,255,0);
-	}
-	.Save-button__repeat:hover::before,
-	.Save-button__end:hover::before{
-		transform:scaleX(1);
-	}
+@media only screen and (min-width: 700px) {
+  .Calibration-button__save::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    transform: scaleX(0);
+    background-color: rgba(0, 255, 0);
+  }
+  .Calibration-button__save:hover::before {
+    transform: scaleX(1);
+  }
+  .Save-button__repeat::before,
+  .Save-button__end::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    transform: scaleX(0);
+  }
+  .Save-button__repeat::before {
+    background-color: rgb(255, 0, 0);
+  }
+  .Save-button__end::before {
+    background-color: rgba(0, 255, 0);
+  }
+  .Save-button__repeat:hover::before,
+  .Save-button__end:hover::before {
+    transform: scaleX(1);
+  }
 }

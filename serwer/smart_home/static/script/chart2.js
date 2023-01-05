@@ -4,22 +4,21 @@ function avarage_temp(
   dataAverageTempDay
 ) {
   for (i in dataAverageData) {
-
     const li = document.createElement("li");
     const data = document.createElement("p");
     const tempNight = document.createElement("p");
     const tempDay = document.createElement("p");
 
     data.innerHTML = dataAverageData[i];
-    data.setAttribute('class','Temp-avarage__li__p-data');
+    data.setAttribute("class", "Temp-avarage__li__p-data");
 
     tempNight.innerHTML = dataAverageTempNight[i];
-    tempNight.setAttribute('class','Temp-avarage__li__p-night');
+    tempNight.setAttribute("class", "Temp-avarage__li__p-night");
 
     tempDay.innerHTML = dataAverageTempDay[i];
-    tempDay.setAttribute('class','Temp-avarage__li__p-day');
+    tempDay.setAttribute("class", "Temp-avarage__li__p-day");
 
-    li.setAttribute('class','Temp-avarage__li')
+    li.setAttribute("class", "Temp-avarage__li");
     li.appendChild(data);
     li.appendChild(tempDay);
     li.appendChild(tempNight);
@@ -28,9 +27,7 @@ function avarage_temp(
   }
 }
 
-
-
-function wykres(daneTemp, daneCzas, place) {
+function chart(daneTemp, daneCzas, place) {
   const ctx = document.querySelector("#myChart");
   const myChart = new Chart(ctx, {
     type: "line",
@@ -41,8 +38,8 @@ function wykres(daneTemp, daneCzas, place) {
           label: "Odczyt temperatury co godznę",
           data: daneTemp, // os y
           backgroundColor: ["rgba(0, 0, 0, 0)"],
-          borderColor: 'rgb(0,0,0,0.5)',
-          pointBorderColor: 'rgba(255, 255, 255,0)'
+          borderColor: "rgb(0,0,0,0.5)",
+          pointBorderColor: "rgba(255, 255, 255,0)",
         },
       ],
     },
@@ -66,7 +63,7 @@ function wykres(daneTemp, daneCzas, place) {
   });
 }
 
-function wykres_srednia_dzien(daneTemp, daneCzas, place) {
+function chart_average_day(daneTemp, daneCzas, place) {
   const ctx = document.querySelector("#myChart_average_temp_day");
   const myChart = new Chart(ctx, {
     type: "line",
@@ -77,8 +74,8 @@ function wykres_srednia_dzien(daneTemp, daneCzas, place) {
           label: "Średnia temperatura w dzień",
           data: daneTemp,
           backgroundColor: ["rgba(0, 0, 0, 0)"],
-          borderColor: 'rgb(0,0,0,0.5)',
-          pointBorderColor: 'rgba(255, 255, 255,0)'
+          borderColor: "rgb(0,0,0,0.5)",
+          pointBorderColor: "rgba(255, 255, 255,0)",
         },
       ],
     },
@@ -102,7 +99,7 @@ function wykres_srednia_dzien(daneTemp, daneCzas, place) {
   });
 }
 
-function wykres_srednia_noc(daneTemp, daneCzas) {
+function chart_average_night(daneTemp, daneCzas) {
   const ctx = document.querySelector("#myChart_average_temp_night");
   const myChart = new Chart(ctx, {
     type: "line",
@@ -113,8 +110,8 @@ function wykres_srednia_noc(daneTemp, daneCzas) {
           label: "Średnia temperatura w nocy",
           data: daneTemp,
           backgroundColor: ["rgba(0, 0, 0, 0)"],
-          borderColor: 'rgb(0,0,0,0.5)',
-          pointBorderColor: 'rgba(255, 255, 255,0)'
+          borderColor: "rgb(0,0,0,0.5)",
+          pointBorderColor: "rgba(255, 255, 255,0)",
         },
       ],
     },

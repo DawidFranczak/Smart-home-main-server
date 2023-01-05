@@ -1,30 +1,51 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Logowanie {% endblock %}
+{% block title %} Logowanie {%endblock %}
 {% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/login.css" %}'>
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/login.css" %}'
+/>
 
 <h1>Zaloguj się</h1>
 <form method="post" class="Login">
   {% csrf_token %}
   <div class="Login__username">
-    <input type="Login" id="username" class="Login__username__input" name="username" placeholder=" ">
+    <input
+      type="Login"
+      id="username"
+      class="Login__username__input"
+      name="username"
+      placeholder=" "
+    />
     <label class="Login__label" for="username">Login</label>
   </div>
   <div class="Login__password">
-    <input type="password" id="password" class="Login__password__input" name="password" placeholder=" ">
+    <input
+      type="password"
+      id="password"
+      class="Login__password__input"
+      name="password"
+      placeholder=" "
+    />
     <label class="Login__label" for="password">Hasło</label>
   </div>
   <div class="Login__buttons">
     <button type="submit" class="Login__button__login">Zaloguj</button>
 
-    <a class="Login__button__register" href="{% url 'userRegister' %}">Rejestracja</a>
+    <a class="Login__button__register" href="{% url 'userRegister' %}"
+      >Rejestracja</a
+    >
   </div>
   <div class="Login__messages">
     {% if messages %}
-    {% for message in messages %}
-    <li {% if message.tags %} class="Login__messages__{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
+      {% for message in messages %}
+        <li class="Login__messages__{{ message.tags }}" >
+          {{ message }}
+        </li>
+      {% endfor %}
     {% endif %}
   </div>
 </form>

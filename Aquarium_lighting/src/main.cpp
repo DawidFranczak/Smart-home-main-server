@@ -13,8 +13,8 @@
 
 
 // Dane do sieci wifi
-const char* ssid = "Nazwa_sieci_wifi";
-const char* password = "Hasło_sieci_wifi";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
 // Port uC
 unsigned int udpPort = 7863;
@@ -31,7 +31,7 @@ bool ledMode = false;
 WiFiUDP UDP;
 
 void setup() {
-
+  Serial.begin(9600);
   // Konfiguracja pwm
   analogWriteRange(255);
   analogWriteFreq(1000);
@@ -48,6 +48,7 @@ void setup() {
   // Łączenie z wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)  delay(1);
+  Serial.println("START");
 
   // Uruchomienie protokołu UDP
   UDP.begin(udpPort);
@@ -63,7 +64,7 @@ void loop(){
     if (len > 0) dataPackage[len] = 0;
 
     date = dataPackage;
-
+    Serial.println(date);
     if (date == "r1"){
       analogWrite(BLUEPIN, blue);
       analogWrite(GREENPIN, green);
@@ -90,7 +91,8 @@ void loop(){
     else if (date == "s1"){
       digitalWrite(FLUOLAMP,LOW);
     }
-    else if (date == "password_aqua" && digitalRead(ADDBUTTON)==HIGH){
+    // else if (date == "password_aqua" && digitalRead(ADDBUTTON)==HIGH){
+    else if (date == "password_aqua"){
         UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
         UDP.write("respond_aqua");
         UDP.endPacket();

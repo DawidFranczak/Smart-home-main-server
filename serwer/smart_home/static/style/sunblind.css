@@ -1,108 +1,106 @@
-.container{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Calibration-button{
-	font-size: 1em;
-	margin-top:1em;
-	background: none;
-	height: 1.5em;
-	width: auto;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.5);
-	position: relative;
+.Calibration-button {
+  font-size: 1em;
+  margin-top: 1em;
+  background: none;
+  height: 1.5em;
+  width: auto;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.5);
+  position: relative;
 }
-.Sunblind-containers{
-	margin: 0;
-	padding: 0;
-	list-style-type:none;
-
+.Sunblind-containers {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 .Sunblind-containers li {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.Sunblind-containers__sunblind-name{
-	width: 100px;
-	font-family: cursive;
+.Sunblind-containers__sunblind-name {
+  width: 100px;
+  font-family: cursive;
 }
-.Sunblind-containers__div{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-	width: 100px;
-	font-family: cursive;
+.Sunblind-containers__div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  font-family: cursive;
 }
-.Sunblind-containers__div__slider{
-	width: 100px;
+.Sunblind-containers__div__slider {
+  width: 100px;
 }
-.Sunblind-containers__div__slider-value{
-	margin: 0;
+.Sunblind-containers__div__slider-value {
+  margin: 0;
 }
-.Sunblind-containers__calibration-button{
-	margin-left: 0.5em;
-	display: none;
-	justify-content: center;
-	align-items: center;
-	width: 100px;
-	font-family: cursive;
-	text-decoration: none;
-	color: black;
-	border: 2px solid;
-	border-color: rgba(0,0,0,0.5);
-	border-radius: 15px;
-	position: relative;
-}
-
-.Sunblind-containers__calibration-button-header{
-	display: none;
-	width: 100px;
-	font-family: cursive;
-}
-.Sunblind-containers__calibration-button--avtive{
-	display: flex;
+.Sunblind-containers__calibration-button {
+  margin-left: 0.5em;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  font-family: cursive;
+  text-decoration: none;
+  color: black;
+  border: 2px solid;
+  border-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  position: relative;
 }
 
-@media only screen and (min-width:700px){
-	.Calibration-button::before{
-		content: "";
-		width: auto;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		height: auto;
-		border-radius: 15px;
-		background-color: rgba(255,255,255,1);
-		position: absolute;
-		transition: transform 0.3s;
-		transform:scaleX(0);
-		z-index: -1;
-	}
-	.Calibration-button:hover::before{
-		transform:scaleX(1);
-	}
-	.Sunblind-containers__calibration-button::before{
-		content: "";
-		width: auto;
-		height: auto;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		border-radius: 15px;
-		background-color: rgba(255,255,255,1);
-		position: absolute;
-		transition: transform 0.3s;
-		transform:scaleX(0);
-		z-index: -1;
-	}
-	.Sunblind-containers__calibration-button:hover::before{
-		transform:scaleX(1);
-	}
+.Sunblind-containers__calibration-button-header {
+  display: none;
+  width: 100px;
+  font-family: cursive;
+}
+.Sunblind-containers__calibration-button--avtive {
+  display: flex;
+}
+
+@media only screen and (min-width: 700px) {
+  .Calibration-button::before {
+    content: "";
+    width: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 1);
+    position: absolute;
+    transition: transform 0.3s;
+    transform: scaleX(0);
+    z-index: -1;
+  }
+  .Calibration-button:hover::before {
+    transform: scaleX(1);
+  }
+  .Sunblind-containers__calibration-button::before {
+    content: "";
+    width: auto;
+    height: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 1);
+    position: absolute;
+    transition: transform 0.3s;
+    transform: scaleX(0);
+    z-index: -1;
+  }
+  .Sunblind-containers__calibration-button:hover::before {
+    transform: scaleX(1);
+  }
 }

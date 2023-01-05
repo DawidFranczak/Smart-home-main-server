@@ -22,7 +22,7 @@
   border-radius: 0.1em;
   background-color: white;
 }
-.Navbar__path-name{ 
+.Navbar__path-name {
   padding-left: 0.25em;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -79,8 +79,8 @@
     transition: font-size 0.5s, background-color 0.5s;
   }
   .Navbar__nav-links__li__a:hover {
-    color: black;
-    background-color: #96bcee;
+    /* color: black; */
+    /* background-color: #96bcee; */
     font-size: 1.25em;
   }
 }

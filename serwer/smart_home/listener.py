@@ -3,6 +3,7 @@ import socket
 
 
 def check_uid(data):
+    ''' Check incoming uid from RFID sensor '''
     try:
         con = sqlite3.connect('db.sqlite3')
         cur = con.cursor()
@@ -21,6 +22,8 @@ def check_uid(data):
         print(e)
         
 def light_lamp(data):
+    ''' Check connected lamp to rfid sensor and button and turn it on '''
+    
     con = sqlite3.connect('smart_home/db.sqlite3')
     cur = con.cursor()
     

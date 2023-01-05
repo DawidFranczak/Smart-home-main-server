@@ -1,87 +1,87 @@
-.container{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	overflow: hidden;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
 }
-.Elements{
-	padding: 0;
-	margin: 0;
+.Elements {
+  padding: 0;
+  margin: 0;
 }
 .Elements__lamps,
 .Elements__rfids,
-.Elements__buttons{
-	margin:0;
-	list-style-type: none;
+.Elements__buttons {
+  margin: 0;
+  list-style-type: none;
 }
 .Elements__lamps__lamp,
 .Elements__rfids__rfid,
-.Elements__buttons__button{
-	padding: 0;
+.Elements__buttons__button {
+  padding: 0;
 }
 .Elements__lamps__lamp__select + label,
 .Elements__rfids__rfid__select + label,
-.Elements__buttons__button__select + label{
-	position: relative;
+.Elements__buttons__button__select + label {
+  position: relative;
 }
 .Elements__lamps__lamp__select + label:after,
 .Elements__rfids__rfid__select + label:before,
-.Elements__buttons__button__select + label::before{
-	content: "";
-	width: auto;
-	height: 1.25em;
-	position: absolute;
-	background-color: #b3e5fc;
-	z-index: -1;
-	top: 0;
-	left: 0;
-	right: 0;
-	transition: transform 0.3s;
-	border-radius: 15px;
-	transform: translateX(5000px);
+.Elements__buttons__button__select + label::before {
+  content: "";
+  width: auto;
+  height: 1.25em;
+  position: absolute;
+  background-color: #b3e5fc;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: transform 0.3s;
+  border-radius: 15px;
+  transform: translateX(5000px);
 }
 .Elements__lamps__lamp__select:checked + label:after,
 .Elements__rfids__rfid__select:checked + label:before,
-.Elements__buttons__button__select:checked + label::before{
-	transform: scaleX(1.2);
+.Elements__buttons__button__select:checked + label::before {
+  transform: scaleX(1.2);
 }
 .Elements__lamps__message,
 .Elements__rfids__message,
-.Elements__buttons__message{
-	font-family: cursive;
+.Elements__buttons__message {
+  font-family: cursive;
 }
-.Button{
-	margin: 1em 0 0.5em 0;
-	font-size: 1em;
-	background: none;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.2);
-	border-width: 2px;
-	font-family: cursive;
-	cursor: pointer;
-	position: relative;
+.Button {
+  margin: 1em 0 0.5em 0;
+  font-size: 1em;
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  font-family: cursive;
+  cursor: pointer;
+  position: relative;
 }
 
-@media only screen and (min-width: 700px){
-	.Elements{
-		display: flex;
-		justify-content: center;
-		gap: 30px
-	}
-	.Button::before{
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -1;
-		transition: transform 0.3s;
-		border-radius: 15px;
-		transform:scaleX(0);
-		background-color: rgba(255,255,255,1);
-	}
-	.Button:hover::before{
-		transform:scaleX(1);
-	}
+@media only screen and (min-width: 700px) {
+  .Elements {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  .Button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    transform: scaleX(0);
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .Button:hover::before {
+    transform: scaleX(1);
+  }
 }

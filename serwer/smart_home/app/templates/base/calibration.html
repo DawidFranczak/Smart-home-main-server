@@ -1,18 +1,39 @@
-{% extends 'main.html' %} {% load static %}
-{% block title %}Kalibracja{% endblock %}
+{% extends 'main.html' %}
+{% load static %}
+{% block title%} Kalibracja {%endblock%} 
 {% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/calibration.css" %}'>
-<div class="Calibration-buttons Calibration-buttons--active" id="calibration-buttons">
-  <input type="image" id="up" class="Calibration-button__up" src="{% static 'images/arrow_up.png' %}">
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/calibration.css" %}'
+/>
+<div
+  class="Calibration-buttons Calibration-buttons--active"
+  id="calibration-buttons"
+>
+  <input
+    type="image"
+    id="up"
+    class="Calibration-button__up"
+    src="{% static 'images/arrow_up.png' %}"
+  />
   <button id="save" class="Calibration-button__save">Zapisz</button>
-  <input type="image" id="down" class="Calibration-button__down" src="{% static 'images/arrow_down.png' %}">
+  <input
+    type="image"
+    id="down"
+    class="Calibration-button__down"
+    src="{% static 'images/arrow_down.png' %}"
+  />
 </div>
-<div  class="Save-button" id="save-buttons">
+<div class="Save-button" id="save-buttons">
   <button id="repeat" class="Save-button__repeat">Tak</button>
-  <a href="{% url 'sunblind' %}"><button class="Save-button__end">Nie</button></a>
+  <a href="{% url 'sunblind' %}"
+    ><button class="Save-button__end">Nie</button></a
+  >
 </div>
 <p class="Message" id="message">
   Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk "Zapisz"
 </p>
-<script src="{% static 'script/calibration.js' %}" ></script>
+<script src="{% static 'script/calibration.js' %}"></script>
 {% endblock content %}

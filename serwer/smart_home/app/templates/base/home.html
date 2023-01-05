@@ -1,90 +1,59 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %} Home {% endblock %}
 {% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/home.css" %}'>
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/home.css" %}'
+/>
 <section class="Data">
-    <div class="Data__time">
-        <div class="Data__time__clock" id="clock"></div>
-        <div class="Data__time__date" id="date"></div>
-    </div>
-    <div class="Data__weather" id="weather">
-        <div class="Data__weather__locality" id="locality"></div>
-        <div class="Data__weather__temp" id="temp"></div>
-        <div class="Data__weather__wind"></div>
-    </div>
+  <div class="Data__time">
+    <div class="Data__time__clock" id="clock"></div>
+    <div class="Data__time__date" id="date"></div>
+  </div>
+  <div class="Data__weather" id="weather">
+    <div class="Data__weather__locality" id="locality"></div>
+    <div class="Data__weather__temp" id="temp"></div>
+    <div class="Data__weather__wind"></div>
+  </div>
 </section>
 <section>
-    <div class="Nav-home">
-        <a class="Nav-home__a" href="{% url 'sunblind' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.sunblind.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'chart' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.temperature.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'userPage' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.profile.url}}"
-            />
-        </a>
-        <img
-            class="Nav-home__home"
-            src="{{image.home.url}}"
-            alt="Ładny domek"
-        />
-        <a class="Nav-home__a" href="{% url 'light' %}">
-            <input
-                type="image"
-                class="Nav-home--size"
-                src="{{image.light.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'stairs' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.stairs.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'aquarium' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.aquarium.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'sensor' %}">        
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.sensor.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'rpl' %}">      
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.rpl.url}}"
-            />
-        </a>
-        <a class="Nav-home__a" href="{% url 'logout' %}">
-            <input
-            type="image"
-            class="Nav-home--size"
-            src="{{image.logout.url}}"
-            />
-        </a>
-    </div>
+  <div class="Nav-home">
+    <a class="Nav-home__a" href="{% url 'sunblind' %}">
+      <input type="image" class="Nav-home--size" src="{{image.sunblind.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'chart' %}">
+      <input
+        type="image"
+        class="Nav-home--size"
+        src="{{image.temperature.url}}"
+      />
+    </a>
+    <a class="Nav-home__a" href="{% url 'userPage' %}">
+      <input type="image" class="Nav-home--size" src="{{image.profile.url}}" />
+    </a>
+    <img class="Nav-home__home" src="{{image.home.url}}" alt="Ładny domek" />
+    <a class="Nav-home__a" href="{% url 'light' %}">
+      <input type="image" class="Nav-home--size" src="{{image.light.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'stairs' %}">
+      <input type="image" class="Nav-home--size" src="{{image.stairs.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'aquarium' %}">
+      <input type="image" class="Nav-home--size" src="{{image.aquarium.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'sensor' %}">
+      <input type="image" class="Nav-home--size" src="{{image.sensor.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'rpl' %}">
+      <input type="image" class="Nav-home--size" src="{{image.rpl.url}}" />
+    </a>
+    <a class="Nav-home__a" href="{% url 'logout' %}">
+      <input type="image" class="Nav-home--size" src="{{image.logout.url}}" />
+    </a>
+  </div>
 </section>
 <script src="{% static 'script/home.js' %}"></script>
 {% endblock content %}

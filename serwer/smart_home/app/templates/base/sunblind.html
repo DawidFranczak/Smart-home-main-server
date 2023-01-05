@@ -1,29 +1,52 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}Rolety{% endblock %}
+{% block title %} Rolety {% endblock%}
 {% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/sunblind.css" %}'>
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/sunblind.css" %}'
+/>
 <button class="Calibration-button" id="calibration">Kalibracja</button>
 <ul class="Sunblind-containers">
-    <li>
-        <p class="Sunblind-containers__sunblind-name">Nazwa</p>
-        <p class="Sunblind-containers__div">Suwak</p>
-        <p class="Sunblind-containers__calibration-button-header" id="button-calibration">Kalibracja</p>
-    </li>
-    {% for sensor in sensors %}
-        {% for sunblind in sunblinds %}
-            {% if sensor.id == sunblind.sensor_id %}
-                <li>
-                    <p class="Sunblind-containers__sunblind-name">{{sensor.name}}</p>
-                    <div class="Sunblind-containers__div">
-                        <input type="range" value = "{{sunblind.value}}" class="Sunblind-containers__div__slider" id="slider" placeholder ={{sensor.pk}} >
-                        <p class="Sunblind-containers__div__slider-value" id ={{sensor.pk}}>{{sunblind.value}}</p>
-                    </div>
-                    <a href="{% url 'calibration' sensor.pk %}" class="Sunblind-containers__calibration-button" id ="button-calibration">Kalibruj</a>
-                </li>
-            {% endif %}
-        {% endfor %}
+  <li>
+    <p class="Sunblind-containers__sunblind-name">Nazwa</p>
+    <p class="Sunblind-containers__div">Suwak</p>
+    <p
+      class="Sunblind-containers__calibration-button-header"
+      id="button-calibration"
+    >
+      Kalibracja
+    </p>
+  </li>
+  {% for sensor in sensors %}
+    {% for sunblind in sunblinds %}
+      {% if sensor.id == sunblind.sensor_id %}
+        <li>
+          <p class="Sunblind-containers__sunblind-name">{{sensor.name}}</p>
+          <div class="Sunblind-containers__div">
+            <input
+              type="range"
+              value="{{sunblind.value}}"
+              class="Sunblind-containers__div__slider"
+              id="slider"
+              placeholder="{{sensor.pk}}"
+            />
+            <p class="Sunblind-containers__div__slider-value" id="{{sensor.pk}}">
+              {{sunblind.value}}
+            </p>
+          </div>
+          <a
+            href="{% url 'calibration' sensor.pk %}"
+            class="Sunblind-containers__calibration-button"
+            id="button-calibration">
+            Kalibruj
+          </a>
+        </li>
+      {% endif %}
     {% endfor %}
+  {% endfor %}
 </ul>
 <script src="{% static 'script/sunblind.js' %}"></script>
 {% endblock content %}

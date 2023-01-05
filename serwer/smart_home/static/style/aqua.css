@@ -1,92 +1,92 @@
-h1{
-    font-family: cursive;
-    font-size: 1.5em;
-    margin: 0;
-    margin-bottom: 0.5em;
+h1 {
+  font-family: cursive;
+  font-size: 1.5em;
+  margin: 0;
+  margin-bottom: 0.5em;
 }
 
-.jscolor{
-    height: 2em;
-    border-radius: 15px;
-    background: none;
+.jscolor {
+  height: 2em;
+  border-radius: 15px;
+  background: none;
 }
-.Select-aqua{
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
+.Select-aqua {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.Select-aqua__line{
-    width: 250px;
-    height: 2px;
-    border-radius: 50%;
-    background-color: rgba(255,255,255,0.3);
-    margin:0.5em 0 0.5em 0;
+.Select-aqua__line {
+  width: 250px;
+  height: 2px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0.5em 0 0.5em 0;
 }
-.Containers-aqua__mode-buttons{
-    display: none;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.Containers-aqua__mode-buttons {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Containers-aqua__mode-buttons--active{
-    display: flex;
+.Containers-aqua__mode-buttons--active {
+  display: flex;
 }
 .Select-aqua__button,
 .Containers-aqua__settings-aqua__button,
 .Containers-aqua__mode-buttons__led,
 .Containers-aqua__mode-buttons__fluolamp,
-.Containers-aqua__mode-button{
-    margin-bottom: 0.5em;
-	font-size: 1em;
-	background: none;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.2);
-	border-width: 2px;
-	font-family: cursive;
-	cursor: pointer;
-	position: relative;
+.Containers-aqua__mode-button {
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  font-family: cursive;
+  cursor: pointer;
+  position: relative;
 }
-.Containers-aqua{
-    display: none;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.Containers-aqua {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Containers-aqua--active{
-    display: flex;
+.Containers-aqua--active {
+  display: flex;
 }
 .Containers-aqua__p,
-.Containers-aqua__settings-aqua__p{
-    font-family: cursive;
+.Containers-aqua__settings-aqua__p {
+  font-family: cursive;
 }
-.Containers-aqua__p-header{
-    font-family: cursive;
-    font-size: 1.5em;
-    margin: 0;
+.Containers-aqua__p-header {
+  font-family: cursive;
+  font-size: 1.5em;
+  margin: 0;
 }
-.Containers-aqua__settings-aqua{
-    display:none;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.Containers-aqua__settings-aqua {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Containers-aqua__settings-aqua--active{
-    display: flex;
+.Containers-aqua__settings-aqua--active {
+  display: flex;
 }
 
 .Containers-aqua__settings-aqua__led input,
-.Containers-aqua__settings-aqua__fluolamp input{
-    background: none;
-    border-radius: 15px;
-    border-color:rgba(0,0,0,0.5);
+.Containers-aqua__settings-aqua__fluolamp input {
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
-@media only screen and (min-width:400px){
-.Select-aqua__button::before,
-.Containers-aqua__mode-button::before,
-.Containers-aqua__mode-buttons__led::before,
-.Containers-aqua__mode-buttons__fluolamp::before,
-.Containers-aqua__settings-aqua__button::before{
+@media only screen and (min-width: 400px) {
+  .Select-aqua__button::before,
+  .Containers-aqua__mode-button::before,
+  .Containers-aqua__mode-buttons__led::before,
+  .Containers-aqua__mode-buttons__fluolamp::before,
+  .Containers-aqua__settings-aqua__button::before {
     content: "";
     position: absolute;
     top: 0;
@@ -96,14 +96,14 @@ h1{
     z-index: -1;
     transition: transform 0.3s;
     border-radius: 15px;
-    transform:scaleX(0);
-    background-color: rgba(255,255,255,1);
-}
-.Select-aqua__button:hover::before,
-.Containers-aqua__mode-button:hover::before,
-.Containers-aqua__mode-buttons__led:hover::before,
-.Containers-aqua__mode-buttons__fluolamp:hover::before,
-.Containers-aqua__settings-aqua__button:hover::before{
-  transform:scaleX(1)
-}
+    transform: scaleX(0);
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .Select-aqua__button:hover::before,
+  .Containers-aqua__mode-button:hover::before,
+  .Containers-aqua__mode-buttons__led:hover::before,
+  .Containers-aqua__mode-buttons__fluolamp:hover::before,
+  .Containers-aqua__settings-aqua__button:hover::before {
+    transform: scaleX(1);
+  }
 }

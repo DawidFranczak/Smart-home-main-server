@@ -135,14 +135,17 @@ def light(request):
         get_data = json.loads(request.body)
         if get_data['action'] == 'change':
             return JsonResponse(change_light(get_data['id']))
+        
     user_id = request.user.id    
     sensors = Sensor.objects.filter(fun = "light").filter(user_id = user_id)
     lights_2d = [Light.objects.filter(sensor_id = sensor.id) for sensor in sensors] 
     lights = [light for light_ in lights_2d for light in light_]
+    
     context = {
             'sensors': sensors,
             'lights': lights
               }
+    
     return render(request,'base/light.html', context)
 
 

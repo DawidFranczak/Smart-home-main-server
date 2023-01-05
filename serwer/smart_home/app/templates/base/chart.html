@@ -1,7 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-
-{% block title %}Temperatura{% endblock %}
+{% block title %} Temperatura {% endblock %}
 {% block content %}
 <script src='{% static "script/Chart.js" %}'></script>
 <script src='{% static "script/chart2.js" %}'></script>
@@ -45,9 +44,9 @@
             chart_average_night({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
         </script>
     {% else %}
-    <div class="Display-char">
-    <canvas id="myChart"></canvas>
-    </div>
+        <div class="Display-char">
+        <canvas id="myChart"></canvas>
+        </div>
     {%block scripts%}
     <script>
             chart({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");

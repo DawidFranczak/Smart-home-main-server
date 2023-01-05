@@ -1,107 +1,109 @@
-main{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-    margin-top:2em;
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
 }
 h1 {
-    margin-bottom:0.5em;
-	display: flex;
-	justify-content: center;
-	font-family: cursive;
-	margin-top: 0;
+  margin-bottom: 0.5em;
+  display: flex;
+  justify-content: center;
+  font-family: cursive;
+  margin-top: 0;
 }
-.container{
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-    width: 350px;
-    height: 600px;
-    background: linear-gradient(to right top,rgba(255,255,255,0.2),rgba(255,255,255,0.1));
-    border-radius: 15px;
-    overflow: hidden;
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  height: 600px;
+  background: linear-gradient(
+    to right top,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 15px;
+  overflow: hidden;
 }
-.Register{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.Register {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.Register__div__input{
-	border-radius: 10px;
-	border-color: white;
-	font-size: 1em;
-    margin-top: 0.5em;
-    height: 2em;
+.Register__div__input {
+  border-radius: 10px;
+  border-color: white;
+  font-size: 1em;
+  margin-top: 0.5em;
+  height: 2em;
 }
-.Register__div__input:focus{
-    box-shadow: 10px 5px 10px rgba(0,0,0,0.4);
+.Register__div__input:focus {
+  box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.4);
 }
 .Register__div__input:focus + label,
-.Register__div__input:not(:placeholder-shown) + label{
-	transform: translate(+200%, 60%);
-	opacity: 0;
+.Register__div__input:not(:placeholder-shown) + label {
+  transform: translate(+200%, 60%);
+  opacity: 0;
 }
-.Register__div{
-    position: relative;
+.Register__div {
+  position: relative;
 }
 .Register__div__label {
-	font-size: 1em;
-	opacity: 0.5;
-    width: 7em;
-	font-family: cursive;
-	position: absolute;
-    left: 0;
-    transform: translate(20%, 60%);
-	transition: transform 1s, opacity 1s;
+  font-size: 1em;
+  opacity: 0.5;
+  width: 7em;
+  font-family: cursive;
+  position: absolute;
+  left: 0;
+  transform: translate(20%, 60%);
+  transition: transform 1s, opacity 1s;
 }
 
-.Register ul{
-    margin: 0;
-    padding: 0;
+.Register ul {
+  margin: 0;
+  padding: 0;
 }
-.errorlist{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    list-style-type: none;
-    height: 1.5em;
-    font-size: 0.75em;
-    color: red;
-    border-color: red;
+.errorlist {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  list-style-type: none;
+  height: 1.5em;
+  font-size: 0.75em;
+  color: red;
+  border-color: red;
 }
-.Register__submit{
-    margin-top: 2em;
-	font-size: 1em;
-	width: 6.5em;
-	background: none;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.2);
-	border-width: 2px;
-	font-family: cursive;
-	cursor: pointer;
-	position: relative;
+.Register__submit {
+  margin-top: 2em;
+  font-size: 1em;
+  width: 6.5em;
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  font-family: cursive;
+  cursor: pointer;
+  position: relative;
 }
 
 @media only screen and (min-width: 650px) {
-
-	.Register__submit::before{
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -1;
-		background-color: white;
-		transition: transform 0.3s;
-		border-radius: 15px;
-		transform:scaleX(0);
-	}
-	.Register__submit:hover::before{
-		transform:scaleX(1)
-	}
-
+  .Register__submit::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-color: white;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    transform: scaleX(0);
+  }
+  .Register__submit:hover::before {
+    transform: scaleX(1);
+  }
 }

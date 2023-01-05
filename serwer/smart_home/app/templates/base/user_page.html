@@ -1,28 +1,39 @@
 {% extends "main.html" %}
 {% load static %}
-{% block title %} Ustawienia {% endblock %}
+{% block title %} Ustawienia {%endblock %}
 {% block content %}
-<link rel='stylesheet' type='text/css' media='screen' href='{% static "style/user_page.css" %}'>
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/user_page.css" %}'
+/>
 <section class="Nav__profil" id="profil-buttons">
-    <a class="Nav__profil__a" href="{% url 'userChangePassword'%}">Zmień hasło</a>
-    <a class="Nav__profil__a" href="{% url 'userChangeEmail'%}">Zmień email</a>
-    <a class="Nav__profil__a" href="{% url 'userChangeImage'%}">Zmień zdjęcia w home</a>
-    <a class="Nav__profil__a" href="{% url 'userChangePassword'%}">Zmień numer telefonu</a>
+  <a class="Nav__profil__a" href="{% url 'userChangePassword'%}">Zmień hasło</a>
+  <a class="Nav__profil__a" href="{% url 'userChangeEmail'%}">Zmień email</a>
+  <a class="Nav__profil__a" href="{% url 'userChangeImage'%}"
+    >Zmień zdjęcia w home</a
+  >
+  <a class="Nav__profil__a" href="{% url 'userChangePassword'%}"
+    >Zmień numer telefonu</a
+  >
 </section>
 {% if action == 'password'%}
-    {% include 'base\user_page_password.html'%}
+  {% include 'base\user_page_password.html'%}
 {% elif action == 'email' %}
-    {% include 'base\user_page_email.html'%}
-{% elif action == 'image' %}
-    {% include 'base\user_page_image.html'%}
+  {% include 'base\user_page_email.html'%}
+{% elif action =='image' %}
+  {% include 'base\user_page_image.html'%}
 {% endif %}
 
 <div class="Messages">
-    {% if messages %}
+  {% if messages %}
     {% for message in messages %}
-    <li {% if message.tags %} class="Messages__{{ message.tags }}"{% endif %}>{{ message }}</li>
+      <li {% if message.tags %} class="Messages__{{ message.tags }}" {% endif %}>
+        {{ message }}
+      </li>
     {% endfor %}
-    {% endif %}
+  {% endif %}
 </div>
 
 <script src="{% static 'script/user_page.js'%}"></script>

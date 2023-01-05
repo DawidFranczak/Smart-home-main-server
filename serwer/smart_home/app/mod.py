@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.db.models import Q
 import socket
 from .models import *
@@ -41,6 +41,9 @@ from .models import *
 # ////////////////////////ADD///////////////////////////////////////////////////////////////
 
 def add_sensor(get_data,user_id):
+    '''
+    Comunicate and save sensor
+    '''
     
     match get_data['fun']:
         case 'temp':
@@ -76,7 +79,7 @@ def add_sensor(get_data,user_id):
             message = str.encode('password_lamp')
             answer = 'respond_lamp'
         
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     for i in range(2,254):
         checkip = '192.168.0.'+str(i)
         
@@ -131,6 +134,10 @@ def add_sensor(get_data,user_id):
 
 
 def add_uid(_data):
+    '''
+        Add new rfid card to user
+    '''
+    
     respond = {}
     try:
         sensor = Sensor.objects.get(id = _data['id'])
@@ -165,6 +172,9 @@ def add_uid(_data):
 
 # # ///////////////////////DELETE/////////////////////////////////////////
 def delete_sensor(get_data):
+    '''
+    Delete user sensor
+    '''
     try:
         sensor = str(get_data['id'])
         if sensor.startswith('card'):
@@ -181,6 +191,10 @@ def delete_sensor(get_data):
 
 # # /////////////////////////REST/////////////////////////////////////////
 def data_for_chart(data_from, data_to, place):
+    ''' 
+    Get data and avarage temperature for chart from date to date
+    '''
+    
     data_temp = []
     data_time = []
     data_average_temp_day = []
@@ -235,6 +249,9 @@ def data_for_chart(data_from, data_to, place):
 
 
 def change_light(id):
+    '''
+    communicate with lamp and try to change it state
+    '''
     try:
         sensor = Sensor.objects.get(id=id)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
@@ -260,6 +277,9 @@ def change_light(id):
         
      
 def send_data(_mess, _ip, _port):
+    '''
+    Send message to microcontroler on _port and _ip 
+    '''
     try:
         wiad = str.encode(_mess)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
@@ -272,6 +292,11 @@ def send_data(_mess, _ip, _port):
 
     
 def checkAqua(sensor,aqua):
+    '''
+    Turn on or turn off fluo lamp and led dependence on time
+    and save it to database
+    '''
+    
     if datetime.now().hour < 10:
         hours = '0' + str(datetime.now().hour)
     else:

@@ -1,4 +1,4 @@
-.Sensor-add{
+.Sensor-add {
   display: none;
   justify-content: space-between;
   flex-direction: column;
@@ -6,14 +6,14 @@
   margin-right: 0em;
   padding-top: 1rem;
 }
-.Sensor-add--active{
+.Sensor-add--active {
   display: flex;
 }
 
-.Sensor-add__name{
+.Sensor-add__name {
   border-radius: 10px;
-	border-color: white;
-	font-size: 0.75em;
+  border-color: white;
+  font-size: 0.75em;
   margin-top: 1em;
   height: 1.5em;
 }
@@ -21,15 +21,15 @@
   margin: 0;
   padding: 1rem;
 }
-.Sensor-add__select__li{
+.Sensor-add__select__li {
   list-style-type: none;
 }
-.Sensor-add__select__li__sensor-fun{
+.Sensor-add__select__li__sensor-fun {
   place-self: center;
   position: relative;
 }
-.Sensor-add__select__li__sensor-fun::before{
-	content: "";
+.Sensor-add__select__li__sensor-fun::before {
+  content: "";
   width: 150px;
   height: 30px;
   position: absolute;
@@ -42,30 +42,28 @@
   /* background-color: rgba(255,255,255,0.5); */
   transition: transform 0.3s;
   border-radius: 15px;
-  transform:scaleX(0);
+  transform: scaleX(0);
 }
-.Sensor-add__select__li__sensor-fun:checked::before{
-  transform:scaleX(1)
+.Sensor-add__select__li__sensor-fun:checked::before {
+  transform: scaleX(1);
 }
-.Sensor-add__select__li__sensor-fun + label{
-
+.Sensor-add__select__li__sensor-fun + label {
   font-family: cursive;
-
 }
-.Sensor-add__select__select-rfid{
+.Sensor-add__select__select-rfid {
   display: none;
 }
-.Sensor-add__select__select-rfid ul{
-  margin-top:0.25em;
+.Sensor-add__select__select-rfid ul {
+  margin-top: 0.25em;
 }
-.Sensor-add__select__select-rfid--active{
+.Sensor-add__select__select-rfid--active {
   display: block;
 }
-.Sensor-add__select__select-rfid__uid{
+.Sensor-add__select__select-rfid__uid {
   position: relative;
 }
-.Sensor-add__select__select-rfid__uid::before{
-	content: "";
+.Sensor-add__select__select-rfid__uid::before {
+  content: "";
   width: 200px;
   height: 30px;
   position: absolute;
@@ -74,107 +72,105 @@
   bottom: 0;
   right: 0;
   z-index: -1;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   transition: transform 0.3s;
   border-radius: 15px;
-  transform:scaleX(0);
+  transform: scaleX(0);
 }
-.Sensor-add__select__select-rfid__uid:checked::before{
-  transform:scaleX(1)
+.Sensor-add__select__select-rfid__uid:checked::before {
+  transform: scaleX(1);
 }
-.Sensor-add__select__select-rfid__uid + label{
+.Sensor-add__select__select-rfid__uid + label {
   font-family: cursive;
 }
 
 .Sensor-add__button-save,
-.Sensor-add__button-back{
+.Sensor-add__button-back {
   margin-top: 0.25em;
-	font-size: 1em;
-	width: 6.5em;
-	background: none;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.2);
-	border-width: 2px;
-	font-family: cursive;
-	cursor: pointer;
-	position: relative;
+  font-size: 1em;
+  width: 6.5em;
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  font-family: cursive;
+  cursor: pointer;
+  position: relative;
 }
 
-
-.Add-sensor-button{
+.Add-sensor-button {
   display: none;
   justify-content: center;
   gap: 10px;
   margin-top: 1em;
 }
-.Add-sensor-button--active{
+.Add-sensor-button--active {
   display: flex;
 }
 .Add-sensor-button__add,
 .Add-sensor-button__delete {
   margin-top: 0.25em;
-	font-size: 1em;
-	width:7.5em;
-	background: none;
-	border-radius: 15px;
-	border-color: rgba(0,0,0,0.2);
-	border-width: 2px;
-	font-family: cursive;
-	cursor: pointer;
-	position: relative;
+  font-size: 1em;
+  width: 7.5em;
+  background: none;
+  border-radius: 15px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  font-family: cursive;
+  cursor: pointer;
+  position: relative;
 }
 
-
-.Sensor-container{
+.Sensor-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
-.Sensor-container__search{
+.Sensor-container__search {
   border-radius: 10px;
-	border-color: white;
-	font-size: 0.75em;
+  border-color: white;
+  font-size: 0.75em;
   margin-top: 1em;
   height: 1.5em;
 }
-.Sensor-container__ul{
+.Sensor-container__ul {
   list-style: none;
   padding: 0.75em;
 }
 
-.Sensor-container__ul__sensor{
+.Sensor-container__ul__sensor {
   width: 300px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.Sensor-container__ul__sensor__sensor-img{
+.Sensor-container__ul__sensor__sensor-img {
   width: 2em;
   place-self: center;
 }
 
-.Sensor-container__ul__sensor__del-button{
+.Sensor-container__ul__sensor__del-button {
   display: none;
   place-self: center;
   width: 3.5em;
 }
 
-.Sensor-container__ul__sensor__del-button--active{
+.Sensor-container__ul__sensor__del-button--active {
   display: block;
 }
 
 @media only screen and (min-width: 700px) {
-  .container{
+  .container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
   }
-  .Sensor-add{
+  .Sensor-add {
     padding-top: 0.5em;
   }
 
-  .Sensor-container__search{
+  .Sensor-container__search {
     position: relative;
     top: 10px;
     left: -50px;
@@ -185,33 +181,30 @@
   .Add-sensor-button__delete::before,
   .Add-sensor-button__add::before,
   .Sensor-add__button-save::before,
-  .Sensor-add__button-back::before{
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		z-index: -1;
-		transition: transform 0.3s;
-		border-radius: 15px;
-		transform:scaleX(0);
+  .Sensor-add__button-back::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    transition: transform 0.3s;
+    border-radius: 15px;
+    transform: scaleX(0);
     background-color: white;
   }
   .Add-sensor-button__delete:hover::before,
-	.Add-sensor-button__add:hover::before,
+  .Add-sensor-button__add:hover::before,
   .Sensor-add__button-save:hover::before,
-  .Sensor-add__button-back:hover::before{
-		transform:scaleX(1)
-	}
+  .Sensor-add__button-back:hover::before {
+    transform: scaleX(1);
+  }
 
-  .Add-sensor-button__delete::before{
+  .Add-sensor-button__delete::before {
     background-color: rgb(255, 0, 0);
   }
-  .Add-sensor-button__add::before{
+  .Add-sensor-button__add::before {
     background-color: rgb(0, 255, 0);
   }
-
-
 }
-

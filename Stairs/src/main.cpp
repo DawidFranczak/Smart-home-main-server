@@ -11,8 +11,8 @@
 
 
 // Połączenie z siecą WiFi
-const char* ssid = "Nazwa_sieci_wifi";
-const char* password = "Hasło_sieci_wifi";
+const char* ssid = "Tenda";
+const char* password = "1RKKHAPIEJ";
 
 // Port uC
 unsigned int udpPort = 2965;
@@ -51,12 +51,13 @@ void turnOnSensorDown();
 void turnOnSensorUp();
 
 void setup() {
+  Serial.begin(9600);
 
   // Konfiguracja pinów
   pinMode(WIFILED,OUTPUT);
-  pinMode(SENSORDOWN,INPUT_PULLUP);
-  pinMode(SENSORUP,INPUT_PULLUP);
-  pinMode(ADDBUTTON,INPUT_PULLUP);
+  // pinMode(SENSORDOWN,INPUT_PULLUP);
+  // pinMode(SENSORUP,INPUT_PULLUP);
+  // pinMode(ADDBUTTON,INPUT_PULLUP);
 
   // Wyłączenie diody świadczącej o połączeniu z internetem
   digitalWrite(WIFILED,HIGH);
@@ -88,7 +89,8 @@ void loop() {
     date = dataPackage;
     Serial.println(date);
 
-    if (date == "password_stairs" && digitalRead(ADDBUTTON) == HIGH) { 
+    // if (date == "password_stairs" && digitalRead(ADDBUTTON) == HIGH) { 
+    if (date == "password_stairs") { 
       UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
       UDP.write("respond_stairs");
       UDP.endPacket();
@@ -112,27 +114,27 @@ void loop() {
     }
   }
 
-  // Załączenie lamp poprzez czujniki
-  if(digitalRead(SENSORDOWN) == HIGH){
-    delay(20);
-    if(digitalRead(SENSORDOWN) == HIGH && sensorUp == false && sensorDown == false){
-      if(!lightOn) {
-        turnOnSensorDown();
-        sensorDown = true;
-        startTime = millis();
-        }
-    }
-  }
-  else if(digitalRead(SENSORUP) == HIGH){
-    delay(20);
-    if(digitalRead(SENSORUP) == HIGH && sensorUp == false && sensorDown == false){
-      if(!lightOn) {
-        turnOnSensorUp();
-        sensorUp = true;
-        startTime = millis();
-      }
-    }
-  }
+  // // Załączenie lamp poprzez czujniki
+  // if(digitalRead(SENSORDOWN) == HIGH){
+  //   delay(20);
+  //   if(digitalRead(SENSORDOWN) == HIGH && sensorUp == false && sensorDown == false){
+  //     if(!lightOn) {
+  //       turnOnSensorDown();
+  //       sensorDown = true;
+  //       startTime = millis();
+  //       }
+  //   }
+  // }
+  // else if(digitalRead(SENSORUP) == HIGH){
+  //   delay(20);
+  //   if(digitalRead(SENSORUP) == HIGH && sensorUp == false && sensorDown == false){
+  //     if(!lightOn) {
+  //       turnOnSensorUp();
+  //       sensorUp = true;
+  //       startTime = millis();
+  //     }
+  //   }
+  // }
 
   // Odmierzanie czasu do wyłączena oświetlenia
   presentTime = millis();

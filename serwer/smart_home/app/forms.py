@@ -233,4 +233,3 @@ class ChangeImageForm(forms.Form):
         model = HomeNavImage
         fields = '__all__'
         
-        
