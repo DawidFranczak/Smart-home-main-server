@@ -6,6 +6,7 @@
     margin-top: 1em;
     gap: 1em;
 } 
+
 .Nav__profil__a{
 	display: flex;
 	justify-content: center;
@@ -21,5 +22,112 @@
 	border-color: rgba(0,0,0,0.2);
 	border-width: 2px;
 	cursor: pointer;
-	position: relative;
+	position:relative;
+}
+.Image-change,
+.Email-change,
+.Password-change{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+    gap: 0.5em;
+
+}
+.Image-change__h1,
+.Email-change__h1,
+.Password-change__h1{
+	margin:0;
+	margin-top: 0.5em;
+	font-size: 1.5em;
+}
+
+.Email-change__div,
+.Password-change__div{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.Email__div__input,
+.Register__div__input{
+	border-radius: 10px;
+	border-color: white;
+	font-size: 1em;
+    margin-top: 0.75em;
+    height: 1.5em;
+}
+
+.errorlist{
+	margin-top: 0.25em;
+	padding: 0;
+}
+.errorlist li{
+	list-style-type: none;
+	font-size: 0.75em;
+	color: red;
+}
+
+.Image-change__submit,
+.Image-change__submit-reset,
+.Email-change__submit,
+.Password-change__submit{
+	font-size: 1em;
+	width: 8em;
+	background: none;
+	border-radius: 15px;
+	border-color: rgba(0,0,0,0.2);
+	border-width: 2px;
+	cursor: pointer;
+	position:relative;
+}
+.Image-change__submit,
+.Image-change__submit-reset{
+	margin-top: 0.5em;
+}
+
+.Email-change__p{
+	margin:0;
+	margin-bottom: 0.5em;
+}
+
+.Image-change__div{
+	display: grid;
+	gap:5px
+}
+
+
+
+
+.Messages__success{
+	display: flex;
+	justify-content: center;
+	list-style-type: none;
+	margin-top: 1em;
+ 	color: rgb(0, 150, 0);
+}
+
+.Nav__profil__a:before,
+.Image-change__submit:before,
+.Image-change__submit-reset:before,
+.Email-change__submit:before,
+.Password-change__submit:before{
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: -1;
+	background-color: white;
+	transition: transform 0.3s;
+	border-radius: 15px;
+	transform:scaleX(0);
+}
+.Nav__profil__a:hover::before,
+.Image-change__submit:hover::before,
+.Image-change__submit-reset:hover::before,
+.Email-change__submit:hover::before,
+.Password-change__submit:hover::before{
+	transform:scaleX(1)
 }

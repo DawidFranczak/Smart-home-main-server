@@ -9,12 +9,7 @@
         {% for field in form %}
         <div class="Register__div">
             {{ field }}
-            {% if field.required == True %}
-                <label for="id_{{field.name}}" class="Register__div__label">{{field.label}}*</label>
-            {% else %}
-                <label for="id_{{field.name}}" class="Register__div__label">{{field.label}}</label>
-            {% endif%}
-
+            <label for="id_{{field.name}}" class="Register__div__label">{{field.label}}</label>
             {{ field.errors }}
         </div>
         {% endfor %}

@@ -12,15 +12,15 @@
         <div class="Get-data__select-data">
             <div class="Get-data__select-data__div">
                 <p class="Get-data__select-data__div__p">Wybierz datę od</p>
-                <input class="Get-data__select-data__div__select" type="date" name="dataod">
+                <input class="Get-data__select-data__div__select" type="date" name="data-from">
             </div>
             <div class="Get-data__select-data__div">
                 <p class="Get-data__select-data__div__p">Wybierz datę do</p>
-                <input class="Get-data__select-data__div__select" type="date" name="datado">
+                <input class="Get-data__select-data__div__select" type="date" name="data-to">
             </div>
         </div>
         <div class="Select-place">
-            <select class="Select-place__list" name="lista">
+            <select class="Select-place__list" name="list">
                 {% for i in list_place %}
                 <option>{{i}}</option>
                 {% endfor %}
@@ -30,7 +30,7 @@
     </form>
     {% if data_temp|length == 0  %}
     <div class="Display-char">
-            <p>Brak danych do wyświetlenia</p>
+        <p class="Display-char__p">Brak danych do wyświetlenia</p>
     </div>
 
     {% elif  data_average_data|length > 7 %}
@@ -41,8 +41,8 @@
         <canvas id="myChart_average_temp_night"></canvas>
     </div>
     <script>
-            wykres_srednia_dzien({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
-            wykres_srednia_noc({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
+            chart_average_day({{ data_average_temp_day|safe }}, {{ data_average_data|safe }}, "{{ place|safe }}");
+            chart_average_night({{ data_average_temp_night|safe }}, {{ data_average_data|safe }});
         </script>
     {% else %}
     <div class="Display-char">
@@ -50,7 +50,7 @@
     </div>
     {%block scripts%}
     <script>
-            wykres({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");
+            chart({{ data_temp|safe }}, {{ data_time|safe }}, "{{place|safe}}");
     </script>
     {%endblock scripts%}
 {% endif %}

@@ -20,66 +20,68 @@
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/window.png' %}"
+            src="{{image.sunblind.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'chart' %}">
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/temp.png' %}"
+            src="{{image.temperature.url}}"
             />
         </a>
-        <img
-        class="Nav-home--size"
-        src="{% static 'images/user.png' %}"
-        alt="Ładny domek"
-        />
-        <img
-        class="Nav-home__home"
-        src="{% static 'images/home.png' %}"
-        alt="Ładny domek"
-        />
-        <a class="Nav-home__a" href="{% url 'light' %}">
+        <a class="Nav-home__a" href="{% url 'userPage' %}">
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/lamp.png' %}"
+            src="{{image.profile.url}}"
+            />
+        </a>
+        <img
+            class="Nav-home__home"
+            src="{{image.home.url}}"
+            alt="Ładny domek"
+        />
+        <a class="Nav-home__a" href="{% url 'light' %}">
+            <input
+                type="image"
+                class="Nav-home--size"
+                src="{{image.light.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'stairs' %}">
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/stairs.png' %}"
+            src="{{image.stairs.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'aquarium' %}">
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/aqua.png' %}"
+            src="{{image.aquarium.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'sensor' %}">        
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/connect.png' %}"
+            src="{{image.sensor.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'rpl' %}">      
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/rfid.png' %}"
+            src="{{image.rpl.url}}"
             />
         </a>
         <a class="Nav-home__a" href="{% url 'logout' %}">
             <input
             type="image"
             class="Nav-home--size"
-            src="{% static 'images/logout.png' %}"
+            src="{{image.logout.url}}"
             />
         </a>
     </div>

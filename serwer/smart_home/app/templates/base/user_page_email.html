@@ -1,0 +1,14 @@
+<form method="post" class="Email-change">
+    {% csrf_token %}
+    <h1 class="Email-change__h1">Zmiana emaila</h1>
+    <p class="Email-change__p">Aktualny email</p>
+    <p class="Email-change__p">{{old}}</p>
+    {% for field in form %}
+    <div class="Email-change__div">
+        <label for="id_{{field.name}}" class="Email-change__div__label">{{field.label}}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="Email-change__submit">Zmień hasło</button>
+</form>

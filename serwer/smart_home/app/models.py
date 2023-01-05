@@ -1,17 +1,34 @@
 from django.db import models
+# from django.contrib.auth.models import User
 from django.contrib.auth.models import User
 
 
 # Create your models here.
 
+class HomeNavImage(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    home = models.ImageField(upload_to='images/', default='images/home.png')
+    rpl = models.ImageField(upload_to='images/', default='images/rfid.png')
+    aquarium = models.ImageField(upload_to='images/', default='images/aqua.png')
+    sunblind = models.ImageField(upload_to='images/', default='images/sunblind.png')
+    temperature = models.ImageField(upload_to='images/', default='images/temp.png')
+    profile = models.ImageField(upload_to='images/', default='images/user.png')
+    light = models.ImageField(upload_to='images/', default='images/lamp.png')
+    stairs = models.ImageField(upload_to='images/', default='images/stairs.png')
+    sensor = models.ImageField(upload_to='images/', default='images/sensor.png')
+    logout = models.ImageField(upload_to='images/', default='images/logout.png')
+    
+    def __str__(self):
+        return str(self.user)
+        
+        
 class Sensor(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     ip = models.CharField(max_length=100)
     port = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
-    fun = models.CharField(max_length=100)
-
+    fun = models.CharField(max_length=100,default="")
 
     def __str__(self):
         return str(self.name)
@@ -41,7 +58,6 @@ class Aqua(models.Model):
     led_mode = models.BooleanField(default=False)
     fluo_mode = models.BooleanField(default=False)
 
-    
     def __str__(self):
         return str(self.mode)
     

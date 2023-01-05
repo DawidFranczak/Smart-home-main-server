@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.db.models import Q
 import socket
 from .models import *
 
@@ -44,56 +45,57 @@ def add_sensor(get_data,user_id):
     match get_data['fun']:
         case 'temp':
             port = 1265
-            wiad = str.encode('password_temp')
-            ans = 'respond_temp'
+            message = str.encode('password_temp')
+            answer = 'respond_temp'
         case 'sunblind':
             port = 9846
-            wiad = str.encode('password_sunblind')
-            ans = 'respond_sunblind'
+            message = str.encode('password_sunblind')
+            answer = 'respond_sunblind'
         case 'light':
             port = 4324
-            wiad = str.encode('password_light')
-            ans = 'respond_light'
+            message = str.encode('password_light')
+            answer = 'respond_light'
         case 'aqua':
             port = 7863
-            wiad = str.encode('password_aqua')
-            ans = 'respond_aqua'
+            message = str.encode('password_aqua')
+            answer = 'respond_aqua'
         case 'stairs':
             port = 2965
-            wiad = str.encode('password_stairs')
-            ans = 'respond_stairs'
+            message = str.encode('password_stairs')
+            answer = 'respond_stairs'
         case 'rfid':
             port = 3984
-            wiad = str.encode('password_rfid')
-            ans = 'respond_rfid'
+            message = str.encode('password_rfid')
+            answer = 'respond_rfid'
         case 'btn':
             port = 7894
-            wiad = str.encode('password_btn')
-            ans = 'respond_btn'
+            message = str.encode('password_btn')
+            answer = 'respond_btn'
         case 'lamp':
             port = 4569
-            wiad = str.encode('password_lamp')
-            ans = 'respond_lamp'
+            message = str.encode('password_lamp')
+            answer = 'respond_lamp'
         
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
     for i in range(2,254):
         checkip = '192.168.0.'+str(i)
         
         try:
-            sock.sendto(wiad, (checkip, port))
+            sock.sendto(message, (checkip, port))
             sock.settimeout(0.05)
             data = sock.recvfrom(128)
             response = data[0].decode('UTF-8')
             
-            if response == ans:
+            if response == answer:
                 response_sensor_ip = str(data[1][0])
+                
                 if Sensor.objects.filter(ip = response_sensor_ip).exists():
                     respond = {'response': 'Czujnik już dodano'}
                     return respond
 
                 sensor = Sensor(name=get_data['name'], ip=response_sensor_ip, port=port, fun=get_data['fun'], user_id=user_id)
                 sensor.save()
-                sensor_id=Sensor.objects.filter(ip=response_sensor_ip).get(user_id=user_id).id
+                sensor_id = Sensor.objects.filter(ip=response_sensor_ip).get(user_id=user_id).id
                 
                 match get_data['fun']:
                     case 'aqua':
@@ -157,6 +159,7 @@ def add_uid(_data):
     except Exception as e:
         print(e)
         respond = {'response': 'Nie udało dodać się czujnika'} 
+        sock.close()
     return respond
 
 
@@ -177,56 +180,49 @@ def delete_sensor(get_data):
 
 
 # # /////////////////////////REST/////////////////////////////////////////
-def data_for_chart(data_od, data_do, place):
+def data_for_chart(data_from, data_to, place):
     data_temp = []
     data_time = []
     data_average_temp_day = []
     data_average_temp_night = []
     data_average_data = []
-    
-    average_day = 0
-    average_night = 0
-    number_of_ours_day = 0
-    number_of_ours_night = 0
+    average_day = []
+    average_night = []
     
     start_day = '06'
     end_day = '18'
-    format = '%Y-%m-%d'
 
-    try:
-        data_do = str(datetime.strptime(data_do, format) + timedelta(days=1))
-    except ValueError:
-        pass
-    
-    temps = Temp.objects.filter(sensor_id=Sensor.objects.get(name=place)).filter(time__gte = data_od).filter(time__lte = data_do)
-    
-    for temp in temps:  # wyciągnięcie danych z bazy dancyh
-        if str(temp.time) <= data_do and str(temp.time) >= str(data_od):
+    temps = Temp.objects.filter(
+        Q(sensor_id = Sensor.objects.get(name=place)) &
+        Q(time__gte = data_from) &
+        Q(time__lte = data_to))
+
+    date_old = str(temps[0])[:10]
+    for temp in temps:
+        date_new = str(temp)[:10]
+        if str(temp.time) <= data_to and str(temp.time) >= str(data_from):
             data_temp.append(temp.temp)
             data_time.append(str(temp.time)[:16])
-            
             hour = str(temp.time).split().pop(1)[:2]
+            
             if hour > start_day and hour <= end_day:
-                average_day = average_day + float(temp.temp)
-                number_of_ours_day += 1
-                
-                if number_of_ours_day == 12:
-                    data_average_temp_day.append(
-                        round(average_day / number_of_ours_day, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
-                    date = str(temp.time)[:10]
-                    data_average_data.append(date)
-                    average_day = 0
-                    number_of_ours_day = 0
-                    
+                average_day.append(float(temp.temp))
             else:
-                average_night = average_night + float(temp.temp)
-                number_of_ours_night += 1
-                
-                if number_of_ours_night == 12:
-                    data_average_temp_night.append(
-                        round(average_night / number_of_ours_night, 2))  # zaokrąglanie liczby do 2 miejscpo przecinku oraz wpisanie do listy
-                    average_night = 0
-                    number_of_ours_night = 0 
+                average_night.append(float(temp.temp))
+                   
+        if date_new != date_old:
+            
+            data_average_temp_day.append(
+                round(sum(average_day) /len(average_day), 2)) 
+            data_average_temp_night.append(
+                round(sum(average_night) / len(average_night), 2)) 
+
+            data_average_data.append(date_old)
+            
+            average_day.clear()
+            average_night.clear()
+            date_old = date_new
+            
     context = {
             'data_temp': data_temp,
             'data_time': data_time,
@@ -255,8 +251,7 @@ def change_light(id):
         else:
             light.light = False
             response = {'response': 0}
-            
-        light.save()    
+        light.save() 
     except TimeoutError:
         response = {'response': -1}
     finally: 
@@ -278,14 +273,14 @@ def send_data(_mess, _ip, _port):
     
 def checkAqua(sensor,aqua):
     if datetime.now().hour < 10:
-        hours = '0'+str(datetime.now().hour)
+        hours = '0' + str(datetime.now().hour)
     else:
         hours = str(datetime.now().hour)
    
     if datetime.now().minute < 10:
-        minutes = ':0'+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
+        minutes = ':0' + str(datetime.now().minute) + ':' + str(datetime.now().second)
     else:
-        minutes = ':'+str(datetime.now().minute)+ ':'+ str(datetime.now().second)
+        minutes = ':' + str(datetime.now().minute) + ':' + str(datetime.now().second)
         
     time_now = hours + minutes
     led_start = str(aqua.led_start)
