@@ -106,11 +106,10 @@ main {
   margin-top: 0.5em;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.5);
-  transition: color 0.3s, transform 0.3s;
+  transition: color 0.3s;
 }
 .Password-reset:hover {
   color: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1);
 }
 
 @media only screen and (min-width: 650px) {
