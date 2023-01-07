@@ -7,7 +7,8 @@
   gap: 1em;
 }
 
-.Nav__profil__a {
+.Nav__profil__a,
+.Delete-user__back {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +27,8 @@
 }
 .Image-change,
 .Email-change,
-.Password-change {
+.Password-change,
+.Delete-user {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -66,7 +68,7 @@
   font-size: 0.75em;
   color: red;
 }
-
+.Delete-user__submit,
 .Image-change__submit,
 .Image-change__submit-reset,
 .Email-change__submit,
@@ -80,11 +82,14 @@
   cursor: pointer;
   position: relative;
 }
+.Delete-user__submit {
+  width: 10em;
+}
+
 .Image-change__submit,
 .Image-change__submit-reset {
   margin-top: 0.5em;
 }
-
 .Email-change__p {
   margin: 0;
   margin-bottom: 0.5em;
@@ -102,8 +107,9 @@
   margin-top: 1em;
   color: rgb(0, 150, 0);
 }
-
+.Delete-user__submit:before,
 .Nav__profil__a:before,
+.Delete-user__back:before,
 .Image-change__submit:before,
 .Image-change__submit-reset:before,
 .Email-change__submit:before,
@@ -120,6 +126,14 @@
   border-radius: 15px;
   transform: scaleX(0);
 }
+.Delete-user__back:before {
+  background-color: rgb(0, 255, 0);
+}
+.Delete-user__submit:before {
+  background-color: red;
+}
+.Delete-user__back:hover::before,
+.Delete-user__submit:hover::before,
 .Nav__profil__a:hover::before,
 .Image-change__submit:hover::before,
 .Image-change__submit-reset:hover::before,

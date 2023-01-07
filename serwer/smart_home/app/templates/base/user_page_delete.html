@@ -1,0 +1,7 @@
+<form action="" method="post" class="Delete-user">
+    {% csrf_token %}
+    <p>Czy aby na pewno chcesz usunąć konto ?</p>
+    <button type="submit" class="Delete-user__submit">Tak, usuń konto</button>
+    <a href="{% url 'home' %}" class="Delete-user__back">Nie, wróć do strony głównej</a>
+</form>
+

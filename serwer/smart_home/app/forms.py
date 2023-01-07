@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import User, HomeNavImage
 from django import forms  
+# from django.utils.translation import gettext as _
+
 
 class CreateUserForm(UserCreationForm):
 

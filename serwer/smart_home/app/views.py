@@ -121,6 +121,15 @@ def user_change_image(request):
     
     return render(request, 'base/user_page.html',context) 
 
+@login_required(login_url='login')
+def user_delete(request):
+    if request.method == 'POST':
+        request.user.delete()
+        messages.success(request,'Konto zostało usunięte')
+        return redirect('login')
+    context ={'action':'delete'}
+    return render(request, 'base/user_page.html',context)
+
 
 @login_required(login_url='login')
 def home(request):
