@@ -35,7 +35,7 @@
   <div class="Login__buttons">
     <button type="submit" class="Login__button__login">Zaloguj</button>
 
-    <a class="Login__button__register" href="{% url 'userRegister' %}"
+    <a class="Login__button__register" href="{% url 'user_register' %}"
       >Rejestracja</a
     >
   </div>
@@ -50,4 +50,5 @@
   </div>
 </form>
 
+<a class="Password-reset" href="{% url 'password_reset' %}">Przypomnij hasło</a>
 {% endblock content %}

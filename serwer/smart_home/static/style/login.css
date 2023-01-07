@@ -102,6 +102,17 @@ main {
   color: rgb(0, 200, 0);
 }
 
+.Password-reset {
+  margin-top: 0.5em;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.3s, transform 0.3s;
+}
+.Password-reset:hover {
+  color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
 @media only screen and (min-width: 650px) {
   .container {
     transform: translateY(+20%);
