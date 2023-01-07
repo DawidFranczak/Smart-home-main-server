@@ -14,7 +14,7 @@ from .mod import *
 
 # Create your views here.
 
-def register_user(request):
+def user_register(request):
     form = CreateUserForm()
     
     if request.method == 'POST':
@@ -29,7 +29,7 @@ def register_user(request):
     return render(request, 'base/register.html', context)
 
 
-def login_user(request):
+def user_login(request):
     if request.method =='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -54,7 +54,7 @@ def login_user(request):
     return render(request, 'base/login.html')
 
 
-def logout_user(request):
+def user_logout(request):
     logout(request)
     return redirect('login')
 
@@ -76,7 +76,7 @@ def user_change_password(request):
             user = authenticate(request, username=username, password=password)
             login(request,user)  
             messages.success(request,'Zmiana hasła przebiegła pomyślnie')
-            return redirect('userPage')
+            return redirect('user_page')
     context = {'action':'password',
               'form':form}
     
@@ -92,7 +92,7 @@ def user_change_email(request):
         if form.is_valid():
             form.save()
             messages.success(request,'Zmiana emaila przebiegła pomyślnie')
-            return redirect('userPage')
+            return redirect('user_page')
         
     context = {'action':'email',
               'form':form,
@@ -110,11 +110,11 @@ def user_change_image(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Udało się zmienić zdjęcie(a)')
-                return redirect('userPage')
+                return redirect('user_page')
         else:
             form.reset()
             messages.success(request, 'Zresetowano zdjęcia')
-            return redirect('userPage')
+            return redirect('user_page')
         
     context = {'action':'image',
                'form': form}

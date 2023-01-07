@@ -110,8 +110,8 @@ def send_email(subject, content):
     ''' 
     Send email to user
     '''
-    gmailaddress = "zawierzyciel98@gmail.com"
-    gmailpassword = "lgoiurgujoebzxfj"
+    gmailaddress = "testsmarthometest@gmail.com"
+    gmailpassword = "wrhqykfhekbimlat"
 
     msg = EmailMessage()
     msg.set_content(content)

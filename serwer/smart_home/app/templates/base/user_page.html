@@ -9,20 +9,21 @@
   href='{% static "style/user_page.css" %}'
 />
 <section class="Nav__profil" id="profil-buttons">
-  <a class="Nav__profil__a" href="{% url 'userChangePassword'%}">Zmień hasło</a>
-  <a class="Nav__profil__a" href="{% url 'userChangeEmail'%}">Zmień email</a>
-  <a class="Nav__profil__a" href="{% url 'userChangeImage'%}"
+  <a class="Nav__profil__a" href="{% url 'user_change_password'%}">Zmień hasło</a>
+  <a class="Nav__profil__a" href="{% url 'user_change_email'%}">Zmień email</a>
+  <a class="Nav__profil__a" href="{% url 'user_change_image'%}"
     >Zmień zdjęcia w home</a
   >
-  <a class="Nav__profil__a" href="{% url 'userChangePassword'%}"
+  <a class="Nav__profil__a" href="{% url 'user_change_password'%}"
     >Zmień numer telefonu</a
   >
 </section>
+
 {% if action == 'password'%}
   {% include 'base\user_page_password.html'%}
 {% elif action == 'email' %}
   {% include 'base\user_page_email.html'%}
-{% elif action =='image' %}
+{% elif action == 'image' %}
   {% include 'base\user_page_image.html'%}
 {% endif %}
 
