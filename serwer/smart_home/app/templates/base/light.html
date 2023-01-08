@@ -9,6 +9,9 @@
   href='{% static "style/light.css" %}'
 />
 <section class="Led-container" id="led-container">
+  <div class="Led-container__div">
+    <p class="Led-container__div__light-name">Nazwa</p>
+  </div>
   {% for sensor in sensors %}
   <div class="Led-container__div">
     <p class="Led-container__div__light-name">{{sensor.name}}</p>

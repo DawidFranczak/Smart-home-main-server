@@ -1,6 +1,5 @@
 h1,
 h2 {
-  font-family: cursive;
   font-size: 1.5em;
   margin: 0;
 }
@@ -17,7 +16,6 @@ h2 {
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }
@@ -38,9 +36,7 @@ h2 {
 .Stairs-containers--active {
   display: flex;
 }
-.Stairs-containers__label {
-  font-family: cursive;
-}
+
 .Stairs-containers__input {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -61,7 +57,6 @@ h2 {
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }

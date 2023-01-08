@@ -3,13 +3,12 @@ const calibration = (e) => {
   const event = e.type;
   const element = e.target;
   let dict = {};
-
   switch (event) {
     case "pointerdown":
       const calibrationButtons = document.querySelector("#calibration-buttons");
       const saveButtons = document.querySelector("#save-buttons");
 
-      if (element.type === "image") {
+      if (element.type === "button") {
         const action = element.id;
         dict = {
           action: action,
@@ -48,7 +47,7 @@ const calibration = (e) => {
       }
       break;
     case "pointerup":
-      if (element.type === "image") {
+      if (element.type === "button") {
         dict = {
           action: "stop",
         };

@@ -17,11 +17,19 @@
 .Calibration-button__up {
   margin-top: 2em;
   translate: transform 0.3s;
+  background: url("../images/arrow_up.png");
+  width: 78px;
+  height: 173px;
+  border: none;
 }
 .Calibration-button__down {
   margin-bottom: 2em;
   translate: transform 0.3s;
   rotate: -2deg;
+  background: url("../images/arrow_down.png");
+  width: 78px;
+  height: 172px;
+  border: none;
 }
 .Calibration-button__up:active,
 .Calibration-button__down:active {
@@ -35,7 +43,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  font-family: cursive;
   transition: transform 0.3s;
   cursor: pointer;
 }
@@ -54,7 +61,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  font-family: cursive;
   transition: transform 0.3s;
   cursor: pointer;
 }

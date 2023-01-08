@@ -41,11 +41,14 @@ class Temp(models.Model):
     humi = models.CharField(max_length=10,default="")
 
     def __str__(self):
-        return str(self.time)
+        return str(self.sensor)
     
 class Sunblind(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     value = models.IntegerField()
+    
+    def __str__(self):
+        return str(self.sensor)
     
 class Aqua(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
@@ -59,7 +62,7 @@ class Aqua(models.Model):
     fluo_mode = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.mode)
+        return str(self.sensor)
     
     
 class Stairs(models.Model):
@@ -69,20 +72,35 @@ class Stairs(models.Model):
     lightTime = models.IntegerField(default = 6)
     mode = models.BooleanField(default=False)
     
+    def __str__(self):
+        return str(self.sensor)
+    
 class Rfid(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     lamp = models.CharField(max_length=50,default="")
+    
+    def __str__(self):
+        return str(self.sensor)
     
 class Card(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     name = models.CharField(max_length=50,default="")
     uid = models.IntegerField(default=0)
     
+    def __str__(self):
+        return str(self.sensor)
+    
 class Button(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     lamp = models.CharField(max_length=50,default="")
+    
+    def __str__(self):
+        return str(self.sensor)
 
 class Light(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     light = models.BooleanField()
+    
+    def __str__(self):
+        return str(self.sensor)
     

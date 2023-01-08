@@ -20,7 +20,6 @@
 }
 .Get-data__select-data__div__p {
   font-size: 0.85em;
-  font-family: cursive;
 }
 .Get-data__select-data__div__select {
   font-size: 0.75em;
@@ -53,7 +52,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }
