@@ -5,9 +5,11 @@ const checkClock = (t) => {
 
 (() => {
   const today = new Date();
-  const day = today.getDate();
-  const month = today.getMonth();
+  let day = today.getDate();
+  let month = today.getMonth() + 1;
   const year = today.getFullYear();
+  day = checkClock(day);
+  month = checkClock(month);
   document.querySelector("#date").innerHTML = `${day}.${month}.${year}`;
 })();
 

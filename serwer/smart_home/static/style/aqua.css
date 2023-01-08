@@ -1,5 +1,4 @@
 h1 {
-  font-family: cursive;
   font-size: 1.5em;
   margin: 0;
   margin-bottom: 0.5em;
@@ -42,7 +41,6 @@ h1 {
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }
@@ -55,12 +53,8 @@ h1 {
 .Containers-aqua--active {
   display: flex;
 }
-.Containers-aqua__p,
-.Containers-aqua__settings-aqua__p {
-  font-family: cursive;
-}
+
 .Containers-aqua__p-header {
-  font-family: cursive;
   font-size: 1.5em;
   margin: 0;
 }

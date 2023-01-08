@@ -35,7 +35,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  font-family: cursive;
   transition: transform 0.3s;
   cursor: pointer;
 }
@@ -54,7 +53,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  font-family: cursive;
   transition: transform 0.3s;
   cursor: pointer;
 }

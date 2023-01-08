@@ -45,11 +45,6 @@
 .Elements__buttons__button__select:checked + label::before {
   transform: scaleX(1.2);
 }
-.Elements__lamps__message,
-.Elements__rfids__message,
-.Elements__buttons__message {
-  font-family: cursive;
-}
 .Button {
   margin: 1em 0 0.5em 0;
   font-size: 1em;
@@ -57,7 +52,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }

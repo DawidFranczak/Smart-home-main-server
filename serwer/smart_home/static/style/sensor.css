@@ -47,9 +47,7 @@
 .Sensor-add__select__li__sensor-fun:checked::before {
   transform: scaleX(1);
 }
-.Sensor-add__select__li__sensor-fun + label {
-  font-family: cursive;
-}
+
 .Sensor-add__select__select-rfid {
   display: none;
 }
@@ -80,9 +78,6 @@
 .Sensor-add__select__select-rfid__uid:checked::before {
   transform: scaleX(1);
 }
-.Sensor-add__select__select-rfid__uid + label {
-  font-family: cursive;
-}
 
 .Sensor-add__button-save,
 .Sensor-add__button-back {
@@ -93,7 +88,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }
@@ -116,7 +110,6 @@
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 2px;
-  font-family: cursive;
   cursor: pointer;
   position: relative;
 }

@@ -26,7 +26,6 @@
 }
 .Sunblind-containers__sunblind-name {
   width: 100px;
-  font-family: cursive;
 }
 .Sunblind-containers__div {
   display: flex;
@@ -34,7 +33,6 @@
   flex-direction: column;
   align-items: center;
   width: 100px;
-  font-family: cursive;
 }
 .Sunblind-containers__div__slider {
   width: 100px;
@@ -48,7 +46,6 @@
   justify-content: center;
   align-items: center;
   width: 100px;
-  font-family: cursive;
   text-decoration: none;
   color: black;
   border: 2px solid;
@@ -60,7 +57,6 @@
 .Sunblind-containers__calibration-button-header {
   display: none;
   width: 100px;
-  font-family: cursive;
 }
 .Sunblind-containers__calibration-button--avtive {
   display: flex;
