@@ -27,20 +27,20 @@
 }
 .Sunblind-containers__sunblind-name {
   word-wrap: break-word;
-  width: max(100px, 30vw);
-  width: max(100px, 30dvw);
+  width: max(100px, min(30vw, 500px));
+  width: max(100px, min(30dvw, 500px));
 }
 .Sunblind-containers__div {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  width: max(100px, 30vw);
-  width: max(100px, 30dvw);
+  width: max(100px, min(30vw, 500px));
+  width: max(100px, min(30dvw, 500px));
 }
 .Sunblind-containers__div__slider {
-  width: max(100px, 30vw);
-  width: max(100px, 30dvw);
+  width: max(100px, min(25vw, 300px));
+  width: max(100px, min(25dvw, 300px));
 }
 .Sunblind-containers__div__slider-value {
   margin: 0;
@@ -62,8 +62,8 @@
 .Sunblind-containers__calibration-button-header {
   display: none;
   justify-items: center;
-  width: max(100px, 30vw);
-  width: max(100px, 30dvw);
+  width: max(100px, min(30vw, 500px));
+  width: max(100px, min(30dvw, 500px));
 }
 .Sunblind-containers__calibration-button--avtive {
   display: grid;
