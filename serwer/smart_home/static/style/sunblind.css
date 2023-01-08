@@ -23,19 +23,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 .Sunblind-containers__sunblind-name {
-  width: 100px;
+  word-wrap: break-word;
+  width: max(100px, 30vw);
+  width: max(100px, 30dvw);
 }
 .Sunblind-containers__div {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  width: 100px;
+  width: max(100px, 30vw);
+  width: max(100px, 30dvw);
 }
 .Sunblind-containers__div__slider {
-  width: 100px;
+  width: max(100px, 30vw);
+  width: max(100px, 30dvw);
 }
 .Sunblind-containers__div__slider-value {
   margin: 0;
@@ -56,39 +61,24 @@
 
 .Sunblind-containers__calibration-button-header {
   display: none;
-  width: 100px;
+  justify-items: center;
+  width: max(100px, 30vw);
+  width: max(100px, 30dvw);
 }
 .Sunblind-containers__calibration-button--avtive {
-  display: flex;
+  display: grid;
 }
 
 @media only screen and (min-width: 700px) {
-  .Calibration-button::before {
-    content: "";
-    width: auto;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    height: auto;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 1);
-    position: absolute;
-    transition: transform 0.3s;
-    transform: scaleX(0);
-    z-index: -1;
-  }
-  .Calibration-button:hover::before {
-    transform: scaleX(1);
-  }
+  .Calibration-button::before,
   .Sunblind-containers__calibration-button::before {
     content: "";
     width: auto;
-    height: auto;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
+    height: auto;
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 1);
     position: absolute;
@@ -96,6 +86,7 @@
     transform: scaleX(0);
     z-index: -1;
   }
+  .Calibration-button:hover::before,
   .Sunblind-containers__calibration-button:hover::before {
     transform: scaleX(1);
   }
