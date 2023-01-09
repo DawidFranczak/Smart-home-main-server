@@ -99,26 +99,6 @@ def add_sensor(get_data,user_id):
                 sensor = Sensor(name=get_data['name'], ip=response_sensor_ip, port=port, fun=get_data['fun'], user_id=user_id)
                 sensor.save()
                 sensor_id = Sensor.objects.filter(ip=response_sensor_ip).get(user_id=user_id).id
-                
-                match get_data['fun']:
-                    case 'aqua':
-                        aqua = Aqua(sensor_id = sensor_id)
-                        aqua.save()
-                    case 'light':
-                        light = Light(sensor_id = sensor_id, light = False)
-                        light.save()
-                    case 'sunblind':
-                        sensor = Sunblind(sensor_id = sensor_id, value = 0)
-                        sensor.save()
-                    case 'stairs':
-                        sensor = Stairs(sensor_id = sensor_id)
-                        sensor.save()
-                    case 'btn':
-                        btn = Button(sensor_id = sensor_id)
-                        btn.save()
-                    case 'rfid':
-                        rfid = Rfid(sensor_id = sensor_id)
-                        rfid.save()
                 respond = {'response': 'Udało sie dodać czujnik', 'id': sensor_id}  
                 sock.close()
                 return respond
