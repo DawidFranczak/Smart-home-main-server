@@ -13,9 +13,6 @@ def add_sensor(sender, instance, created,**kwarg):
     if created:
         function = instance.fun
         match function:
-            case 'temp':
-                Temp.objects.create(sensor_id = instance.id)
-                
             case 'sunblind':
                 Sunblind.objects.create(sensor_id = instance.id)
 

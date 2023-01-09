@@ -45,7 +45,7 @@ class Temp(models.Model):
     
 class Sunblind(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    value = models.IntegerField()
+    value = models.IntegerField(default=0)
     
     def __str__(self):
         return str(self.sensor)
@@ -99,7 +99,7 @@ class Button(models.Model):
 
 class Light(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    light = models.BooleanField()
+    light = models.BooleanField(default=False)
     
     def __str__(self):
         return str(self.sensor)

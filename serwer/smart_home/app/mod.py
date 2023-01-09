@@ -190,8 +190,12 @@ def data_for_chart(data_from, data_to, place):
         Q(sensor_id = Sensor.objects.get(name=place)) &
         Q(time__gte = data_from) &
         Q(time__lte = data_to))
-
-    date_old = str(temps[0])[:10]
+    
+    try:
+        date_old = str(temps[0])[:10]   
+    except IndexError:
+        return {} 
+    
     for temp in temps:
         date_new = str(temp)[:10]
         if str(temp.time) <= data_to and str(temp.time) >= str(data_from):
