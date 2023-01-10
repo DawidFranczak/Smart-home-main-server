@@ -4,39 +4,7 @@ import socket
 from .models import *
 
 
-# miesiac = 1
-# dzien = 1
-# godzina = 0
-# pokoje=["Pokój","Garaż"]
-# iddd = 1
-# for i in range(12):
-#     while(dzien != 32):
-#         try:
-#             y = datetime(2022,miesiac,dzien,godzina,0,0)
-#             # print(y)
-#         except ValueError:
-#             dzien = 1
-#             miesiac += 1
-#             godzina = 0
-#         x = randint(0,20)
-#         yy = randint(0,100)
-#         iddd += 1
-#         pomiar = [(iddd, y, x, y,31)]
-#         p = Temp(sensor_id = 31,time = y, temp = x , humi = yy )
-#         p.save()
-#         print(pomiar)
-#         # data = "temp/" + i + str(x) + "/" + str(y)
-#         # data = bytes(str(data), 'utf-8')
-#         # print(data)
-#         # sleep(0.01)
-#         # sock.sendto(data, (str(socket.gethostbyname(socket.gethostname())), 1234))
-#         godzina += 1
-#         if (godzina == 24):
-#             godzina = 0
-#             dzien += 1
-#         sleep(0.01)
-#     dzien = 1
-#     miesiac += 1
+#//////////////////////////GET/////////////////////////////
 
 # ////////////////////////ADD///////////////////////////////////////////////////////////////
 
@@ -170,7 +138,7 @@ def delete_sensor(get_data):
 
 
 # # /////////////////////////REST/////////////////////////////////////////
-def data_for_chart(data_from, data_to, place):
+def data_for_chart(data_from, data_to, place, user_id):
     ''' 
     Get data and avarage temperature for chart from date to date
     '''
@@ -185,19 +153,25 @@ def data_for_chart(data_from, data_to, place):
     
     start_day = '06'
     end_day = '18'
-
+    
+    sensor = Sensor.objects.get(
+                Q(user_id = user_id) &
+                Q(fun = 'temp') &
+                Q(name = place))
+    
     temps = Temp.objects.filter(
-        Q(sensor_id = Sensor.objects.get(name=place)) &
+        Q(sensor_id = sensor.id) &
         Q(time__gte = data_from) &
         Q(time__lte = data_to))
-    
+     
     try:
-        date_old = str(temps[0])[:10]   
+        date_old = str(temps[0].time)[:10] 
     except IndexError:
         return {} 
     
     for temp in temps:
-        date_new = str(temp)[:10]
+        date_new = str(temp.time)[:10]
+
         if str(temp.time) <= data_to and str(temp.time) >= str(data_from):
             data_temp.append(temp.temp)
             data_time.append(str(temp.time)[:16])
@@ -207,20 +181,20 @@ def data_for_chart(data_from, data_to, place):
                 average_day.append(float(temp.temp))
             else:
                 average_night.append(float(temp.temp))
-                   
-        if date_new != date_old:
-            
-            data_average_temp_day.append(
-                round(sum(average_day) /len(average_day), 2)) 
-            data_average_temp_night.append(
-                round(sum(average_night) / len(average_night), 2)) 
 
-            data_average_data.append(date_old)
-            
-            average_day.clear()
-            average_night.clear()
-            date_old = date_new
-            
+            if date_new != date_old:
+                
+                data_average_temp_day.append(
+                    round(sum(average_day) /len(average_day), 2)) 
+                data_average_temp_night.append(
+                    round(sum(average_night) / len(average_night), 2)) 
+
+                data_average_data.append(date_old)
+                
+                average_day.clear()
+                average_night.clear()
+                date_old = date_new
+
     context = {
             'data_temp': data_temp,
             'data_time': data_time,
@@ -228,7 +202,7 @@ def data_for_chart(data_from, data_to, place):
             'data_average_temp_night': data_average_temp_night,
             'data_average_data': data_average_data,
             'place': place,
-            }                
+            }       
     return context
 
 
