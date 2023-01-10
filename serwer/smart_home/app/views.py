@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 import json
+from django.db.models import Q
+
 
 from .forms import CreateUserForm, ChangePasswordForm, ChangeEmailForm, ChangeImageForm
 from .models import *
@@ -161,14 +163,13 @@ def light(request):
 @login_required(login_url='login')
 def chart(request):
     user_id = request.user.id
-    list_place = Sensor.objects.filter(fun = 'temp').filter(user_id = user_id)
+    list_place = Sensor.objects.filter(user_id = user_id).filter(fun = 'temp')
     
     if len(list_place) == 0:
          return render(request,'base/chart.html')
     
-    data_from = str(datetime.now().date() - timedelta(days=6))
+    data_from = datetime.now().date() - timedelta(days=6)
     data_to = str(datetime.now())
-
     
     if request.method == 'POST':
         if request.POST["data-from"] and request.POST["data-to"]:
@@ -176,15 +177,16 @@ def chart(request):
             data_to = request.POST["data-to"]
             format = '%Y-%m-%d'
             data_to = str(datetime.strptime(data_to[:19], format) + timedelta(days=1))
-            
-        place = request.POST["list"]
-        context = data_for_chart(data_from, data_to, place)
+  
+        place = request.POST["list"]        
+        context = data_for_chart(data_from, data_to, place, user_id)
         context['list_place'] = list_place
         return render(request,'base/chart.html',context)
-
+    
     place = list_place[0]
-    context = data_for_chart(data_from, data_to, place)
+    context = data_for_chart(data_from, data_to, place, user_id)
     context['list_place'] = list_place
+    
     return render(request,'base/chart.html', context)
 
 
