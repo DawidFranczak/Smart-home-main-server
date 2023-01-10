@@ -6,12 +6,13 @@
 }
 .Navbar__path {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100vw;
 }
 .Navbar__path__nav-toggle {
-  height: 2em;
-  width: 2em;
+  height: 2.5em;
+  width: 2.5em;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -52,10 +53,10 @@
   font-size: 1.5em;
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1250px) {
   .Navbar {
     overflow: hidden;
-    height: 3rem;
+    height: 2.5em;
     display: flex;
     justify-content: center;
     background-color: black;

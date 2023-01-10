@@ -2,6 +2,7 @@ const calibration = (e) => {
   const mess = document.querySelector("#message");
   const event = e.type;
   const element = e.target;
+  console.log(element);
   let dict = {};
   switch (event) {
     case "pointerdown":
@@ -36,7 +37,7 @@ const calibration = (e) => {
             "Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk 'Zapisz'";
           document.querySelector("#save").innerHTML = "Zapisz";
           break;
-        } else {
+        } else if (element.id === "save") {
           dict = {
             action: "save",
           };

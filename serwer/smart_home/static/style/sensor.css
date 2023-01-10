@@ -39,7 +39,6 @@
   right: 0;
   z-index: -1;
   background-color: #81d4fa;
-  /* background-color: rgba(255,255,255,0.5); */
   transition: transform 0.3s;
   border-radius: 15px;
   transform: scaleX(0);
@@ -53,20 +52,22 @@
 }
 .Sensor-add__select__select-rfid ul {
   margin-top: 0.25em;
+  padding: 0;
+  margin-left: 2em;
 }
 .Sensor-add__select__select-rfid--active {
   display: block;
 }
-.Sensor-add__select__select-rfid__uid {
+.Sensor-add__select__select-rfid__uid + label {
   position: relative;
 }
-.Sensor-add__select__select-rfid__uid::before {
+.Sensor-add__select__select-rfid__uid + label::before {
   content: "";
-  width: 200px;
-  height: 30px;
+  width: calc(100% + 50px);
+  height: auto;
   position: absolute;
-  top: -7.5px;
-  left: 0;
+  top: 0;
+  left: -25px;
   bottom: 0;
   right: 0;
   z-index: -1;
@@ -75,7 +76,7 @@
   border-radius: 15px;
   transform: scaleX(0);
 }
-.Sensor-add__select__select-rfid__uid:checked::before {
+.Sensor-add__select__select-rfid__uid:checked + label::before {
   transform: scaleX(1);
 }
 
@@ -116,9 +117,9 @@
 
 .Sensor-container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 .Sensor-container__search {
   border-radius: 10px;
@@ -128,49 +129,42 @@
   height: 1.5em;
 }
 .Sensor-container__ul {
+  padding: 0;
   list-style: none;
-  padding: 0.75em;
 }
 
 .Sensor-container__ul__sensor {
-  width: 300px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0;
+  display: flex;
+}
+.Sensor-container__ul__sensor__name {
+  word-wrap: break-word;
+  width: max(150px, min(30vw, 500px));
+  width: max(150px, min(30dvw, 500px));
 }
 
 .Sensor-container__ul__sensor__sensor-img {
-  width: 2em;
+  width: 2.5em;
   place-self: center;
+  margin-left: 0.5em;
 }
 
 .Sensor-container__ul__sensor__del-button {
   display: none;
   place-self: center;
   width: 3.5em;
+  margin-left: 2em;
 }
 
 .Sensor-container__ul__sensor__del-button--active {
   display: block;
 }
 
-@media only screen and (min-width: 700px) {
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .Sensor-add {
-    padding-top: 0.5em;
-  }
-
-  .Sensor-container__search {
-    position: relative;
-    top: 10px;
-    left: -50px;
-  }
-  .Add-sensor-button {
-    margin-top: 1em;
-  }
+.Sensor-container__ul__sensor__function {
+  display: flex;
+  justify-content: center;
+}
+@media (min-width: 1000px) {
   .Add-sensor-button__delete::before,
   .Add-sensor-button__add::before,
   .Sensor-add__button-save::before,

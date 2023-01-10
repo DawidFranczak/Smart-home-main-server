@@ -8,8 +8,10 @@ from django.db.models import Q
 from time import sleep
 
 
-
 def tester_chart_data(user):
+    """
+        Additions random temperature measurment to one tester sensor
+    """
     
     sensor = Sensor.objects.get(
         Q(user_id = user.id) &
@@ -42,12 +44,16 @@ def tester_chart_data(user):
         
         
 def add_sensors_to_tester(user):
+    """
+        Adding few sensor to tester user
+    """
+    ip = 100
     FUNCTION = ['temp', 'sunblind', 'light', 'aqua', 'stairs', 'rfid', 'btn', 'lamp']
-    NAME = ['','bardzo długa i nieciekawa nazwa', 'bardzoDługaiNieciekawaNazwaAleBezSpacji']
+    NAME = ['','bardzo długa i nieciekawa nazwa ', 'bardzo długa i nieciekawa nazwa tylko że druga ']
     for fun in FUNCTION:
         for name in NAME:
-            Sensor.objects.create(user_id = user.id, name=name + 'tester', ip='111.111.111.111', port=1111, fun=fun)
-            
+            Sensor.objects.create(user_id=user.id, name=name+'tester', ip='111.111.111.'+str(ip), port=1111, fun=fun)
+            ip += 1
     tester_chart_data(user)
     
 @receiver(post_save, sender = User)

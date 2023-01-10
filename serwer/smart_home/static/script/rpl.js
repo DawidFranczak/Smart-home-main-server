@@ -35,8 +35,9 @@ const rplConnect = async () => {
   sendData("POST", dict);
 };
 
-const selectRpl = async (e) => {
+const rplSelect = async (e) => {
   const target = e.target;
+  document.querySelector("#mess").innerHTML = "";
   switch (target.id) {
     case "lamp":
       const dict = {
@@ -86,5 +87,5 @@ const selectRpl = async (e) => {
 };
 
 window.onload = function () {
-  document.querySelector(".container").addEventListener("click", selectRpl);
+  document.querySelector(".container").addEventListener("click", rplSelect);
 };

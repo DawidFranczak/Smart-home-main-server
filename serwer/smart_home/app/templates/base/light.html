@@ -9,8 +9,9 @@
   href='{% static "style/light.css" %}'
 />
 <section class="Led-container" id="led-container">
-  <div class="Led-container__div">
+  <div class="Led-container__div-header">
     <p class="Led-container__div__light-name">Nazwa</p>
+    <p class="Led-container__div__light-state">Status</p>
   </div>
   {% for sensor in sensors %}
   <div class="Led-container__div">

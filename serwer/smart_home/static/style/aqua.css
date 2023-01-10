@@ -13,6 +13,14 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+}
+.Select-aqua__select {
+  font-size: 1.5em;
+  width: 80vw;
+  width: 80dvw;
+  display: flex;
+  justify-content: center;
 }
 .Select-aqua__line {
   width: 250px;
@@ -43,6 +51,11 @@ h1 {
   border-width: 2px;
   cursor: pointer;
   position: relative;
+  width: max(300px, auto);
+}
+.Select-aqua__button p {
+  margin: 0;
+  word-wrap: break-word;
 }
 .Containers-aqua {
   display: none;

@@ -6,15 +6,24 @@
 }
 .Led-container__div {
   display: grid;
-  grid-template: 70px 20px / 1fr 1fr;
+  grid-template: 1fr 20px / 1fr 100px;
   margin: 0.5em 0 0.5em 0;
+}
+.Led-container__div-header {
+  display: grid;
+  grid-template-columns: 1fr 100px;
 }
 .Led-container__div__image {
   width: 40px;
   place-self: center;
 }
 .Led-container__div__light-name {
-  width: 100px;
+  width: max(100px, min(30vw, 500px));
+  width: max(100px, min(30dvw, 500px));
+}
+.Led-container__div__light-state {
+  display: flex;
+  justify-content: center;
 }
 .Led-container__div__error-message {
   grid-area: 2/1/2/3;

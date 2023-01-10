@@ -153,15 +153,15 @@
   <ul class="Sensor-container__ul">
     <li>
       <ul class="Sensor-container__ul__sensor">
-        <p>Nazwa</p>
-        <p>Funkcja</p>
+        <p class="Sensor-container__ul__sensor__name">Nazwa</p>
+        <p class="Sensor-container__ul__sensor__function" >Funkcja</p>
       </ul>
     </li>
     <li id="add-sensor-temp-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "temp" %}
           <ul class="Sensor-container__ul__sensor">
-            <p id="sensor-name">{{sensor.name}}</p>
+            <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
             <img
               src="{% static 'images/temp.png' %}"
               alt="Czujnik temperatury"
@@ -182,7 +182,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "sunblind" %}
           <ul class="Sensor-container__ul__sensor">
-            <p id="sensor-name">{{sensor.name}}</p>
+            <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
             <img
               src="{% static 'images/sunblind.png' %}"
               alt="Roleta"
@@ -203,7 +203,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "light" %}
           <ul class="Sensor-container__ul__sensor">
-            <p id="sensor-name">{{sensor.name}}</p>
+            <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
             <img
               src="{% static 'images/lamp.png' %}"
               alt="Lampa"
@@ -224,7 +224,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "aqua" %}
           <ul class="Sensor-container__ul__sensor">
-            <p id="sensor-name">{{sensor.name}}</p>
+            <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
             <img
               src="{% static 'images/aqua.png' %}"
               alt="Akwarium"
@@ -245,7 +245,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "stairs" %}
           <ul class="Sensor-container__ul__sensor">
-            <p id="sensor-name">{{sensor.name}}</p>
+            <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
             <img
               src="{% static 'images/stairs.png' %}"
               alt="Schody"
@@ -267,7 +267,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "rfid" %}
         <ul class="Sensor-container__ul__sensor">
-          <p id="sensor-name">{{sensor.name}}</p>
+          <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
           <img
             src="{% static 'images/rfid-sensor.png' %}"
             alt="Czujnik rfid"
@@ -284,7 +284,7 @@
           {% for card in cards %}
             {% if card.sensor_id == sensor.id %}
             <ul class="Sensor-container__ul__sensor">
-              <p id="sensor-name">{{card.name}}</p>
+              <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{card.name}}</p>
               <img
                 src="{% static 'images/rfid.png' %}"
                 alt="Karta rfid"
@@ -308,7 +308,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "btn" %}
         <ul class="Sensor-container__ul__sensor">
-          <p id="sensor-name">{{sensor.name}}</p>
+          <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
           <img
             src="{% static 'images/redbutton.png' %}"
             alt="Przycisk"
@@ -329,7 +329,7 @@
       {% for sensor in sensors %}
         {% if sensor.fun == "lamp" %}
         <ul class="Sensor-container__ul__sensor">
-          <p id="sensor-name">{{sensor.name}}</p>
+          <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
           <p class="sensor-fun">Lampy</p>
           <input
             type="image"
