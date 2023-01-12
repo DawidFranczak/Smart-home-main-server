@@ -1,10 +1,13 @@
-const sunblind = (e) => {
+const sunblind = async (e) => {
   const slider = e.target;
   const sunblindValue = document.getElementById(slider.placeholder);
   if (e.target.type === "range") {
     switch (e.type) {
       case "pointermove":
         sunblindValue.innerHTML = slider.value;
+        sunblindValue.classList.remove(
+          "Sunblind-containers__div__slider-value--error"
+        );
         break;
       case "pointerup":
         let dict = {
@@ -12,7 +15,13 @@ const sunblind = (e) => {
           value: slider.value,
           id: slider.placeholder,
         };
-        sendData("POST", dict);
+        let rep = await sendData("POST", dict);
+        if (rep["message"]) {
+          sunblindValue.innerHTML = rep["message"];
+          sunblindValue.classList.add(
+            "Sunblind-containers__div__slider-value--error"
+          );
+        }
         break;
     }
   } else if (e.target.type === "submit" && e.type === "pointerdown") {
@@ -24,12 +33,6 @@ const sunblind = (e) => {
   }
 };
 
-window.onload = function () {
-  document
-    .querySelector("#container")
-    .addEventListener("pointermove", sunblind);
-  document.querySelector("#container").addEventListener("pointerup", sunblind);
-  document
-    .querySelector("#container")
-    .addEventListener("pointerdown", sunblind);
-};
+document.querySelector("#container").addEventListener("pointermove", sunblind);
+document.querySelector("#container").addEventListener("pointerup", sunblind);
+document.querySelector("#container").addEventListener("pointerdown", sunblind);

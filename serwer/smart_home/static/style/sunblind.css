@@ -23,7 +23,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 .Sunblind-containers__sunblind-name {
   word-wrap: break-word;
@@ -45,6 +44,10 @@
 .Sunblind-containers__div__slider-value {
   margin: 0;
 }
+.Sunblind-containers__div__slider-value--error {
+  font-size: 0.75em;
+  color: red;
+}
 .Sunblind-containers__calibration-button {
   margin-left: 0.5em;
   display: none;
@@ -62,8 +65,7 @@
 .Sunblind-containers__calibration-button-header {
   display: none;
   justify-items: center;
-  width: max(100px, min(30vw, 500px));
-  width: max(100px, min(30dvw, 500px));
+  width: 120px;
 }
 .Sunblind-containers__calibration-button--avtive {
   display: grid;

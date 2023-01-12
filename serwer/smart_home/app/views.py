@@ -6,16 +6,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 import json
-from django.db.models import Q
-
-
 from .forms import CreateUserForm, ChangePasswordForm, ChangeEmailForm, ChangeImageForm
 from .models import *
 from .mod import *
 
 
 # Create your views here.
-
 def user_register(request):
     form = CreateUserForm()
     
@@ -145,6 +141,22 @@ def light(request):
     if request.method == 'POST':     
         get_data = json.loads(request.body)
         if get_data['action'] == 'change':
+            id = get_data['id']
+            sensor = Sensor.objects.get(id=id)
+            
+            # Simulation turn on/off light
+            if sensor.name == 'tester':
+                light = Light.objects.get(sensor_id = sensor.id)
+                if light.light:
+                    light.light = False
+                    response = {'response': 0}
+                else:
+                    light.light = True
+                    response = {'response': 1}
+                light.save()
+                return JsonResponse(response)
+            # End simulation
+            
             return JsonResponse(change_light(get_data['id']))
         
     user_id = request.user.id    
@@ -198,15 +210,22 @@ def sensor(request):
         case 'POST':
             get_data = json.loads(request.body)
             
-            if get_data['action'] == 'add' and get_data['fun'] == 'uid' :
+            # Simulation adding sensors
+            if get_data['name'] == 'tester':
+                EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
+                if get_data['fun'] in EXCLUDED_SENSORS:
+                    return JsonResponse({'response': 'Wybacz akurat tego czujnika nie można dodać'})
+                    
+                sensor = Sensor.objects.create(name=get_data['name'],
+                                                ip='111.111.111.111',
+                                                port=1234, fun=get_data['fun'], 
+                                                user_id=user_id)
+                return JsonResponse({'response': 'Udało sie dodać czujnik', 'id': sensor.id})
+            # End simulation
+            
+            elif get_data['action'] == 'add' and get_data['fun'] == 'uid' :
                 return JsonResponse(add_uid(get_data))
             else:
-                # sensor = Sensor(name=get_data['name'], ip="123.123.123.123", port="123", fun=get_data['fun'], user_id=user_id)
-                # sensor.save()
-                # sensor_id=Sensor.objects.filter(ip="123.123.123.123").get(user_id=user_id).id
-                # respond = {'response': 'Udało sie dodać czujnik', 'id': sensor_id}  
-                # print(respond)
-                # return JsonResponse(respond)
                 return JsonResponse(add_sensor(get_data,user_id))
             
         case 'DELETE':
@@ -260,15 +279,18 @@ def stairs(request):
                 else:    
                     stairs.mode = True
                     message = 'ON'
+                    
+        # Control simulation 
+        if sensor.name == 'tester':
+            stairs.save()
+            return JsonResponse({'success': True})
+        # End simulation
         
-        if send_data(message,sensor.ip,sensor.port):
-            
-            stairs.save()       
-            stairs = Stairs.objects.filter(sensor_id=get_data['id']).values()
-            return JsonResponse(stairs[0])
-        
+        elif send_data(message,sensor.ip,sensor.port):
+            stairs.save()
+            return JsonResponse({'success': True})
         else:
-            return JsonResponse({'error':-1})
+            return JsonResponse({'success': False})
         
     user_id = request.user.id
     sensors = Sensor.objects.filter(fun="stairs").filter(user_id=user_id)
@@ -327,20 +349,37 @@ def aquarium(request):
                     message = 'r1'
                 else:
                     message = 'r0'
-                aqua.led_mode=get_data['value']
+                aqua.led_mode=get_data['value']          
             
         if message:
+            
+            # Control simulation 
+            if sensor.name == 'tester':
+                response = {'success': True,
+                            'message':'Udało się zmienić ustawienia'}
+                aqua.save()
+                return JsonResponse(response)  
+            # End simulation
+                
             if send_data(message, sensor.ip, sensor.port): 
-                response = {'success': 1}
+                response = {'message':'Udało się zmienić ustawienia'}
                 aqua.save()   
             else:
-                response= {'error': -1}
+                response= {'message':'Brak komunikacji z akwarium'}
         else:
+            
+             # Control simulation 
+            if sensor.name == 'tester':
+                response = {'message':'Udało się zmienić ustawienia'}
+                aqua.save()
+                return JsonResponse(response)  
+            # End simulation
+            
             if checkAqua(sensor,aqua):
-                response = {'success': 2}
+                response = {'message':'Udało się zmienić ustawienia'}
                 aqua.save()   
             else:
-                response = {'error': -2}
+                response = {'message':'Brak komunikacji z akwarium'}
                 
         return JsonResponse(response)
 
@@ -356,30 +395,39 @@ def aquarium(request):
 def sunblind(request):
     if request.method == 'POST':
         get_data = json.loads(request.body)
-        ip_port = Sensor.objects.get(pk=get_data['id'])
+        sensor = Sensor.objects.get(pk=get_data['id'])
         message = 'set' + str(get_data['value'])
         
-        if send_data(message,ip_port.ip,ip_port.port):
+        # Simulation sunblind
+        if sensor.name == 'tester':
+            sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
+            sunblind.value = get_data['value']
+            sunblind.save()
+            return JsonResponse({'success': 1})
+        # End simulation
+        
+        if send_data(message,sensor.ip,sensor.port):
             sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
             sunblind.value = get_data['value']
             sunblind.save()  
             return JsonResponse({'success': 1})
-        
         else:
-            return JsonResponse({'error': -1})
-        
-    user_id = request.user.id
-    sensors = Sensor.objects.filter(fun = 'sunblind').filter(user_id=user_id)
-    
-    sunblinds = []
+            return JsonResponse({'message': 'Brak komunikacji'})
 
-    for sensor in sensors:
-        sunblinds.extend(Sunblind.objects.filter(sensor_id = sensor.id))
         
-    context = {
-                'sensors': sensors,
-                'sunblinds': sunblinds
-                }
+    else:
+        user_id = request.user.id
+        sensors = Sensor.objects.filter(fun = 'sunblind').filter(user_id=user_id)
+        
+        sunblinds = []
+
+        for sensor in sensors:
+            sunblinds.extend(Sunblind.objects.filter(sensor_id = sensor.id))
+
+        context = {
+                    'sensors': sensors,
+                    'sunblinds': sunblinds
+                    }
     return render(request,'base/sunblind.html', context)
 
 
@@ -394,7 +442,7 @@ def calibration(request, pk):
             s = Sunblind.objects.get(sensor_id = pk)
             s.value = 100
             s.save()
-            
+        
     elif request.method == 'GET':
         ip_port = Sensor.objects.get(id=pk)
         send_data('calibration', ip_port.ip, ip_port.port)

@@ -3,6 +3,7 @@ const selectAqua = async (e) => {
      the settings of the operating mode,
      lighting time of fluorescent lamps and LEDs 
   */
+  document.querySelector("#message").innerHTML = "";
 
   if (e.target.type != "submit") return;
 
@@ -15,6 +16,7 @@ const selectAqua = async (e) => {
   containerAqua.classList.add("Containers-aqua--active");
   containerAqua.setAttribute("placeholder", id);
 
+  document.querySelector("#color").value = settings["color_rgb"];
   document.querySelector("#fluolamp-start").value = settings["fluo_start"];
   document.querySelector("#fluolamp-stop").value = settings["fluo_stop"];
   document.querySelector("#led-start").value = settings["led_start"];
@@ -47,13 +49,15 @@ const selectAqua = async (e) => {
 
 const aqua = async (e) => {
   /* This function allow to change the aquarium settings */
+  const target = e.target;
+  if (target.type === "submit" || target.id === "color") {
+    document.querySelector("#message").innerHTML = "";
 
-  if (e.target.type === "submit" || e.target.id === "color") {
     let dict = {};
     const id = document
       .querySelector("#containers-aqua")
       .getAttribute("placeholder");
-    const action = e.target.id;
+    const action = target.id;
 
     switch (action) {
       case "color":
@@ -175,25 +179,8 @@ const aqua = async (e) => {
         break;
     }
     const rep = await sendData("POST", dict);
-
-    if (rep["success"]) {
-      switch (rep["success"]) {
-        case 1:
-          console.log(1);
-          break;
-        case 2:
-          console.log(2);
-          break;
-      }
-    } else {
-      switch (rep["error"]) {
-        case -1:
-          console.log(-1);
-          break;
-        case -2:
-          console.log(-2);
-          break;
-      }
+    if (rep["message"] != undefined) {
+      document.querySelector("#message").innerHTML = rep["message"];
     }
   }
 };

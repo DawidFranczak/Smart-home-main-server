@@ -1,5 +1,6 @@
 const selectStairs = async (e) => {
   if (e.target.type != "submit") return;
+  document.querySelector("#message").innerHTML = "";
   settings = await fetch(`/api/schody/${e.target.id}`);
   settings = await settings.json();
 
@@ -22,6 +23,8 @@ const selectStairs = async (e) => {
 
 async function settingsStairs(e) {
   const button = e.target.type;
+  document.querySelector("#message").innerHTML = "";
+
   if (button === "submit") {
     const id = document.querySelector("#stairs-containers").placeholder;
     const action = e.target.id;
@@ -78,7 +81,14 @@ async function settingsStairs(e) {
         };
         break;
     }
-    sendData("POST", dict);
+    const success = await sendData("POST", dict);
+    if (success["success"]) {
+      document.querySelector("#message").innerHTML =
+        "Udało się zmienić ustawienia";
+    } else {
+      document.querySelector("#message").innerHTML =
+        "Brak komunikacji ze schodami";
+    }
   }
 }
 

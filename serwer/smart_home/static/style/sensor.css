@@ -137,6 +137,9 @@
   padding: 0;
   display: flex;
 }
+.Sensor-container__ul__sensor--search {
+  display: none;
+}
 .Sensor-container__ul__sensor__name {
   word-wrap: break-word;
   width: max(150px, min(30vw, 500px));
