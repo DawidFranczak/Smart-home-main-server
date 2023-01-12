@@ -73,7 +73,7 @@ async function settingsStairs(e) {
         const lightTime = document.querySelector("#lightingTime");
 
         if (lightTime.value < 0) lightTime.value = 0;
-
+        else if (lightTime.value > 3600) lightTime.value = 3600;
         dict = {
           action: "set-lightingTime",
           id: id,
