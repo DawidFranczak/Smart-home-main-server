@@ -9,7 +9,6 @@
 .Sensor-add--active {
   display: flex;
 }
-
 .Sensor-add__name {
   border-radius: 10px;
   border-color: white;
@@ -91,6 +90,9 @@
   border-width: 2px;
   cursor: pointer;
   position: relative;
+}
+.Sensor-add__message {
+  text-align: center;
 }
 
 .Add-sensor-button {

@@ -26,6 +26,9 @@ h2 {
   cursor: pointer;
   position: relative;
 }
+.Select-stairs__mess {
+  text-align: center;
+}
 .Select-stairs__success {
   margin: 0;
 }

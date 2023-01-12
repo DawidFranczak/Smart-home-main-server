@@ -12,7 +12,7 @@
   <a class="Nav__profil__a" href="{% url 'user_change_password'%}">Zmień hasło</a>
   <a class="Nav__profil__a" href="{% url 'user_change_email'%}">Zmień email</a>
   <a class="Nav__profil__a" href="{% url 'user_change_image'%}">
-    Zmień zdjęcia w home
+    Zmień zdjęcia na stronie startowej
   </a>
   <a class="Nav__profil__a" href="{% url 'user_delete'%}">
     Usuń konto
@@ -39,5 +39,4 @@
   {% endif %}
 </div>
 
-<script src="{% static 'script/user_page.js'%}"></script>
 {% endblock content %}

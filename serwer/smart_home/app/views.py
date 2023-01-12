@@ -214,7 +214,7 @@ def sensor(request):
             if get_data['name'] == 'tester':
                 EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
                 if get_data['fun'] in EXCLUDED_SENSORS:
-                    return JsonResponse({'response': 'Wybacz akurat tego czujnika nie można dodać'})
+                    return JsonResponse({'response': 'Wybacz akurat tego czujnika nie można dodać w wersji testowej'})
                     
                 sensor = Sensor.objects.create(name=get_data['name'],
                                                 ip='111.111.111.111',
@@ -305,7 +305,6 @@ def aquarium(request):
     if request.method == "POST":
         get_data = json.loads(request.body)
         aqua_id = get_data['id']
-        
         sensor = Sensor.objects.get(id=aqua_id)
         aqua = Aqua.objects.get(sensor_id=aqua_id)
         
