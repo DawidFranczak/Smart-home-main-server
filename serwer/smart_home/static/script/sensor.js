@@ -115,20 +115,21 @@ const sensorSave = async () => {
     const input = document.createElement("input");
 
     input.setAttribute("type", "image");
-    input.setAttribute("src", "/static/images/cross.png");
     input.setAttribute("id", "sensor-del-button");
-    input.setAttribute("class", "Sensor-container__ul__sensor__del-button");
     input.setAttribute("placeholder", dataRep["id"]);
+    input.setAttribute("src", "/static/images/cross.png");
+    input.setAttribute("class", "Sensor-container__ul__sensor__del-button");
 
-    pName.setAttribute("id", "sensor-name");
     pName.innerHTML = name;
+    pName.setAttribute("id", "sensor-name");
+    pName.setAttribute("class", "Sensor-container__ul__sensor__name");
 
     pFun.setAttribute("class", "Sensor-container__ul__sensor__sensor-img");
 
-    parent.setAttribute("class", "Sensor-container__ul__sensor");
     parent.appendChild(pName);
     parent.appendChild(pFun);
     parent.appendChild(input);
+    parent.setAttribute("class", "Sensor-container__ul__sensor");
 
     switch (newSensorFunction) {
       case "temp":
@@ -161,37 +162,45 @@ const sensorSave = async () => {
         const radio = document.createElement("input");
         radio.setAttribute("type", "radio");
         radio.setAttribute("name", "rfid");
-        radio.setAttribute("class", "sen-fun-uid");
         radio.setAttribute("value", "uid");
         radio.setAttribute("id", dataRep["id"]);
+        radio.setAttribute("class", "sen-fun-uid");
 
         const div = document.createElement("div");
         const label = document.createElement("label");
 
-        label.setAttribute("for", "uid");
         label.innerHTML = name;
+        label.setAttribute("for", "uid");
+
         ul.appendChild(radio);
         ul.appendChild(label);
         document.querySelector("#select-rfid").appendChild(div);
         break;
+
       case "uid":
-        pFun.setAttribute("src", "/static/images/aqua.png");
         pFun.setAttribute("alt", "Akwarium");
+        pFun.setAttribute("src", "/static/images/aqua.png");
+
         input.setAttribute("id", "card " + dataRep["id"]);
         document.querySelector("#add-rfid-container").appendChild(parent);
         break;
+
       case "btn":
-        pFun.setAttribute("src", "/static/images/redbutton.png");
         pFun.setAttribute("alt", "Przycisk");
+        pFun.setAttribute("src", "/static/images/redbutton.png");
+
         document.querySelector("#add-btn-container").appendChild(parent);
         break;
+
       case "lamp":
         pFun.innerHTML = "Lampy";
         document.querySelector("#add-lamp-container").appendChild(parent);
         break;
+
       case "stairs":
-        pFun.setAttribute("src", "/static/images/stairs.png");
         pFun.setAttribute("alt", "Schody");
+        pFun.setAttribute("src", "/static/images/stairs.png");
+
         document.querySelector("#add-stairs-container").appendChild(parent);
         break;
     }
@@ -209,11 +218,6 @@ const deleteSensor = async (e) => {
     dataRep = await sendData("DELETE", dict);
     if (dataRep["response"] == "permission") {
       sensorDelete.remove();
-      // document.querySelectorAll(".sensor-fun-uid").forEach((u) => {
-      //   if (u.id == e.target.id) {
-      //     u.parentElement.remove();
-      //   }
-      // });
     }
   }
 };
@@ -223,19 +227,22 @@ const search = () => {
   const search = document.querySelector("#search").value.toLowerCase();
   for (let sensor of sensors) {
     if (sensor.innerHTML.toLowerCase().indexOf(search.toLowerCase()) > -1) {
-      sensor.parentElement.style.display = "";
+      console.log(sensor.innerHTML.toLowerCase());
+      sensor.parentElement.classList.remove(
+        "Sensor-container__ul__sensor--search"
+      );
     } else {
-      sensor.parentElement.style.display = "none";
+      sensor.parentElement.classList.add(
+        "Sensor-container__ul__sensor--search"
+      );
     }
   }
 };
 
-window.onload = function () {
-  document
-    .querySelector("#add-sensor-button")
-    .addEventListener("click", selectButton);
-  document.querySelector("#search").addEventListener("keyup", search);
-  document
-    .querySelector("#sensor-container")
-    .addEventListener("click", deleteSensor);
-};
+document
+  .querySelector("#add-sensor-button")
+  .addEventListener("click", selectButton);
+document.querySelector("#search").addEventListener("keyup", search);
+document
+  .querySelector("#sensor-container")
+  .addEventListener("click", deleteSensor);

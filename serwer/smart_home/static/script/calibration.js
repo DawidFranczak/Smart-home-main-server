@@ -2,7 +2,6 @@ const calibration = (e) => {
   const mess = document.querySelector("#message");
   const event = e.type;
   const element = e.target;
-  console.log(element);
   let dict = {};
   switch (event) {
     case "pointerdown":

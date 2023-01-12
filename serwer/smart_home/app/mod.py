@@ -242,7 +242,10 @@ def send_data(_mess, _ip, _port):
         wiad = str.encode(_mess)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
         sock.sendto(wiad, (_ip, _port))
+        sock.settimeout(1)
+        data = sock.recvfrom(128)
         sock.close()
+        print('wtf')
         return True
     except:
         sock.close()

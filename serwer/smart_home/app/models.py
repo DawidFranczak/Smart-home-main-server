@@ -51,7 +51,7 @@ class Sunblind(models.Model):
     
 class Aqua(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    color = models.CharField(max_length=100,default="")
+    color = models.CharField(max_length=100,default="r255g255b255")
     led_start = models.CharField(max_length=10,default="00:00:00")
     led_stop = models.CharField(max_length=10,default="00:00:00")
     fluo_start = models.CharField(max_length=10, default="00:00:00")
