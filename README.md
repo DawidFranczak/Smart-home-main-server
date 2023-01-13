@@ -5,6 +5,7 @@ You can control
 - light on the stairs,
 - lamp in house,
 - sunblind.
+
 Also you can opening the gate in the fence via rfid card and make hourly temperature measurement.
 
 Microcontrollers software located in this repo is intended to esp8266.
