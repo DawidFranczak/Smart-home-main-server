@@ -43,3 +43,12 @@ To check website you can use : https://dawidfranczak.pythonanywhere.com
 
 
 # Installation
+You can use located in server/smart_home/env environment
+
+or use pip
+
+-m pip install -r requirements.txt
+
+Then you can run server using python manage.py runserver
+
+To upload the software to exp8266 you need visual studio code with platform.io or arduino idee.
