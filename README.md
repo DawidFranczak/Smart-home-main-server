@@ -11,7 +11,7 @@ Also you can opening the gate in the fence via rfid card and make hourly tempera
 
 Microcontrollers software located in this repo is intended to esp8266.
 
-In the website you must create account. 
+In the website you should create account. 
 
 If you create account with 'tester' in name e.g. 'usertester' or 'testeruser' 3 devices from each category will be added to your accound.
 
