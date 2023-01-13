@@ -39,5 +39,7 @@ If you forgott password you can use 'remind password' option on login page.
 
 To do this you need the e-mail address provided during registration
 
+To check website you can use : https://dawidfranczak.pythonanywhere.com
+
 
 # Installation
