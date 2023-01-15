@@ -4,11 +4,8 @@
 You can control:
 
 light in the aquarium,
-
 light on the stairs,
-
 lamp in the house,
-
 sunblind.
 
 You can also open the gate in the fence via an RFID card and make hourly temperature measurements.
@@ -43,7 +40,7 @@ If you forgot your password, you can use the 'remind password' option on the log
 
 To check the website, you can use https://dawidfranczak.pythonanywhere.com.
 
-#Installation
+# Installation
 
 You can use the environment located in server/smart_home/env 
 
