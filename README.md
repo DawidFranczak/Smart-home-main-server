@@ -1,54 +1,56 @@
 # About the project
-'Smart home' allows you to control via the website devides connected to your localhost.
+'Smart Home' allows you to control devices connected to your localhost via the website.
 
-You can control 
-- light in aquarium,
-- light on the stairs,
-- lamp in house,
-- sunblind.
+You can control:
 
-Also you can opening the gate in the fence via rfid card and make hourly temperature measurement.
+light in the aquarium,
 
-Microcontrollers software located in this repo is intended to esp8266.
+light on the stairs,
 
-In the website you can create account. 
+lamp in the house,
 
-If you create account with 'tester' in name e.g. 'usertester' or 'testeruser' 3 devices from each category will be added to your accound.
+sunblind.
 
-Device name 'tester' are 'connected' to real device so you can check what happened on the website when you control real device.
+You can also open the gate in the fence via an RFID card and make hourly temperature measurements.
 
-On the website you can for:
+The microcontroller software located in this repo is intended for the ESP8266.
 
-light -> turn on/off light for selected light,
+On the website, you can create an account.
 
-stairs -> change : lightning time, brightness, number on steps to full brightnes and manually turn on/off lightning,
+If you create an account with 'tester' in the name, e.g. 'usertester' or 'testeruser', three devices from each category will be added to your account.
 
-temperature -> see temperature measurement chart with average day and night temperatures,
+Device names containing 'tester' are 'connected' to real devices, so you can check what happens on the website when you control a real device.
 
-aquarium -> change : color of rgb leds, lighting time of led and fluorescent lamps, manually turn on/ off led and fluorescent lamp
+On the website, you can do the following:
 
-sunblind -> calibration of the sunblind and its sliding and unfolding 
+Light -> Turn on/off light for selected light,
 
-device -> add, delete and search device
+Stairs -> Change lightning time, brightness, number of steps to full brightness and manually turn on/off lightning,
 
-RPL -> grouping together outside lamp  with buttons and rfid sensors
+Temperature -> See temperature measurement chart with average day and night temperatures,
 
-settings -> change password, email, image on home page and delete account
+Aquarium -> Change color of RGB LEDs, lighting time of LEDs and fluorescent lamps, manually turn on/off LEDs and fluorescent lamps
 
-If you forgott password you can use 'remind password' option on login page. 
+Sunblind -> Calibrate the sunblind and its sliding and unfolding
 
-To do this you need the e-mail address provided during registration
+Device -> Add, delete and search for devices
 
-To check website you can use : https://dawidfranczak.pythonanywhere.com
+RPL -> Group together outside lamps with buttons and RFID sensors
 
+Settings -> Change password, email, image on home page and delete account
 
-# Installation
-You can use located in server/smart_home/env environment
+If you forgot your password, you can use the 'remind password' option on the login page. To do this, you need the e-mail address provided during registration.
 
-or use pip
+To check the website, you can use https://dawidfranczak.pythonanywhere.com.
 
--m pip install -r requirements.txt
+#Installation
 
-Then you can run server using python manage.py runserver
+You can use the environment located in server/smart_home/env 
 
-To upload the software to exp8266 you need visual studio code with platform.io or arduino idee.
+or use pip:
+
+python -m pip install -r requirements.txt
+
+Then you can run the server using python manage.py runserver
+
+To upload the software to the ESP8266, you need Visual Studio Code with Platform.io or Arduino IDE.
