@@ -32,7 +32,8 @@ const rplConnect = async () => {
     btns: btns,
   };
 
-  sendData("POST", dict);
+  const response = await sendData("POST", dict);
+  document.querySelector("#mess").innerHTML = response["message"];
 };
 
 const rplSelect = async (e) => {
@@ -73,10 +74,9 @@ const rplSelect = async (e) => {
       const lamps = document.querySelectorAll("#lamp");
       let flag = false;
 
-      for (lamp of lamps) {
+      for (let lamp of lamps) {
         if (lamp.checked) {
           rplConnect();
-          document.querySelector("#mess").innerHTML = "Połączono";
           flag = true;
           break;
         }

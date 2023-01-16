@@ -3,25 +3,28 @@ const selectAqua = async (e) => {
      the settings of the operating mode,
      lighting time of fluorescent lamps and LEDs 
   */
-  document.querySelector("#message").innerHTML = "";
 
-  if (e.target.type != "submit") return;
+  const selectButton = e.target.type;
+  const aquariumMessage = document.querySelector("#message");
+  aquariumMessage.innerHTML = "";
 
-  const id = e.target.id;
+  if (selectButton != "submit") return;
 
-  settings = await fetch(`/api/akwarium/${id}`);
+  const aquarium = e.target;
+
+  settings = await fetch(`/api/akwarium/${aquarium.id}`);
   settings = await settings.json();
 
   const containerAqua = document.querySelector("#containers-aqua");
   containerAqua.classList.add("Containers-aqua--active");
-  containerAqua.setAttribute("placeholder", id);
+  containerAqua.setAttribute("placeholder", aquarium.id);
 
   document.querySelector("#color").value = settings["color_rgb"];
   document.querySelector("#fluolamp-start").value = settings["fluo_start"];
   document.querySelector("#fluolamp-stop").value = settings["fluo_stop"];
   document.querySelector("#led-start").value = settings["led_start"];
   document.querySelector("#led-stop").value = settings["led_stop"];
-  document.querySelector("#select").innerHTML = `Wybrano ${e.target.innerHTML}`;
+  document.querySelector("#select").innerHTML = `Wybrano ${aquarium.innerHTML}`;
 
   const mode = document.querySelector("#mode");
   const modeButton = document.querySelector("#mode-buttons");

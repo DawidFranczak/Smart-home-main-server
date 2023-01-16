@@ -11,7 +11,7 @@ class CreateUserForm(UserCreationForm):
             attrs={ 'class':'Register__div__input',
                    'placeholder':' ',
                    'type':'login'}),
-        label="Login",
+        label="Login*",
         min_length=5, 
         max_length=150)
 
@@ -20,20 +20,20 @@ class CreateUserForm(UserCreationForm):
             attrs={'class':'Register__div__input',
                    'placeholder':' ',
                    'type':'password'}),
-        label="Hasło")
+        label="Hasło*")
       
     password2 = forms.CharField(
         widget = forms.TextInput(
             attrs={'class':'Register__div__input',
                    'placeholder':' ',
                    'type':'password'}),
-        label="Powtórz hasło") 
+        label="Powtórz hasło*") 
     
     email = forms.EmailField(
         widget = forms.EmailInput(
             attrs={'class':'Register__div__input',
                    'placeholder':' '}),
-        label="Email")
+        label="Email*")
     
     first_name = forms.CharField(
         widget= forms.TextInput(

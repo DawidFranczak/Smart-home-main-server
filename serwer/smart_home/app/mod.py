@@ -49,30 +49,32 @@ def add_sensor(get_data,user_id):
         
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     for i in range(2,254):
-        checkip = '192.168.0.'+str(i)
+        check_ip = '192.168.0.'+str(i)
         
         try:
-            sock.sendto(message, (checkip, port))
+            sock.sendto(message, (check_ip, port))
             sock.settimeout(0.05)
             data = sock.recvfrom(128)
             response = data[0].decode('UTF-8')
             
             if response == answer:
-                response_sensor_ip = str(data[1][0])
+                new_sensor_ip = str(data[1][0])
                 
-                if Sensor.objects.filter(ip = response_sensor_ip).exists():
+                if Sensor.objects.filter(ip = new_sensor_ip).exists():
                     respond = {'response': 'Czujnik już dodano'}
                     return respond
 
-                sensor = Sensor(name=get_data['name'], ip=response_sensor_ip, port=port, fun=get_data['fun'], user_id=user_id)
+                sensor = Sensor(name=get_data['name'], 
+                                fun=get_data['fun'], 
+                                ip=new_sensor_ip, 
+                                user_id=user_id,
+                                port=port)
                 sensor.save()
-                sensor_id = Sensor.objects.filter(ip=response_sensor_ip).get(user_id=user_id).id
-                respond = {'response': 'Udało sie dodać czujnik', 'id': sensor_id}  
+                respond = {'response': 'Udało sie dodać czujnik', 'id': sensor.id}  
                 sock.close()
                 return respond
                 
-        except Exception as e:
-            print(e)
+        except TimeoutError:
             continue
         
     else:
@@ -90,14 +92,15 @@ def add_uid(_data):
     try:
         sensor = Sensor.objects.get(id = _data['id'])
         try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind(('', 6721))
+            
         except Exception as e:
             respond = {'response': 'Nie udało się otworzyć socketu'}
             return respond
             
-        wiad = str.encode('add-tag')
-        sock.sendto(wiad, (sensor.ip, sensor.port))
+        message = str.encode('add-tag')
+        sock.sendto(message, (sensor.ip, sensor.port))
         sock.settimeout(9)
         data = sock.recvfrom(128)
         uid = int(data[0].decode('UTF-8'))
@@ -123,9 +126,12 @@ def delete_sensor(get_data):
     '''
     Delete user sensor
     '''
+    # sensor_id geting from website can be 'card <number>' for rfid card 
+    # or '<number>' for rest of sensors
+    
     try:
-        sensor = str(get_data['id'])
-        if sensor.startswith('card'):
+        sensor_id = str(get_data['id'])
+        if sensor_id.startswith('card'):
             Card.objects.filter(id=get_data['id'].split(' ')[1]).delete()
             response = {'response': 'permission'}
             return response
@@ -185,10 +191,11 @@ def data_for_chart(data_from, data_to, place, user_id):
             if date_new != date_old:
                 
                 data_average_temp_day.append(
-                    round(sum(average_day) /len(average_day), 2)) 
+                    round(sum(average_day) /len(average_day), 2)
+                    ) 
                 data_average_temp_night.append(
-                    round(sum(average_night) / len(average_night), 2)) 
-
+                    round(sum(average_night) / len(average_night), 2)
+                    ) 
                 data_average_data.append(date_old)
                 
                 average_day.clear()
@@ -236,23 +243,22 @@ def change_light(id):
      
 def send_data(_mess, _ip, _port):
     '''
-    Send message to microcontroler on _port and _ip 
+    Send message to microcontroler on _port and _ip  and waiting for response
     '''
     try:
         wiad = str.encode(_mess)
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(wiad, (_ip, _port))
         sock.settimeout(0.5)
-        data = sock.recvfrom(128)
+        sock.recvfrom(128)
         sock.close()
-        print('wtf')
         return True
     except:
         sock.close()
         return False
 
     
-def checkAqua(sensor,aqua):
+def check_aqua(sensor,aqua):
     '''
     Turn on or turn off fluo lamp and led dependence on time
     and save it to database
@@ -282,16 +288,16 @@ def checkAqua(sensor,aqua):
         aqua.led_mode=False
     aqua.save() 
     
-    if send_data(led,sensor.ip,sensor.port):
+    if not send_data(led,sensor.ip,sensor.port):
+        return False
         
-        if fluo_start < time_now and fluo_stop > time_now:
-            fluo = 's1'
-            aqua.fluo_mode=True
-        else:
-            fluo = 's0'
-            aqua.fluo_mode=False
-        aqua.save()
-        
-        if send_data(fluo, sensor.ip, sensor.port):
-            return True
+    if fluo_start < time_now and fluo_stop > time_now:
+        fluo = 's1'
+        aqua.fluo_mode=True
+    else:
+        fluo = 's0'
+        aqua.fluo_mode=False
+    aqua.save()
+    
+    return send_data(fluo, sensor.ip, sensor.port)
     

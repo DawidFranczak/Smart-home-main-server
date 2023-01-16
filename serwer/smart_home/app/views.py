@@ -1,15 +1,14 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 import json
 from .forms import CreateUserForm, ChangePasswordForm, ChangeEmailForm, ChangeImageForm
 from .models import *
 from .mod import *
-
 
 # Create your views here.
 def user_register(request):
@@ -64,9 +63,10 @@ def user_page(request):
 
 @login_required(login_url='login')
 def user_change_password(request):
-    form = ChangePasswordForm(request.user)
+    
     if request.method == 'POST':
         form = ChangePasswordForm(request.user,request.POST)
+        
         if form.is_valid():
             form.save()
             username = request.user
@@ -75,6 +75,8 @@ def user_change_password(request):
             login(request,user)  
             messages.success(request,'Zmiana hasła przebiegła pomyślnie')
             return redirect('user_page')
+        
+    form = ChangePasswordForm(request.user)
     context = {'action':'password',
               'form':form}
     
@@ -83,15 +85,17 @@ def user_change_password(request):
 
 @login_required(login_url='login')
 def user_change_email(request):
-    form = ChangeEmailForm(request.user)
-    old = request.user.email
+
     if request.method =='POST':
         form = ChangeEmailForm(request.user, request.POST)
+        
         if form.is_valid():
             form.save()
             messages.success(request,'Zmiana emaila przebiegła pomyślnie')
             return redirect('user_page')
         
+    form = ChangeEmailForm(request.user)
+    old = request.user.email
     context = {'action':'email',
               'form':form,
               'old':old}
@@ -102,9 +106,12 @@ def user_change_email(request):
 @login_required(login_url='login')
 def user_change_image(request):
     form = ChangeImageForm(request.user)
+    
     if request.method == 'POST':
         form = ChangeImageForm(request.user, request.POST, request.FILES)
+        
         if request.POST.get('save') is not None:
+            
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Udało się zmienić zdjęcie(a)')
@@ -119,13 +126,17 @@ def user_change_image(request):
     
     return render(request, 'base/user_page.html',context) 
 
+
 @login_required(login_url='login')
 def user_delete(request):
     if request.method == 'POST':
+        
         request.user.delete()
         messages.success(request,'Konto zostało usunięte')
         return redirect('login')
+    
     context ={'action':'delete'}
+    
     return render(request, 'base/user_page.html',context)
 
 
@@ -133,13 +144,16 @@ def user_delete(request):
 def home(request):
     nav = HomeNavImage.objects.get(user_id = request.user.id)
     context = {'image': nav}
+    
     return render(request, 'base/home.html', context)
 
 
 @login_required(login_url='login')
 def light(request):
+    
     if request.method == 'POST':     
         get_data = json.loads(request.body)
+        
         if get_data['action'] == 'change':
             id = get_data['id']
             sensor = Sensor.objects.get(id=id)
@@ -147,13 +161,16 @@ def light(request):
             # Simulation turn on/off light
             if sensor.name == 'tester':
                 light = Light.objects.get(sensor_id = sensor.id)
+                
                 if light.light:
                     light.light = False
                     response = {'response': 0}
+                    
                 else:
                     light.light = True
                     response = {'response': 1}
                 light.save()
+                
                 return JsonResponse(response)
             # End simulation
             
@@ -184,7 +201,9 @@ def chart(request):
     data_to = str(datetime.now())
     
     if request.method == 'POST':
+        
         if request.POST["data-from"] and request.POST["data-to"]:
+            
             data_from = request.POST["data-from"]
             data_to = request.POST["data-to"]
             format = '%Y-%m-%d'
@@ -193,6 +212,7 @@ def chart(request):
         place = request.POST["list"]        
         context = data_for_chart(data_from, data_to, place, user_id)
         context['list_place'] = list_place
+        
         return render(request,'base/chart.html',context)
     
     place = list_place[0]
@@ -213,6 +233,7 @@ def sensor(request):
             # Simulation adding sensors
             if get_data['name'] == 'tester':
                 EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
+                
                 if get_data['fun'] in EXCLUDED_SENSORS:
                     return JsonResponse({'response': 'Wybacz akurat tego czujnika nie można dodać w wersji testowej'})
                     
@@ -234,15 +255,16 @@ def sensor(request):
 
         case 'GET':
             sensors = Sensor.objects.filter(user_id=user_id)
-            cards = []
+            rfid_cards = []
             
             for sensor in sensors:
                 if sensor.fun == 'rfid':
-                    cards.extend(Card.objects.filter(sensor_id = sensor.id))
+                    rfid_cards.extend(Card.objects.filter(sensor_id = sensor.id))
                     
             context = {
                         'sensors': sensors,
-                        'cards':cards}
+                        'cards':rfid_cards
+                        }
 
     return render(request, 'base/sensor.html',context)
 
@@ -286,7 +308,7 @@ def stairs(request):
             return JsonResponse({'success': True})
         # End simulation
         
-        elif send_data(message,sensor.ip,sensor.port):
+        if send_data(message,sensor.ip,sensor.port):
             stairs.save()
             return JsonResponse({'success': True})
         else:
@@ -313,7 +335,7 @@ def aquarium(request):
         
         match get_data['action']:
             case 'changeRGB':
-                message = 'r'+str(get_data['r'])+'g' + str(get_data['g'])+ 'b' + str(get_data['b']) 
+                message = 'r'+str(get_data['r'])+'g'+str(get_data['g'])+'b'+str(get_data['b']) 
                 aqua.color = message        
                     
             case 'changeLedTime':
@@ -374,7 +396,7 @@ def aquarium(request):
                 return JsonResponse(response)  
             # End simulation
             
-            if checkAqua(sensor,aqua):
+            if check_aqua(sensor,aqua):
                 response = {'message':'Udało się zmienić ustawienia'}
                 aqua.save()   
             else:
@@ -392,6 +414,7 @@ def aquarium(request):
 
 @login_required(login_url='login')
 def sunblind(request):
+    
     if request.method == 'POST':
         get_data = json.loads(request.body)
         sensor = Sensor.objects.get(pk=get_data['id'])
@@ -405,6 +428,7 @@ def sunblind(request):
             return JsonResponse({'success': 1})
         # End simulation
         
+        # Sending message to microcontroller and waiting on response
         if send_data(message,sensor.ip,sensor.port):
             sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
             sunblind.value = get_data['value']
@@ -413,36 +437,40 @@ def sunblind(request):
         else:
             return JsonResponse({'message': 'Brak komunikacji'})
 
-        
-    else:
-        user_id = request.user.id
-        sensors = Sensor.objects.filter(fun = 'sunblind').filter(user_id=user_id)
-        
-        sunblinds = []
+    # Getting all user sensor where function is sunblind
+    user_id = request.user.id
+    sensors = Sensor.objects.filter(fun = 'sunblind').filter(user_id=user_id)
+    
+    sunblinds = []
 
-        for sensor in sensors:
-            sunblinds.extend(Sunblind.objects.filter(sensor_id = sensor.id))
+    for sensor in sensors:
+        sunblinds.extend(Sunblind.objects.filter(sensor_id = sensor.id))
 
-        context = {
-                    'sensors': sensors,
-                    'sunblinds': sunblinds
+    context = {
+                'sensors': sensors,
+                'sunblinds': sunblinds
                     }
     return render(request,'base/sunblind.html', context)
 
 
 @login_required(login_url='login')
 def calibration(request, pk):
+    
     if request.method == 'POST':
+        
+        # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
         ip_port = Sensor.objects.get(id=pk)
         send_data(get_data['action'], ip_port.ip, ip_port.port)
-        
+        print(get_data)
+        # Ending calibration, set value to 100 and save in database
         if get_data['action'] == 'end':
-            s = Sunblind.objects.get(sensor_id = pk)
-            s.value = 100
-            s.save()
+            sunblind = Sunblind.objects.get(sensor_id = pk)
+            sunblind.value = 100
+            sunblind.save()
         
     elif request.method == 'GET':
+        # Sending 'calibration' message to microcontroller 
         ip_port = Sensor.objects.get(id=pk)
         send_data('calibration', ip_port.ip, ip_port.port)
 
@@ -453,6 +481,7 @@ def calibration(request, pk):
 def rpl(request):
     if request.method == 'POST':
         get_data = json.loads(request.body)
+        
         if get_data['action'] == 'get':
             lamp = Sensor.objects.get(id = get_data['id'])
             rfids = Rfid.objects.filter(lamp = lamp.ip)
@@ -502,6 +531,8 @@ def rpl(request):
                 btn = Button.objects.get(sensor_id=id)
                 btn.lamp = ''
                 btn.save()
+            message = {'message':'Połączono'}
+            return JsonResponse(message)
                                 
     user_id = request.user.id
     sensors = Sensor.objects.filter(user_id = user_id)

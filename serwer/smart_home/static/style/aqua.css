@@ -35,6 +35,7 @@ p {
 }
 .Containers-aqua__success {
   margin-top: 0.5em;
+  height: 25px;
 }
 .Containers-aqua__mode-buttons {
   display: none;
