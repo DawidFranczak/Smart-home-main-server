@@ -8,8 +8,6 @@
 #define SENSORDOWN D5
 #define SENSORUP D6
 
-
-
 // Połączenie z siecą WiFi
 const char* ssid = "Tenda";
 const char* password = "1RKKHAPIEJ";
@@ -49,6 +47,8 @@ void turnOffSensorDown();
 void turnOffSensorUp();
 void turnOnSensorDown();
 void turnOnSensorUp();
+void sendMessageOk();
+
 
 void setup() {
   Serial.begin(9600);
@@ -98,19 +98,24 @@ void loop() {
     else if(date =="ON") {
       if(!lightOn) turnOnSensorDown();
       on = true;
+      sendMessageOk();
     }
     else if(date =="OFF") {
       if(lightOn) turnOffSensorDown();
       on = false;
+      sendMessageOk();
     }
     else if(date.substring(0,2) == "sp"){
       step = 4096/date.substring(2).toInt(); 
+      sendMessageOk();
       }
     else if(date.substring(0,2) == "bs") {
       brightness = (4096*date.substring(2).toInt())/100;
+      sendMessageOk();
     }
     else if(date.substring(0,2) == "te") {
       lightingTime = 1000*date.substring(2).toInt();
+      sendMessageOk();
     }
   }
 
@@ -204,4 +209,10 @@ void turnOnSensorUp(){
     }
   }
   lightOn = true;
+}
+
+void sendMessageOk(){
+  UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+  UDP.write("OK");
+  UDP.endPacket();
 }

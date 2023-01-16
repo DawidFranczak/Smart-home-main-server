@@ -30,6 +30,8 @@ bool ledMode = false;
 
 WiFiUDP UDP;
 
+void sendMessage();
+
 void setup() {
   Serial.begin(9600);
   // Konfiguracja pwm
@@ -48,7 +50,6 @@ void setup() {
   // Łączenie z wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)  delay(1);
-  Serial.println("START");
 
   // Uruchomienie protokołu UDP
   UDP.begin(udpPort);
@@ -70,12 +71,14 @@ void loop(){
       analogWrite(GREENPIN, green);
       analogWrite(REDPIN, red);
       ledMode = true;
+      sendMessage();
     }
     else if (date == "r0"){
       analogWrite(BLUEPIN,0);
       analogWrite(GREENPIN, 0);
       analogWrite(REDPIN, 0);
       ledMode = false;
+      sendMessage();
     }
     else if(date.substring(0,1) == "r" && ledMode){
       blue = date.substring(1,date.indexOf("g")).toInt();
@@ -84,12 +87,15 @@ void loop(){
       analogWrite(BLUEPIN, blue);
       analogWrite(GREENPIN, green);
       analogWrite(REDPIN, red);
+      sendMessage();
     }
     else if (date == "s0"){
       digitalWrite(FLUOLAMP,HIGH);
+      sendMessage();
     }
     else if (date == "s1"){
       digitalWrite(FLUOLAMP,LOW);
+      sendMessage();
     }
     // else if (date == "password_aqua" && digitalRead(ADDBUTTON)==HIGH){
     else if (date == "password_aqua"){
@@ -98,4 +104,10 @@ void loop(){
         UDP.endPacket();
     }
   }
+}
+
+void sendMessageOk(){
+    UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
+    UDP.write("OK");
+    UDP.endPacket();
 }

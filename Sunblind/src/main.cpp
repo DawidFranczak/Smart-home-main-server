@@ -31,6 +31,8 @@ void step(bool direction);
 int calibration();
 void setPosition(int newPosition);
 void off();
+void sendMessageOk();
+
 
 void setup() {
 
@@ -78,12 +80,15 @@ void loop() {
     else if(date.substring(0,3) == "set"){
       int position = (maxMove * date.substring(3).toInt())/100;
       setPosition(position);
+      sendMessageOk();
     }
 
     // Kalibracja rolty
     else if(date == "calibration"){
       maxMove = calibration();
       oldPosition = maxMove;
+      sendMessageOk();
+
     }
   }
 }
@@ -211,4 +216,10 @@ void off(){
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
   digitalWrite(IN4,LOW);
+}
+
+void sendMessageOk(){
+  UDP.beginPacket(UDP.remoteIP(), UDP.remotePort()); 
+  UDP.write("OK");
+  UDP.endPacket();
 }
