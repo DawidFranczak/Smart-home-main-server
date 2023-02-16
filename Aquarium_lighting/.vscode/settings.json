@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.html": "html",
-        "string": "cpp",
-        "vector": "cpp",
-        "limits": "cpp",
-        "utility": "cpp"
-    }
-}

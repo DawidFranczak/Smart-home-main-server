@@ -1,3 +1,0 @@
-załązcone peryferia ok 70-80 mA
-przesył dnaych 200 mA w piku potem 110 mA
-deep sleep 2,2mA 
