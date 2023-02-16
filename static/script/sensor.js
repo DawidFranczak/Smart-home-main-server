@@ -136,28 +136,28 @@ const sensorSave = async () => {
         pFun.setAttribute("src", "/static/images/temp.png");
         pFun.setAttribute("alt", "Czujnik temperatury");
         document
-          .querySelector("#add-sensor-temp-container")
+          .querySelector("#add-sensors-temp-container")
           .appendChild(parent);
         break;
       case "sunblind":
         pFun.setAttribute("src", "/static/images/window.png");
         pFun.setAttribute("alt", "Roleta");
-        document.querySelector("#add-rolety-container").appendChild(parent);
+        document.querySelector("#add-sunblinds-container").appendChild(parent);
         break;
       case "light":
         pFun.setAttribute("src", "/static/images/lamp.png");
         pFun.setAttribute("alt", "Światło");
-        document.querySelector("#add-swiatlo-container").appendChild(parent);
+        document.querySelector("#add-lights-container").appendChild(parent);
         break;
       case "aqua":
         pFun.setAttribute("src", "/static/images/aqua.png");
         pFun.setAttribute("alt", "Akwarium");
-        document.querySelector("#add-aqua-container").appendChild(parent);
+        document.querySelector("#add-aquas-container").appendChild(parent);
         break;
       case "rfid":
         pFun.setAttribute("src", "/static/images/sensor-rfid.png");
         pFun.setAttribute("alt", "Czytnik");
-        document.querySelector("#add-rfid-container").appendChild(parent);
+        document.querySelector("#add-rfids-container").appendChild(parent);
 
         const radio = document.createElement("input");
         radio.setAttribute("type", "radio");
@@ -189,19 +189,19 @@ const sensorSave = async () => {
         pFun.setAttribute("alt", "Przycisk");
         pFun.setAttribute("src", "/static/images/redbutton.png");
 
-        document.querySelector("#add-btn-container").appendChild(parent);
+        document.querySelector("#add-btns-container").appendChild(parent);
         break;
 
       case "lamp":
         pFun.innerHTML = "Lampy";
-        document.querySelector("#add-lamp-container").appendChild(parent);
+        document.querySelector("#add-lamps-container").appendChild(parent);
         break;
 
       case "stairs":
         pFun.setAttribute("alt", "Schody");
         pFun.setAttribute("src", "/static/images/stairs.png");
 
-        document.querySelector("#add-stairs-container").appendChild(parent);
+        document.querySelector("#add-stairses-container").appendChild(parent);
         break;
     }
     document.querySelector("#response").innerHTML = dataRep["response"];

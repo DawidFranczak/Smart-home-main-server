@@ -155,7 +155,7 @@
         <p class="Sensor-container__ul__sensor__function" >Funkcja</p>
       </ul>
     </li>
-    <li id="add-sensor-temp-container">
+    <li id="add-sensors-temp-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "temp" %}
           <ul class="Sensor-container__ul__sensor">
@@ -176,7 +176,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-rolety-container">
+    <li id="add-sunblinds-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "sunblind" %}
           <ul class="Sensor-container__ul__sensor">
@@ -197,7 +197,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-swiatlo-container">
+    <li id="add-lights-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "light" %}
           <ul class="Sensor-container__ul__sensor">
@@ -218,7 +218,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-aqua-container">
+    <li id="add-aquas-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "aqua" %}
           <ul class="Sensor-container__ul__sensor">
@@ -239,7 +239,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-stairs-container">
+    <li id="add-stairses-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "stairs" %}
           <ul class="Sensor-container__ul__sensor">
@@ -261,7 +261,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-rfid-container">
+    <li id="add-rfids-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "rfid" %}
         <ul class="Sensor-container__ul__sensor">
@@ -279,8 +279,7 @@
             placeholder="{{sensor.id}}"
           />
         </ul>
-          {% for card in cards %}
-            {% if card.sensor_id == sensor.id %}
+          {% for card in sensor.cards %}
             <ul class="Sensor-container__ul__sensor">
               <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{card.name}}</p>
               <img
@@ -297,12 +296,11 @@
               />
             </ul>
 
-            {% endif %}
           {% endfor %}
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-btn-container">
+    <li id="add-btns-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "btn" %}
         <ul class="Sensor-container__ul__sensor">
@@ -323,7 +321,7 @@
         {% endif %}
       {% endfor %}
     </li>
-    <li id="add-lamp-container">
+    <li id="add-lamps-container">
       {% for sensor in sensors %}
         {% if sensor.fun == "lamp" %}
         <ul class="Sensor-container__ul__sensor">

@@ -158,10 +158,10 @@ def light(request):
         if get_data['action'] == 'change':
             id = get_data['id']
             sensor = Sensor.objects.get(id=id)
-            
+            # sensor = request.user.sensor_set.get(id=id)
             # Simulation turn on/off light
             if sensor.name == 'tester':
-                light = Light.objects.get(sensor_id = sensor.id)
+                light = Light.objects.get(sensor = sensor)
                 
                 if light.light:
                     light.light = False
@@ -177,17 +177,19 @@ def light(request):
             
             return JsonResponse(change_light(get_data['id']))
         
-    user_id = request.user.id    
-    sensors = Sensor.objects.filter(fun = "light").filter(user_id = user_id)
-    lights_2d = [Light.objects.filter(sensor_id = sensor.id) for sensor in sensors] 
-    lights = [light for light_ in lights_2d for light in light_]
+    user = request.user  
+    sensors = user.sensor_set.filter(fun = 'light')
     
     context = {
-            'sensors': sensors,
-            'lights': lights
-              }
+        'sensors': [
+            {'id': sensor.id,
+             'name': sensor.name,
+             'light': sensor.light_set.get().light
+             } for sensor in sensors
+        ]
+    }
     
-    return render(request,'base/light.html', context)
+    return render(request,'base/light.html',context)
 
 
 @login_required(login_url='login')
@@ -255,18 +257,20 @@ def sensor(request):
             return JsonResponse(delete_sensor(get_data))
 
         case 'GET':
-            sensors = Sensor.objects.filter(user_id=user_id)
-            rfid_cards = []
             
-            for sensor in sensors:
-                if sensor.fun == 'rfid':
-                    rfid_cards.extend(Card.objects.filter(sensor_id = sensor.id))
+            sensors = request.user.sensor_set.filter(user = request.user)
                     
             context = {
-                        'sensors': sensors,
-                        'cards':rfid_cards
+                        'sensors': [
+                            {
+                            'fun':sensor.fun,
+                            'name':sensor.name,
+                            'id':sensor.id,
+                            'cards':[
+                                {'id': card.id,'name': card.name} for card in sensor.card_set.all()
+                                ] if sensor.fun == 'rfid' else ""
+                            } for sensor in sensors]
                         }
-
     return render(request, 'base/sensor.html',context)
 
 
@@ -275,8 +279,9 @@ def stairs(request):
 
     if request.method == 'POST':
         get_data = json.loads(request.body)
-        stairs = Stairs.objects.get(sensor_id=get_data['id'])
-        sensor = Sensor.objects.get(id = get_data['id'])
+        
+        sensor = request.user.sensor_set.get(pk = get_data['id'])
+        stairs = sensor.stairs
         
         match get_data['action']:
             case 'set-lightingTime':
@@ -315,8 +320,7 @@ def stairs(request):
         else:
             return JsonResponse({'success': False})
         
-    user_id = request.user.id
-    sensors = Sensor.objects.filter(fun="stairs").filter(user_id=user_id)
+    sensors = request.user.sensor_set.filter(fun = 'stairs')
     context= {
         "sensors": sensors,
     }
@@ -327,10 +331,8 @@ def stairs(request):
 def aquarium(request):
     if request.method == "POST":
         get_data = json.loads(request.body)
-        aqua_id = get_data['id']
-        sensor = Sensor.objects.get(id=aqua_id)
-        aqua = Aqua.objects.get(sensor_id=aqua_id)
-        
+        sensor = request.user.sensor_set.get(pk = get_data['id'])
+        aqua = sensor.aqua
         message = ""
         response = {}
         
@@ -405,8 +407,7 @@ def aquarium(request):
                 
         return JsonResponse(response)
 
-    user_id = request.user.id
-    aquas = Sensor.objects.filter(fun = 'aqua').filter(user_id=user_id)
+    aquas = request.user.sensor_set.filter(fun = 'aqua')
     context = {
             'aquas':aquas
     }
@@ -418,12 +419,12 @@ def sunblind(request):
     
     if request.method == 'POST':
         get_data = json.loads(request.body)
-        sensor = Sensor.objects.get(pk=get_data['id'])
+        sensor = request.user.sensor_set.get(pk = get_data['id'])
         message = 'set' + str(get_data['value'])
         
         # Simulation sunblind
         if sensor.name == 'tester':
-            sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
+            sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save()
             return JsonResponse({'success': 1})
@@ -431,7 +432,7 @@ def sunblind(request):
         
         # Sending message to microcontroller and waiting on response
         if send_data(message,sensor.ip,sensor.port):
-            sunblind = Sunblind.objects.get(sensor_id = get_data['id'])
+            sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save()  
             return JsonResponse({'success': 1})
@@ -439,17 +440,14 @@ def sunblind(request):
             return JsonResponse({'message': 'Brak komunikacji'})
 
     # Getting all user sensor where function is sunblind
-    user_id = request.user.id
-    sensors = Sensor.objects.filter(fun = 'sunblind').filter(user_id=user_id)
+    sensors = request.user.sensor_set.filter(fun = 'sunblind')
     
-    sunblinds = []
-
-    for sensor in sensors:
-        sunblinds.extend(Sunblind.objects.filter(sensor_id = sensor.id))
-
     context = {
-                'sensors': sensors,
-                'sunblinds': sunblinds
+                'sensors': [{
+                    'id':sensor.id,
+                    'name':sensor.name,
+                    'value':sensor.sunblind.value
+                    } for sensor in sensors]
                     }
     return render(request,'base/sunblind.html', context)
 
@@ -457,23 +455,22 @@ def sunblind(request):
 @login_required(login_url='login')
 def calibration(request, pk):
     
+    sensor = request.user.sensor_set.get(id=pk)
     if request.method == 'POST':
         
         # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
-        ip_port = Sensor.objects.get(id=pk)
-        send_data(get_data['action'], ip_port.ip, ip_port.port)
-        print(get_data)
+        send_data(get_data['action'], sensor.ip, sensor.port)
+        
         # Ending calibration, set value to 100 and save in database
         if get_data['action'] == 'end':
-            sunblind = Sunblind.objects.get(sensor_id = pk)
+            sunblind = sensor.sunblind
             sunblind.value = 100
             sunblind.save()
         
     elif request.method == 'GET':
         # Sending 'calibration' message to microcontroller 
-        ip_port = Sensor.objects.get(id=pk)
-        send_data('calibration', ip_port.ip, ip_port.port)
+        send_data('calibration', sensor.ip, sensor.port)
 
     return render(request,'base/calibration.html')
 
@@ -484,7 +481,7 @@ def rpl(request):
         get_data = json.loads(request.body)
         
         if get_data['action'] == 'get':
-            lamp = Sensor.objects.get(id = get_data['id'])
+            lamp = request.user.sensor_set.get(pk = get_data['id'])
             rfids = Rfid.objects.filter(lamp = lamp.ip)
             buttons = Button.objects.filter(lamp = lamp.ip)
             
@@ -497,45 +494,57 @@ def rpl(request):
             return JsonResponse(respond)
         
         elif get_data['action'] == 'connect':
-            lamp = Sensor.objects.get(id = get_data['lamp'])   
+            lamp = request.user.sensor_set.get(pk = get_data['lamp'])   
             rfids = Rfid.objects.filter(lamp = lamp.ip)
             btns = Button.objects.filter(lamp = lamp.ip)
             
-            btn_list = set([b.sensor_id for b in btns])
-            rfid_list = set([r.sensor_id for r in rfids])
-            btn_add = set([int(i) for i in get_data['btns']])
-            rfid_add = set([int(i) for i in get_data['rfids']])
+            btn_connected = set([b.sensor_id for b in btns])
+            btn_connect = set([int(i) for i in get_data['btns']])
+            
+            btn_add = btn_connect - btn_connected
+            btn_remove = btn_connected - btn_connect
+
+            rfid_connected = set([r.sensor_id for r in rfids])
+            rfid_connect = set([int(i) for i in get_data['rfids']])
+            
+            rfid_add = rfid_connect - rfid_connected
+            rfid_remove =rfid_connected - rfid_connect
             
             for id in rfid_add:
-                if id not in rfid_list:
-                    rfid = Rfid.objects.get(sensor_id = id)
-                    rfid.lamp = lamp.ip
-                    rfid.save()
-                else:
-                     rfid_list.remove(id)
-                
-            for id in rfid_list:
                 rfid = Rfid.objects.get(sensor_id = id)
-                rfid.lamp = ''
+                rfid.lamp = lamp.ip
                 rfid.save()
                 
+            for id in rfid_remove:
+                rfid = Rfid.objects.get(sensor_id = id)
+                rfid.lamp = ""
+                rfid.save()
                 
             for id in btn_add:
-                if id not in btn_list:
-                    btn = Button.objects.get(sensor_id=id)
-                    btn.lamp = lamp.ip
-                    btn.save()
-                else:
-                    btn_list.remove(id)
-                
-            for id in btn_list:
-                btn = Button.objects.get(sensor_id=id)
-                btn.lamp = ''
+                btn = Button.objects.get(sensor_id = id)
+                btn.lamp = lamp.ip
                 btn.save()
+                
+            for id in btn_remove:
+                btn = Button.objects.get(sensor_id = id)
+                btn.lamp = ""
+                btn.save()
+            
             message = {'message':'Połączono'}
             return JsonResponse(message)
                                 
-    user_id = request.user.id
-    sensors = Sensor.objects.filter(user_id = user_id)
-    context= {'sensors':sensors}
+    rfids = request.user.sensor_set.filter(fun = 'rfid')
+    lamps = request.user.sensor_set.filter(fun = 'lamp')
+    buttons = request.user.sensor_set.filter(fun = 'btn')
+    
+    context= {'rfids':[{
+                  'id':rfid.id,
+                  'name':rfid.name} for rfid in rfids],
+              'lamps':[{
+                  'id':lamp.id,
+                  'name':lamp.name} for lamp in lamps],
+              'buttons':[{
+                  'id':button.id,
+                  'name':button.name} for button in buttons]}
+    
     return render(request,'base/rpl.html',context)

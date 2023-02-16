@@ -52,8 +52,12 @@ def add_sensors_to_tester(user):
     NAME = ['','bardzo długa i nieciekawa nazwa ', 'bardzo długa i nieciekawa nazwa tylko że druga ']
     for fun in FUNCTION:
         for name in NAME:
-            Sensor.objects.create(user_id=user.id, name=name+'tester', ip='111.111.111.'+str(ip), port=1111, fun=fun)
+            Sensor.objects.create(user=user, name=name+'tester', ip='111.111.111.'+str(ip), port=1111, fun=fun)
             ip += 1
+    for sensor in Sensor.objects.filter(user=user, fun = 'rfid'):
+        for name in NAME:
+            Card.objects.create(sensor = sensor, name=name+'tester',uid = 11111111 )
+        
     tester_chart_data(user)
     
 @receiver(post_save, sender = User)
