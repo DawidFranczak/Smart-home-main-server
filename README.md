@@ -10,8 +10,6 @@ sunblind.
 
 You can also open the gate in the fence via an RFID card and make hourly temperature measurements.
 
-The microcontroller software located in this repo is intended for the ESP8266.
-
 On the website, you can create an account.
 
 If you create an account with 'tester' in the name, e.g. 'usertester' or 'testeruser', three devices from each category will be added to your account.
@@ -42,12 +40,7 @@ To check the website, you can use https://dawidfranczak.pythonanywhere.com.
 
 # Installation
 
-You can use the environment located in server/smart_home/env 
-
-or use pip:
-
 python -m pip install -r requirements.txt
 
 Then you can run the server using python manage.py runserver
 
-To upload the software to the ESP8266, you need Visual Studio Code with Platform.io or Arduino IDE.
