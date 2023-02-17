@@ -28,7 +28,7 @@ ALLOWED_HOSTS = ['192.168.0.124', '127.0.0.1', '192.168.1.42', '192.168.43.146',
                  'da2c-2a02-a31a-a247-ee80-d9e3-2ed8-5166-f450.eu.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = [
-'https://da2c-2a02-a31a-a247-ee80-d9e3-2ed8-5166-f450.eu.ngrok.io'
+    'https://da2c-2a02-a31a-a247-ee80-d9e3-2ed8-5166-f450.eu.ngrok.io'
 ]
 
 # Application definition
@@ -40,8 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'app.apps.AppConfig',
+
+    'app',
+    'light',
+    'chart',
+    'stairs',
+    'devices',
+    'aquarium',
+    'sunblind',
+    'user_page',
     'rest_framework',
 ]
 
@@ -63,7 +70,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates'
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,4 +152,3 @@ EMAIL_HOST_PASSWORD = 'cdznyxxgqaivurzw'
 EMAIL_USE_TLS = True
 
 # /////////////////////////////////
-
