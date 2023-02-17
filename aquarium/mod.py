@@ -19,7 +19,7 @@ def send_data(_mess, _ip, _port):
         return False
 
 
-def check_aqua(sensor, aqua):
+def check_aqua(device, aqua):
     '''
     Turn on or turn off fluo lamp and led dependence on time
     and save it to database
@@ -51,7 +51,7 @@ def check_aqua(sensor, aqua):
         aqua.led_mode = False
     aqua.save()
 
-    if not send_data(led, sensor.ip, sensor.port):
+    if not send_data(led, device.ip, device.port):
         return False
 
     if fluo_start < time_now and fluo_stop > time_now:
@@ -62,4 +62,4 @@ def check_aqua(sensor, aqua):
         aqua.fluo_mode = False
     aqua.save()
 
-    return send_data(fluo, sensor.ip, sensor.port)
+    return send_data(fluo, device.ip, device.port)

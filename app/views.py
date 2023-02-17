@@ -47,7 +47,7 @@ def user_login(request):
             messages.error(request, 'Nazwa albo hasło są nieprawidłowe.')
             return redirect('login')
 
-    return render(request, 'base/login.html')
+    return render(request, 'login.html')
 
 
 def user_logout(request):

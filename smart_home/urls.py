@@ -16,7 +16,7 @@ urlpatterns = [
     path('urzadzenia/', include('devices.urls')),
     path('ustawienia/', include('user_page.urls')),
 
-    path('api/', include('app.api.urls'))
+    path('api/akwarium/', include('aquarium.api.urls'))
 ]
 
 if settings.DEBUG:

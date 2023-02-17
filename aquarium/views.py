@@ -12,15 +12,17 @@ from .mod import *
 def aquarium(request):
     if request.method == "POST":
         get_data = json.loads(request.body)
-        sensor = request.user.sensor_set.get(pk=get_data['id'])
-        aqua = sensor.aqua
+        device = request.user.device_set.get(pk=get_data['id'])
+        aqua = device.aqua
         message = ""
         response = {}
 
         match get_data['action']:
             case 'changeRGB':
-                message = 'r'+str(get_data['r'])+'g' + \
-                    str(get_data['g'])+'b'+str(get_data['b'])
+                red = str(get_data['r'])
+                green = str(get_data['g'])
+                blue = str(get_data['b'])
+                message = f'r{red}g{green}b{blue}'
                 aqua.color = message
 
             case 'changeLedTime':
@@ -32,7 +34,7 @@ def aquarium(request):
                 aqua.fluo_stop = get_data['fluoLampStop']
 
             case 'changeMode':
-                aqua.mode = get_data['mode']
+                aqua.mode = get_data['mode']  # True -> manual
                 if get_data['mode']:
                     response = {
                         'fluo': aqua.fluo_mode,
@@ -40,34 +42,29 @@ def aquarium(request):
                     }
                     aqua.save()
                     return JsonResponse(response)
-                else:
-                    aqua.save()
+                aqua.save()
 
             case 'changeFluoLampState':
-                if get_data['value']:
-                    message = 's1'
-                else:
-                    message = 's0'
+                # True -> on
+                message = 's1' if get_data['value'] else 's0'
                 aqua.fluo_mode = get_data['value']
 
             case 'changeLedState':
-                if get_data['value']:
-                    message = 'r1'
-                else:
-                    message = 'r0'
+                # True -> on
+                message = 'r1' if get_data['value'] else 'r0'
                 aqua.led_mode = get_data['value']
 
         if message:
 
             # Control simulation
-            if sensor.name == 'tester':
+            if device.name == 'tester':
                 response = {'success': True,
                             'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
                 return JsonResponse(response)
             # End simulation
 
-            if send_data(message, sensor.ip, sensor.port):
+            if send_data(message, device.ip, device.port):
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
             else:
@@ -75,13 +72,13 @@ def aquarium(request):
         else:
 
             # Control simulation
-            if sensor.name == 'tester':
+            if device.name == 'tester':
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
                 return JsonResponse(response)
             # End simulation
 
-            if check_aqua(sensor, aqua):
+            if check_aqua(device, aqua):
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
             else:
@@ -89,7 +86,7 @@ def aquarium(request):
 
         return JsonResponse(response)
 
-    aquas = request.user.sensor_set.filter(fun='aqua')
+    aquas = request.user.device_set.filter(fun='aqua')
     context = {
         'aquas': aquas
     }

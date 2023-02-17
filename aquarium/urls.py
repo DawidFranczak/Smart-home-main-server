@@ -4,5 +4,4 @@ from . import views
 
 urlpatterns = [
     path('akwarium/', views.aquarium, name="aquarium"),
-
 ]
