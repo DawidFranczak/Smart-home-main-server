@@ -5,8 +5,18 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('app.urls')),
-    path('api/',include('app.api.urls'))
+
+    path('', include('app.urls')),
+    path('rpl/', include('rpl.urls')),
+    path('wykres/', include('chart.urls')),
+    path('swiatla/', include('light.urls')),
+    path('schody/', include('stairs.urls')),
+    path('rolety/', include('sunblind.urls')),
+    path('akwaria/', include('aquarium.urls')),
+    path('urzadzenia/', include('devices.urls')),
+    path('ustawienia/', include('user_page.urls')),
+
+    path('api/', include('app.api.urls'))
 ]
 
 if settings.DEBUG:
