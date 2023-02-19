@@ -1,13 +1,33 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-import json
 from django.http import JsonResponse
+from django.views import View
+import json
+
 # Create your views here.
 
 
-@login_required(login_url='login')
-def rpl(request):
-    if request.method == 'POST':
+class RplView(View):
+    template_name = 'rpl.html'
+
+    def get(self, request):
+        rfids = request.user.sensor_set.filter(fun='rfid')
+        lamps = request.user.sensor_set.filter(fun='lamp')
+        buttons = request.user.sensor_set.filter(fun='btn')
+
+        context = {'rfids': [{
+            'id': rfid.id,
+            'name': rfid.name} for rfid in rfids],
+            'lamps': [{
+                'id': lamp.id,
+                'name': lamp.name} for lamp in lamps],
+            'buttons': [{
+                'id': button.id,
+                'name': button.name} for button in buttons]}
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+
         get_data = json.loads(request.body)
 
         if get_data['action'] == 'get':
@@ -27,60 +47,44 @@ def rpl(request):
 
             lamp = request.user.sensor_set.get(pk=get_data['lamp'])
 
-            SENSORS_RFID = request.user.sensor_set.filter(
+            sensors_rfid = request.user.sensor_set.filter(
                 fun='rfid')
-            CONNECTED_RFIDS = set([
-                sensor.id for sensor in SENSORS_RFID if sensor.rfid.lamp == lamp.ip])
-            ADD_RFIDS = set([int(rfid_id) for rfid_id in get_data['rfids']])
+            connected_rfid = set([
+                sensor.id for sensor in sensors_rfid if sensor.rfid.lamp == lamp.ip])
+            add_rfids = set([int(rfid_id) for rfid_id in get_data['rfids']])
 
-            CONNECT_RFIDS = ADD_RFIDS - CONNECTED_RFIDS
-            REMOVE_RFIDS = CONNECTED_RFIDS - ADD_RFIDS
+            connect_rfid = add_rfids - connected_rfid
+            remove_rfid = connected_rfid - add_rfids
 
-            SENSORS_BUTTON = request.user.sensor_set.filter(
+            sensor_buttons = request.user.sensor_set.filter(
                 fun='btn')
-            CONNECTED_BUTTONS = set([
-                sensor.id for sensor in SENSORS_BUTTON if sensor.button.lamp == lamp.ip])
-            ADD_BUTTON = set([int(button_id)
+            connected_buttons = set([
+                sensor.id for sensor in sensor_buttons if sensor.button.lamp == lamp.ip])
+            add_buttons = set([int(button_id)
                               for button_id in get_data['btns']])
 
-            CONNECT_BUTTONS = ADD_BUTTON - CONNECTED_BUTTONS
-            REMOVE_BUTTONS = CONNECTED_BUTTONS - ADD_BUTTON
+            connect_buttons = add_buttons - connected_buttons
+            remove_buttons = connected_buttons - add_buttons
 
-            for id in CONNECT_RFIDS:
+            for id in connect_rfid:
                 rfid = request.user.sensor_set.get(pk=id).rfid
                 rfid.lamp = lamp.ip
                 rfid.save()
 
-            for id in REMOVE_RFIDS:
+            for id in remove_rfid:
                 rfid = request.user.sensor_set.get(pk=id).rfid
                 rfid.lamp = ""
                 rfid.save()
 
-            for id in CONNECT_BUTTONS:
+            for id in connect_buttons:
                 btn = request.user.sensor_set.get(pk=id).btn
                 btn.lamp = lamp.ip
                 btn.save()
 
-            for id in REMOVE_BUTTONS:
+            for id in remove_buttons:
                 btn = request.user.sensor_set.get(pk=id).btn
                 btn.lamp = ""
                 btn.save()
 
             message = {'message': 'Połączono'}
             return JsonResponse(message)
-
-    rfids = request.user.sensor_set.filter(fun='rfid')
-    lamps = request.user.sensor_set.filter(fun='lamp')
-    buttons = request.user.sensor_set.filter(fun='btn')
-
-    context = {'rfids': [{
-        'id': rfid.id,
-        'name': rfid.name} for rfid in rfids],
-        'lamps': [{
-            'id': lamp.id,
-            'name': lamp.name} for lamp in lamps],
-        'buttons': [{
-            'id': button.id,
-            'name': button.name} for button in buttons]}
-
-    return render(request, 'rpl.html', context)
