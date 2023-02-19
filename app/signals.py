@@ -78,7 +78,6 @@ def create_home_nav_image(sender, instance, created, **kwarg):
 def add_sensor(sender, instance, created, **kwarg):
     if created:
         function = instance.fun
-
         match function:
             case 'sunblind':
                 Sunblind.objects.create(sensor_id=instance.id)

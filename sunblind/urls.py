@@ -1,8 +1,10 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
-from . import views
+from django.contrib.auth.decorators import login_required
+from .views import SunblindView, CalibrationView
 
 urlpatterns = [
-    path('rolety/', views.sunblind, name="sunblind"),
-    path('rolety/kaibracja/<int:pk>', views.calibration, name="calibration"),
+    path('rolety/', login_required(SunblindView.as_view(),
+         login_url='login'), name="sunblind"),
+    path('rolety/kaibracja/<int:pk>', login_required(CalibrationView.as_view(),
+         login_url='login'), name="calibration"),
 ]

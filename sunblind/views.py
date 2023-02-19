@@ -1,16 +1,29 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.views import View
 import json
-from .mod import *
+from .mod import send_data
 
 # Create your views here.
 
 
-@login_required(login_url='login')
-def sunblind(request):
+class SunblindView(View):
+    template_name = 'sunblind.html'
 
-    if request.method == 'POST':
+    def get(self, request):
+        # Getting all user sensor where function is sunblind
+        sensors = request.user.sensor_set.filter(fun='sunblind')
+
+        context = {
+            'sensors': [{
+                        'id': sensor.id,
+                        'name': sensor.name,
+                        'value': sensor.sunblind.value
+                        } for sensor in sensors]
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
         sensor = request.user.sensor_set.get(pk=get_data['id'])
         message = 'set' + str(get_data['value'])
@@ -32,24 +45,18 @@ def sunblind(request):
         else:
             return JsonResponse({'message': 'Brak komunikacji'})
 
-    # Getting all user sensor where function is sunblind
-    sensors = request.user.sensor_set.filter(fun='sunblind')
 
-    context = {
-        'sensors': [{
-                    'id': sensor.id,
-                    'name': sensor.name,
-                    'value': sensor.sunblind.value
-                    } for sensor in sensors]
-    }
-    return render(request, 'sunblind.html', context)
+class CalibrationView(View):
+    template_name = 'calibration.html'
 
+    def get(self, request, pk):
+        sensor = request.user.sensor_set.get(pk=pk)
+        send_data('calibration', sensor.ip, sensor.port)
 
-@login_required(login_url='login')
-def calibration(request, pk):
+        return render(request, self.template_name)
 
-    sensor = request.user.sensor_set.get(id=pk)
-    if request.method == 'POST':
+    def post(self, request, pk):
+        sensor = request.user.sensor_set.get(id=pk)
 
         # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
@@ -60,9 +67,3 @@ def calibration(request, pk):
             sunblind = sensor.sunblind
             sunblind.value = 100
             sunblind.save()
-
-    elif request.method == 'GET':
-        # Sending 'calibration' message to microcontroller
-        send_data('calibration', sensor.ip, sensor.port)
-
-    return render(request, 'base/calibration.html')
