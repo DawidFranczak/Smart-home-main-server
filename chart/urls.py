@@ -1,8 +1,9 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
-from . import views
+from .views import Chart
+from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
-    path('', views.chart, name="chart"),
+    path('', login_required(Chart.as_view(), login_url='login'), name="chart"),
 
 ]

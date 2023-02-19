@@ -1,13 +1,28 @@
 from django.db.models import Q
+from datetime import datetime, timedelta
 
 
-def data_for_chart(data_from, data_to, place, request):
+def data_for_chart(request):
     ''' 
     Get data and avarage temperature for chart from date to date
     '''
 
-    data_temp = []
-    data_time = []
+    data_from = request.POST.get('data-from')
+    data_to = request.POST.get('data-to')
+    place = request.POST.get("list")
+
+    if not place:
+        place = request.user.sensor_set.filter(fun='temp')[0]
+
+    if data_from and data_to:
+
+        format = '%Y-%m-%d'
+        data_to = str(datetime.strptime(
+            data_to[:19], format) + timedelta(days=1))
+    else:
+        data_from = datetime.now().date() - timedelta(days=6)
+        data_to = str(datetime.now())
+
     data_average_temp_day = []
     data_average_temp_night = []
     data_average_data = []
@@ -25,44 +40,46 @@ def data_for_chart(data_from, data_to, place, request):
         Q(time__gte=data_from) &
         Q(time__lte=data_to))
 
+    # check is it any temperature measurment
     try:
-        date_old = str(temps[0].time)[:10]
+        date = str(temps[0].time)[:10]  # e.g. 2023-02-11 without hour
     except IndexError:
-        return {}
+        return {'list_place': request.user.sensor_set.filter(fun='temp')}
 
     for temp in temps:
-        date_new = str(temp.time)[:10]
+        date = str(temp.time)[:10]
 
-        if str(temp.time) <= data_to and str(temp.time) >= str(data_from):
-            data_temp.append(temp.temp)
-            data_time.append(str(temp.time)[:16])
-            hour = str(temp.time).split().pop(1)[:2]
+        # from 2023-02-15 22:00:00 to 22 (only hours)
+        hour = str(temp.time).split().pop(1)[:2]
 
-            if hour > start_day and hour <= end_day:
-                average_day.append(float(temp.temp))
-            else:
-                average_night.append(float(temp.temp))
+        if hour > start_day and hour <= end_day:
+            average_day.append(float(temp.temp))
+        else:
+            average_night.append(float(temp.temp))
 
-            if date_new != date_old:
+        if str(temp.time) == date + ' 23:00:00':
+            data_average_temp_day.append(
+                round(sum(average_day) / len(average_day), 2)
+            )
+            data_average_temp_night.append(
+                round(sum(average_night) / len(average_night), 2)
+            )
+            data_average_data.append(date)
 
-                data_average_temp_day.append(
-                    round(sum(average_day) / len(average_day), 2)
-                )
-                data_average_temp_night.append(
-                    round(sum(average_night) / len(average_night), 2)
-                )
-                data_average_data.append(date_old)
-
-                average_day.clear()
-                average_night.clear()
-                date_old = date_new
+            average_day.clear()
+            average_night.clear()
 
     context = {
-        'data_temp': data_temp,
-        'data_time': data_time,
+        # only temperature values
+
+        'data_temp': [temp.temp for temp in temps],
+        # only data YYYY-MM-DD
+
+        'data_time': [str(temp.time)[:16] for temp in temps],
         'data_average_temp_day': data_average_temp_day,
         'data_average_temp_night': data_average_temp_night,
         'data_average_data': data_average_data,
         'place': place,
+        'list_place': request.user.sensor_set.filter(fun='temp')
     }
     return context
