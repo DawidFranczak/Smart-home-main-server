@@ -326,7 +326,11 @@
         {% if sensor.fun == "lamp" %}
         <ul class="Sensor-container__ul__sensor">
           <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
-          <p class="sensor-fun">Lampy</p>
+          <img
+            src="{% static 'images/outdoorlamp.png' %}"
+            alt="Lampa zewnętrzna"
+            class="Sensor-container__ul__sensor__sensor-img"
+          />
           <input
             type="image"
             src="{% static 'images/cross.png' %}"

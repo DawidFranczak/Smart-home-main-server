@@ -1,12 +1,13 @@
 import socket
+from app.models import Card
 
 
-def add_sensor(get_data, user_id):
+def add_sensor(data, user):
     '''
     Comunicate and save sensor
     '''
 
-    match get_data['fun']:
+    match data['fun']:
         case 'temp':
             port = 1265
             message = str.encode('password_temp')
@@ -53,15 +54,14 @@ def add_sensor(get_data, user_id):
             if response == answer:
                 new_sensor_ip = str(data[1][0])
 
-                if Sensor.objects.filter(ip=new_sensor_ip).exists():
+                if user.sensor_set.filter(ip=new_sensor_ip).exists():
                     respond = {'response': 'Czujnik już dodano'}
                     return respond
 
-                sensor = Sensor(name=get_data['name'],
-                                fun=get_data['fun'],
-                                ip=new_sensor_ip,
-                                user_id=user_id,
-                                port=port)
+                sensor = user.sensor_set.create(name=data['name'],
+                                                fun=data['fun'],
+                                                ip=new_sensor_ip,
+                                                port=port)
                 sensor.save()
                 respond = {
                     'response': 'Udało sie dodać czujnik', 'id': sensor.id}
@@ -77,19 +77,19 @@ def add_sensor(get_data, user_id):
         return respond
 
 
-def add_uid(_data):
+def add_uid(data, user):
     '''
         Add new rfid card to user
     '''
 
     respond = {}
     try:
-        sensor = Sensor.objects.get(id=_data['id'])
+        sensor = user.sensor_set.objects.get(id=data['id'])
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.bind(('', 6721))
 
-        except Exception as e:
+        except:
             respond = {'response': 'Nie udało się otworzyć socketu'}
             return respond
 
@@ -98,39 +98,36 @@ def add_uid(_data):
         sock.settimeout(9)
         data = sock.recvfrom(128)
         uid = int(data[0].decode('UTF-8'))
-        sock.close()
 
-        if Card.objects.filter(uid=uid).exists():
+        if sensor.cart_set.filter(uid=uid).exists():
             respond = {'response': 'Ta karta jest już dodana'}
             return respond
 
-        card = Card(sensor_id=sensor.id, uid=uid, name=_data['name'])
+        card = sensor.cart_set.create(uid=uid, name=data['name'])
         card.save()
         respond = {'response': 'Udało sie dodać czujnik', 'id': card.id}
 
-    except Exception as e:
-        print(e)
+    except:
         respond = {'response': 'Nie udało dodać się czujnika'}
+    finally:
         sock.close()
+
     return respond
 
 
-# # ///////////////////////DELETE/////////////////////////////////////////
-def delete_sensor(get_data):
+def delete_sensor(get_data, user):
     '''
     Delete user sensor
     '''
-    # sensor_id geting from website can be 'card <number>' for rfid card
-    # or '<number>' for rest of sensors
-
+    print(get_data)
     try:
-        sensor_id = str(get_data['id'])
-        if sensor_id.startswith('card'):
-            Card.objects.filter(id=get_data['id'].split(' ')[1]).delete()
+        sensor = str(get_data['id'])
+        if sensor.startswith('card'):
+            card_id = get_data['id'].split(' ')[1]
+            Card.objects.get(pk=card_id).delete()
             response = {'response': 'permission'}
-            return response
         else:
-            Sensor.objects.get(id=get_data['id']).delete()
+            user.sensor_set.get(id=sensor).delete()
             response = {'response': 'permission'}
     except:
         response = {'response': 'Nie udało się usunąć czujnika'}

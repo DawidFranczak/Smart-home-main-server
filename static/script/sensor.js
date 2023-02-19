@@ -107,7 +107,7 @@ const sensorSave = async () => {
   };
 
   dataRep = await sendData("POST", dict);
-
+  console.log(dataRep);
   if (dataRep["response"] == "Udało sie dodać czujnik") {
     const parent = document.createElement("ul");
     const pName = document.createElement("p");
