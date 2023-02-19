@@ -1,44 +1,59 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
-
+from django.views import View
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from django.contrib.auth import update_session_auth_hash
+
 from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm
 
 # Create your views here.
 
 
-@login_required(login_url='login')
-def user_page(request):
-    return render(request, 'user_page.html')
+class UserPage(TemplateView):
+    template_name = 'user_page.html'
 
 
-@login_required(login_url='login')
-def user_change_password(request):
+class UserChangePassword(View):
+    template_name = 'user_page.html'
+    form_class = ChangePasswordForm
 
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.user, request.POST)
+    def get(self, request):
+
+        context = {'action': 'password',
+                   'form': ChangePasswordForm(request.user)}
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = self.form_class(request.user, request.POST)
 
         if form.is_valid():
-            form.save()
-            username = request.user
-            password = request.POST.get('new_password1')
-            user = authenticate(request, username=username, password=password)
-            login(request, user)
+            user = form.save()
+            update_session_auth_hash(request, user)
             messages.success(request, 'Zmiana hasła przebiegła pomyślnie')
             return redirect('user_page')
 
-    form = ChangePasswordForm(request.user)
-    context = {'action': 'password',
-               'form': form}
+        context = {'action': 'password',
+                   'form': form}
 
-    return render(request, 'user_page.html', context)
+        return render(request, self.template_name, context)
 
 
-@login_required(login_url='login')
-def user_change_email(request):
+class UserChangeEmail(View):
+    template_name = 'user_page.html'
+    form_class = ChangeEmailForm
 
-    if request.method == 'POST':
+    def get(self, request):
+        form = self.form_class(request.user)
+        old = request.user.email
+        context = {'action': 'email',
+                   'form': form,
+                   'old': old}
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
         form = ChangeEmailForm(request.user, request.POST)
 
         if form.is_valid():
@@ -46,20 +61,18 @@ def user_change_email(request):
             messages.success(request, 'Zmiana emaila przebiegła pomyślnie')
             return redirect('user_page')
 
-    form = ChangeEmailForm(request.user)
-    old = request.user.email
-    context = {'action': 'email',
-               'form': form,
-               'old': old}
 
-    return render(request, 'user_page.html', context)
+class UserChangeImage(View):
+    template_name = 'user_page.html'
 
+    def get(self, request):
+        form = ChangeImageForm(request.user)
 
-@login_required(login_url='login')
-def user_change_image(request):
-    form = ChangeImageForm(request.user)
+        context = {'action': 'image',
+                   'form': form}
+        return render(request, self.template_name, context)
 
-    if request.method == 'POST':
+    def post(self, request):
         form = ChangeImageForm(request.user, request.POST, request.FILES)
 
         if request.POST.get('save') is not None:
@@ -73,20 +86,16 @@ def user_change_image(request):
             messages.success(request, 'Zresetowano zdjęcia')
             return redirect('user_page')
 
-    context = {'action': 'image',
-               'form': form}
 
-    return render(request, 'user_page.html', context)
+class UserDelete(View):
+    template_name = 'user_page.html'
 
+    def get(self, request):
+        context = {'action': 'delete'}
 
-@login_required(login_url='login')
-def user_delete(request):
-    if request.method == 'POST':
+        return render(request, self.template_name, context)
 
+    def post(self, request):
         request.user.delete()
         messages.success(request, 'Konto zostało usunięte')
         return redirect('login')
-
-    context = {'action': 'delete'}
-
-    return render(request, 'user_page.html', context)

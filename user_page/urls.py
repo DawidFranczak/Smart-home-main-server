@@ -1,13 +1,23 @@
-from django.urls import path
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
-from . import views
+from django.urls import path
+
+from .views import UserPage, UserChangePassword, UserChangeEmail, UserChangeImage, UserDelete
 
 urlpatterns = [
-    path('', views.user_page, name="user_page"),
-    path('zmiana-hasla', views.user_change_password, name="user_change_password"),
-    path('zmiana-emaila', views.user_change_email, name="user_change_email"),
-    path('zmiana-zdjec', views.user_change_image, name="user_change_image"),
-    path('usun-konto', views.user_delete, name="user_delete"),
+    path('', login_required(UserPage.as_view(),
+         login_url='login'), name="user_page"),
+    path('zmiana-hasla', login_required(UserChangePassword.as_view(),
+         login_url='login'), name="user_change_password"),
+    path('zmiana-emaila', login_required(UserChangeEmail.as_view(),
+         login_url='login'), name="user_change_email"),
+    path('zmiana-zdjec', login_required(UserChangeImage.as_view(),
+         login_url='login'), name="user_change_image"),
+    path('usun-konto', login_required(UserDelete.as_view(),
+         login_url='login'), name="user_delete"),
+
+
+
     path('reset-hasło/', auth_views.PasswordResetView.as_view(
         template_name='base/password_reset_view.html'),
         name='password_reset'),
