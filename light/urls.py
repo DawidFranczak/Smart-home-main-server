@@ -1,8 +1,9 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
-from . import views
+from .views import LightView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('światło/', views.light, name="light"),
+    path('światło/', login_required(LightView.as_view(),
+         login_url='login'), name="light"),
 
 ]
