@@ -2,7 +2,6 @@ from django.views import View
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from django.contrib.auth import update_session_auth_hash
 
 from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm

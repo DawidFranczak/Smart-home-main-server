@@ -1,22 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from devices.models import Device
 # Create your models here.
 
 
-class Device(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    ip = models.CharField(max_length=100)
-    port = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    fun = models.CharField(max_length=100, default="")
-
-    def __str__(self):
-        return self.name
-
-
 class Aqua(models.Model):
-    device = models.OneToOneField(Device, on_delete=models.CASCADE)
+    aquarium = models.OneToOneField(Device, on_delete=models.CASCADE)
     color = models.CharField(max_length=100, default="r255g255b255")
     led_start = models.CharField(max_length=10, default="00:00:00")
     led_stop = models.CharField(max_length=10, default="00:00:00")

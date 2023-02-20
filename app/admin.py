@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import *
+# from .models import device
 # Register your models here.
 
-admin.site.register(Sensor)
+# admin.site.register(Device)
 # admin.site.register(Temp)
 # admin.site.register(Sunblind)
 # admin.site.register(Aqua)

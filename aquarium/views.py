@@ -87,6 +87,10 @@ def aquarium(request):
         return JsonResponse(response)
 
     aquas = request.user.device_set.filter(fun='aqua')
+    print('********************************************')
+    print(aquas)
+    print('********************************************')
+
     context = {
         'aquas': aquas
     }

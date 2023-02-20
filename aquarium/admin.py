@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Device, Aqua
+from .models import Aqua
 
 # Register your models here.
-admin.site.register(Device)
 admin.site.register(Aqua)

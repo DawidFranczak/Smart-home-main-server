@@ -1,5 +1,5 @@
 import socket
-from app.models import Card
+from rpl.models import Card
 
 
 def add_sensor(data, user):
