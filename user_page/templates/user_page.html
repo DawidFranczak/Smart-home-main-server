@@ -17,6 +17,9 @@
   <a class="Nav__profil__a" href="{% url 'user_delete'%}">
     Usuń konto
     </a>
+  <a class="Nav__profil__a" href="{% url 'user_change_url'%}">
+    Zmień URL
+    </a>
 </section>
 <section>
   {% if action == 'password'%}
@@ -27,6 +30,8 @@
     {% include 'user_page_image.html'%}
   {% elif action == 'delete' %}
     {% include 'user_page_delete.html'%}
+  {% elif action == 'ngrok' %}
+    {% include 'user_page_ngrok.html'%}
   {% endif %}
 </section>
 <div class="Messages">

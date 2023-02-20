@@ -2,10 +2,10 @@ from django.views import View
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from django.contrib.auth import update_session_auth_hash
 
-from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm
+
+from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm, ChangeNgrokForm
 
 # Create your views here.
 
@@ -53,12 +53,27 @@ class UserChangeEmail(View):
 
         return render(request, self.template_name, context)
 
-    def post(self, request):
-        form = ChangeEmailForm(request.user, request.POST)
 
+class UserChangeNgrok(View):
+    template_name = 'user_page.html'
+    form_class = ChangeNgrokForm
+
+    def get(self, request):
+        form = self.form_class(request.user)
+
+        old = request.user.ngrok.ngrok
+
+        context = {'action': 'ngrok',
+                   'form': form,
+                   'old': old}
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = ChangeNgrokForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Zmiana emaila przebiegła pomyślnie')
+            messages.success(request, 'Zmiana URL przebiegła pomyślnie')
             return redirect('user_page')
 
 

@@ -1,0 +1,17 @@
+<form method="post" class="URL-change">
+    {% csrf_token %}
+    <h1 class="URL-change__h1">Zmiana URL</h1>
+    <p class="URL-change__p">Aktualny URL</p>
+    <p class="URL-change__p">{{old}}</p>
+    {% for field in form %}
+    <div class="URL-change__div">
+      <label for="id_{{field.name}}" class="URL-change__div__label">
+        {{field.label}}
+      </label>
+      {{ field }}
+      {{ field.errors }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="URL-change__submit">Zmień URL</button>
+  </form>
+  

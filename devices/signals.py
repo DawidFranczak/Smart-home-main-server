@@ -2,6 +2,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from .models import *
+from log.models import Ngrok
 from user_page.models import HomeNavImage
 from random import randint
 from datetime import datetime, timedelta
@@ -70,6 +71,8 @@ def add_sensors_to_tester(user):
 def create_home_nav_image(sender, instance, created, **kwarg):
     if created:
         HomeNavImage.objects.create(user=instance)
+        Ngrok.objects.create(user=instance)
+
         if 'tester' in instance.username:
             add_sensors_to_tester(instance)
 

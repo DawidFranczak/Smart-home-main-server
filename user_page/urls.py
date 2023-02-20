@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import UserPage, UserChangePassword, UserChangeEmail, UserChangeImage, UserDelete
+from .views import UserPage, UserChangePassword, UserChangeEmail, UserChangeImage, UserDelete, UserChangeNgrok
 
 urlpatterns = [
     path('', login_required(UserPage.as_view(),
@@ -15,6 +15,8 @@ urlpatterns = [
          login_url='login'), name="user_change_image"),
     path('usun-konto', login_required(UserDelete.as_view(),
          login_url='login'), name="user_delete"),
+    path('zmiana-linku', login_required(UserChangeNgrok.as_view(),
+         login_url='login'), name="user_change_url"),
 
 
 

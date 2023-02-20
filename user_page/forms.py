@@ -148,3 +148,27 @@ class ChangeImageForm(forms.Form):
     class Meta:
         model = HomeNavImage
         fields = '__all__'
+
+
+class ChangeNgrokForm(forms.Form):
+
+    new_link = forms.URLField(
+        widget=forms.URLInput(
+            attrs={'class': 'URL__div__input'}),
+        label="Podaj nowy adres URL"
+
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_new_link(self):
+        new_link = self.cleaned_data.get('new_link')
+        return new_link
+
+    def save(self):
+        new_link = self.cleaned_data.get('new_link')
+        self.user.ngrok.ngrok = new_link
+        self.user.ngrok.save()
+        return self.user

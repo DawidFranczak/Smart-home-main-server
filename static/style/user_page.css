@@ -25,6 +25,7 @@
   cursor: pointer;
   position: relative;
 }
+.URL-change,
 .Image-change,
 .Email-change,
 .Password-change,
@@ -35,6 +36,7 @@
   align-items: center;
   gap: 0.5em;
 }
+.URL-change__h1,
 .Image-change__h1,
 .Email-change__h1,
 .Password-change__h1 {
@@ -42,14 +44,14 @@
   margin-top: 0.5em;
   font-size: 1.5em;
 }
-
+.URL-change__div,
 .Email-change__div,
 .Password-change__div {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+.URL__div__input,
 .Email__div__input,
 .Register__div__input {
   border-radius: 10px;
@@ -68,6 +70,7 @@
   font-size: 0.75em;
   color: red;
 }
+.URL-change__submit,
 .Delete-user__submit,
 .Image-change__submit,
 .Image-change__submit-reset,
@@ -90,6 +93,7 @@
 .Image-change__submit-reset {
   margin-top: 0.5em;
 }
+.URL-change__p,
 .Email-change__p {
   margin: 0;
   margin-bottom: 0.5em;
@@ -107,6 +111,7 @@
   margin-top: 1em;
   color: rgb(0, 150, 0);
 }
+.URL-change__submit::before,
 .Delete-user__submit:before,
 .Nav__profil__a:before,
 .Delete-user__back:before,
@@ -132,6 +137,7 @@
 .Delete-user__submit:before {
   background-color: red;
 }
+.URL-change__submit:hover::before,
 .Delete-user__back:hover::before,
 .Delete-user__submit:hover::before,
 .Nav__profil__a:hover::before,
