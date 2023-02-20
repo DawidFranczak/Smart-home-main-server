@@ -5,8 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('', include('app.urls')),
+    path('', include('log.urls')),
     path('rpl/', include('rpl.urls')),
     path('wykres/', include('chart.urls')),
     path('swiatla/', include('light.urls')),
@@ -16,7 +15,8 @@ urlpatterns = [
     path('urzadzenia/', include('devices.urls')),
     path('ustawienia/', include('user_page.urls')),
 
-    path('api/akwarium/', include('aquarium.api.urls'))
+    path('api/schody/', include('stairs.api.urls')),
+    path('api/akwarium/', include('aquarium.api.urls')),
 ]
 
 if settings.DEBUG:

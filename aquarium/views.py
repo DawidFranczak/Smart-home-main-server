@@ -12,8 +12,8 @@ from .mod import *
 def aquarium(request):
     if request.method == "POST":
         get_data = json.loads(request.body)
-        device = request.user.device_set.get(pk=get_data['id'])
-        aqua = device.aqua
+        sensor = request.user.sensor_set.get(pk=get_data['id'])
+        aqua = sensor.aqua
         message = ""
         response = {}
 
@@ -57,14 +57,14 @@ def aquarium(request):
         if message:
 
             # Control simulation
-            if device.name == 'tester':
+            if sensor.name == 'tester':
                 response = {'success': True,
                             'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
                 return JsonResponse(response)
             # End simulation
 
-            if send_data(message, device.ip, device.port):
+            if send_data(message, sensor.ip, sensor.port):
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
             else:
@@ -72,13 +72,13 @@ def aquarium(request):
         else:
 
             # Control simulation
-            if device.name == 'tester':
+            if sensor.name == 'tester':
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
                 return JsonResponse(response)
             # End simulation
 
-            if check_aqua(device, aqua):
+            if check_aqua(sensor, aqua):
                 response = {'message': 'Udało się zmienić ustawienia'}
                 aqua.save()
             else:
@@ -86,7 +86,7 @@ def aquarium(request):
 
         return JsonResponse(response)
 
-    aquas = request.user.device_set.filter(fun='aqua')
+    aquas = request.user.sensor_set.filter(fun='aqua')
     context = {
         'aquas': aquas
     }

@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'app',
     'rpl',
+    'log',
     'light',
     'chart',
     'stairs',
