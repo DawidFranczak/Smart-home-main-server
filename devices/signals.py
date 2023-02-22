@@ -88,9 +88,6 @@ def add_sensor(sender, instance, created, **kwarg):
             case 'light':
                 Light.objects.create(sensor_id=instance.id)
 
-            case 'aqua':
-                Aqua.objects.create(sensor_id=instance.id)
-
             case 'stairs':
                 Stairs.objects.create(sensor_id=instance.id)
 
@@ -99,3 +96,6 @@ def add_sensor(sender, instance, created, **kwarg):
 
             case 'btn':
                 Button.objects.create(sensor_id=instance.id)
+
+            case 'aqua':
+                Aqua.objects.create(sensor_id=instance.id)

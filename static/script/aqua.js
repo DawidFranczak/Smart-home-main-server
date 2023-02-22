@@ -14,6 +14,7 @@ const selectAqua = async (e) => {
 
   settings = await fetch(`/api/akwarium/${aquarium.id}`);
   settings = await settings.json();
+  console.log(settings);
 
   const containerAqua = document.querySelector("#containers-aqua");
   containerAqua.classList.add("Containers-aqua--active");
@@ -110,7 +111,6 @@ const aqua = async (e) => {
       case "mode":
         let mode = false;
         const modeButton = e.target;
-        console.log(e.target);
         if (modeButton.innerHTML === "Ręczny") {
           mode = true;
           modeButton.innerHTML = "Automat";
@@ -138,14 +138,17 @@ const aqua = async (e) => {
 
         data = await sendData("POST", dict);
         console.log(data);
+        console.log(data["fluo"]);
+        console.log(data["led"]);
 
         const modeFluolampButton = document.querySelector(
           "#mode-button-fluolamp"
         );
+
         const modeLedButton = document.querySelector("#mode-button-led");
 
-        modeFluolampButton.value = data["fluo"] ? "Wyłącz" : "Włącz";
-        modeLedButton.value = data["led"] ? "Wyłącz" : "Włącz";
+        modeFluolampButton.innerHTML = data["fluo"] ? "Wyłącz" : "Włącz";
+        modeLedButton.innerHTML = data["led"] ? "Wyłącz" : "Włącz";
 
         break;
       case "mode-button-fluolamp":

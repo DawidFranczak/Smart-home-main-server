@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
 from .mod import add_uid, add_sensor, delete_sensor

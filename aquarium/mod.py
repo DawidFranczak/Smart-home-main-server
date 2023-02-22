@@ -1,65 +1,97 @@
-import socket
-from datetime import datetime
+import json
+import requests
+from .api.serialized import AquaSerializer
+from .tester import check_aqua_testet
 
 
-def send_data(_mess, _ip, _port):
-    '''
-    Send message to microcontroler on _port and _ip  and waiting for response
-    '''
-    try:
-        wiad = str.encode(_mess)
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.sendto(wiad, (_ip, _port))
-        sock.settimeout(0.5)
-        sock.recvfrom(128)
-        sock.close()
-        return True
-    except:
-        sock.close()
-        return False
+def change(message, sensor, ngrok) -> bool:
+    """Return True if the communication with aqua is successful."""
+
+    data = {
+        'action': message,
+        'ip': sensor.ip,
+        'port': sensor.port
+    }
+    api = ngrok+'/api/aquarium/change'
+    response = requests.post(api, data=data)
+    response = response.json()['response']
+    if response:
+        sensor.aqua.save()
+    return response
 
 
-def check_aqua(device, aqua):
-    '''
-    Turn on or turn off fluo lamp and led dependence on time
-    and save it to database
-    '''
+def check(sensor, ngrok) -> bool:
+    """Return True if the communication with aqua is successful."""
 
-    if datetime.now().hour < 10:
-        hours = '0' + str(datetime.now().hour)
-    else:
-        hours = str(datetime.now().hour)
+    aqua = sensor.aqua
+    settings = AquaSerializer(aqua, many=False).data
+    settings['ip'] = sensor.ip
+    settings['port'] = sensor.port
+    api = ngrok+'/api/aquarium/check'
+    response = requests.post(api, data=settings)
+    response = response.json()
+    success = response['response']
 
-    if datetime.now().minute < 10:
-        minutes = ':0' + str(datetime.now().minute) + \
-            ':' + str(datetime.now().second)
-    else:
-        minutes = ':' + str(datetime.now().minute) + \
-            ':' + str(datetime.now().second)
+    if success:
+        aqua.fluo_mode = response['fluo_mode']
+        aqua.led_mode = response['led_mode']
+        aqua.save()
+    return success
 
-    time_now = hours + minutes
-    led_start = str(aqua.led_start)
-    led_stop = str(aqua.led_stop)
-    fluo_start = str(aqua.fluo_start)
-    fluo_stop = str(aqua.fluo_stop)
 
-    if led_start < time_now and led_stop > time_now:
-        led = 'r1'
-        aqua.led_mode = True
-    else:
-        led = 'r0'
-        aqua.led_mode = False
-    aqua.save()
+def aquarium_contorler(request):
 
-    if not send_data(led, device.ip, device.port):
-        return False
+    get_data = json.loads(request.body)
+    sensor = request.user.sensor_set.get(pk=get_data['id'])
+    aqua = sensor.aqua
+    ngrok = request.user.ngrok.ngrok
+    response = True
 
-    if fluo_start < time_now and fluo_stop > time_now:
-        fluo = 's1'
-        aqua.fluo_mode = True
-    else:
-        fluo = 's0'
-        aqua.fluo_mode = False
-    aqua.save()
+    match get_data['action']:
+        case 'changeRGB':
+            red = str(get_data['r'])
+            green = str(get_data['g'])
+            blue = str(get_data['b'])
+            message = f'r{red}g{green}b{blue}'
+            response = change(message, sensor, ngrok)
 
-    return send_data(fluo, device.ip, device.port)
+        case 'changeLedTime':
+            aqua.led_start = get_data['ledStart']
+            aqua.led_stop = get_data['ledStop']
+            response = check(sensor, ngrok)
+
+        case 'changeFluoLampTime':
+            aqua.fluo_start = get_data['fluoLampStart']
+            aqua.fluo_stop = get_data['fluoLampStop']
+            response = check(sensor, ngrok)
+
+        case 'changeMode':
+            aqua.mode = get_data['mode']  # True -> manual
+            aqua.save()
+
+            if get_data['mode']:  # maunal
+                response = {
+                    'fluo': aqua.fluo_mode,
+                    'led': aqua.led_mode
+                }
+                return response
+            response = check(sensor, ngrok)  # auto
+
+        case 'changeFluoLampState':
+            # True -> on
+            message = 's1' if get_data['value'] else 's0'
+            aqua.fluo_mode = get_data['value']
+            response = change(message, sensor, ngrok)
+
+        case 'changeLedState':
+            # True -> on
+            message = 'r1' if get_data['value'] else 'r0'
+            aqua.led_mode = get_data['value']
+            response = change(message, sensor, ngrok)
+
+    # Control simulation
+    if sensor.name == 'tester':
+        response = check_aqua_testet(aqua)
+    # End simulation
+
+    return {'message': 'Udało się zmienić ustawienia' if response else 'Brak komunikacji z akwarium'}

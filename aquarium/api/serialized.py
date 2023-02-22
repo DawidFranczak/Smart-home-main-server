@@ -15,4 +15,4 @@ class AquaSerializer(ModelSerializer):
 
     class Meta:
         model = Aqua
-        exclude = ('id', 'color')
+        exclude = ('id', 'color',)

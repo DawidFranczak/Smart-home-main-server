@@ -4,7 +4,7 @@ from .models import *
 admin.site.register(Sensor)
 admin.site.register(Temp)
 admin.site.register(Sunblind)
-admin.site.register(Aqua)
+# admin.site.register(Aquarium)
 admin.site.register(Stairs)
 admin.site.register(Rfid)
 admin.site.register(Light)

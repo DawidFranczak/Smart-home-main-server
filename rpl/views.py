@@ -47,6 +47,7 @@ class RplView(View):
 
             lamp = request.user.sensor_set.get(pk=get_data['lamp'])
 
+            # RFID
             sensors_rfid = request.user.sensor_set.filter(
                 fun='rfid')
             connected_rfid = set([
@@ -56,6 +57,7 @@ class RplView(View):
             connect_rfid = add_rfids - connected_rfid
             remove_rfid = connected_rfid - add_rfids
 
+            # Buttons
             sensor_buttons = request.user.sensor_set.filter(
                 fun='btn')
             connected_buttons = set([
@@ -77,12 +79,12 @@ class RplView(View):
                 rfid.save()
 
             for id in connect_buttons:
-                btn = request.user.sensor_set.get(pk=id).btn
+                btn = request.user.sensor_set.get(pk=id).button
                 btn.lamp = lamp.ip
                 btn.save()
 
             for id in remove_buttons:
-                btn = request.user.sensor_set.get(pk=id).btn
+                btn = request.user.sensor_set.get(pk=id).button
                 btn.lamp = ""
                 btn.save()
 
