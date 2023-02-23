@@ -12,7 +12,7 @@ const selectAqua = async (e) => {
 
   const aquarium = e.target;
 
-  settings = await fetch(`/api/akwarium/${aquarium.id}`);
+  settings = await fetch(`/api/aquarium/${aquarium.id}`);
   settings = await settings.json();
   console.log(settings);
 

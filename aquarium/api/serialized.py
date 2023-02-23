@@ -16,3 +16,20 @@ class AquaSerializer(ModelSerializer):
     class Meta:
         model = Aqua
         exclude = ('id', 'color',)
+
+
+class AquasSerializer(ModelSerializer):
+    ip = serializers.SerializerMethodField('_ip')
+    port = serializers.SerializerMethodField('_port')
+
+    def _ip(self, object):
+        ip = object.sensor.ip
+        return ip
+
+    def _port(self, object):
+        port = object.sensor.port
+        return port
+
+    class Meta:
+        model = Aqua
+        exclude = ('id', 'color', 'sensor',)

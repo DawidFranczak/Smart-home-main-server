@@ -1,7 +1,7 @@
 const selectStairs = async (e) => {
   if (e.target.type != "submit") return;
   document.querySelector("#message").innerHTML = "";
-  settings = await fetch(`/api/schody/${e.target.id}`);
+  settings = await fetch(`/api/stairs/${e.target.id}`);
   settings = await settings.json();
 
   document.querySelector("#stairs-error-message").innerHTML = "";

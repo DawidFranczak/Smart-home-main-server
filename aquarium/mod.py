@@ -8,11 +8,13 @@ def change(message, sensor, ngrok) -> bool:
     """Return True if the communication with aqua is successful."""
 
     data = {
-        'action': message,
+        'message': message,
         'ip': sensor.ip,
         'port': sensor.port
     }
     api = ngrok+'/api/aquarium/change'
+    # api = ngrok+'/api/aquarium/start'
+
     response = requests.post(api, data=data)
     response = response.json()['response']
     if response:
@@ -29,6 +31,7 @@ def check(sensor, ngrok) -> bool:
     settings['port'] = sensor.port
     api = ngrok+'/api/aquarium/check'
     response = requests.post(api, data=settings)
+
     response = response.json()
     success = response['response']
 
