@@ -7,3 +7,5 @@ CHANGE_AQUA = '/api/aquarium/change/'
 CHECK_AQUA = '/api/aquarium/check/'
 
 CHANGE_STAIRS = '/api/stairs/change/'
+
+MESSAGE_SUNBLIND = '/api/sunblind/message/'

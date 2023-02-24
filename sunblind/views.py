@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
+import requests
 import json
+
+from app.const import MESSAGE_SUNBLIND
 from .mod import send_data
 
 # Create your views here.
@@ -27,7 +30,7 @@ class SunblindView(View):
         get_data = json.loads(request.body)
         sensor = request.user.sensor_set.get(pk=get_data['id'])
         message = 'set' + str(get_data['value'])
-
+        ngrok = request.user.ngrok.ngrok
         # Simulation sunblind
         if sensor.name == 'tester':
             sunblind = sensor.sunblind
@@ -36,14 +39,20 @@ class SunblindView(View):
             return JsonResponse({'success': 1})
         # End simulation
 
+        data = {
+            "message": message,
+            "ip": sensor.ip,
+            "port": sensor.port,
+        }
+        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
+
         # Sending message to microcontroller and waiting on response
-        if send_data(message, sensor.ip, sensor.port):
+        if answer:
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save()
-            return JsonResponse({'success': 1})
-        else:
-            return JsonResponse({'message': 'Brak komunikacji'})
+        return JsonResponse({'success': answer,
+                             'message': "" if answer else 'Brak komunikacji', })
 
 
 class CalibrationView(View):
@@ -57,13 +66,22 @@ class CalibrationView(View):
 
     def post(self, request, pk):
         sensor = request.user.sensor_set.get(id=pk)
+        ngrok = request.user.ngrok.ngrok
 
         # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
-        send_data(get_data['action'], sensor.ip, sensor.port)
+        data = {
+            "message": get_data['action'],
+            "ip": sensor.ip,
+            "port": sensor.port,
+        }
+        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
 
         # Ending calibration, set value to 100 and save in database
-        if get_data['action'] == 'end':
+        if get_data['action'] == 'end' and answer:
+
             sunblind = sensor.sunblind
             sunblind.value = 100
             sunblind.save()
+
+        return JsonResponse(status=200, data={'success': answer, })
