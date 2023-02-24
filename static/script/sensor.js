@@ -140,7 +140,7 @@ const sensorSave = async () => {
           .appendChild(parent);
         break;
       case "sunblind":
-        pFun.setAttribute("src", "/static/images/window.png");
+        pFun.setAttribute("src", "/static/images/sunblind.png");
         pFun.setAttribute("alt", "Roleta");
         document.querySelector("#add-sunblinds-container").appendChild(parent);
         break;

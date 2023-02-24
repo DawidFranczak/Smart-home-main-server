@@ -30,7 +30,6 @@ class DevicesView(View):
 
     def post(self, request):
         get_data = json.loads(request.body)
-
         # Simulation adding sensors
         if get_data['name'] == 'tester':
             EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']

@@ -1,11 +1,10 @@
-import socket
+import requests
+
 from devices.models import Card
+from app.const import ADD_DEVICE, ADD_CARD
 
 
 def add_sensor(data, user):
-    '''
-    Comunicate and save sensor
-    '''
 
     match data['fun']:
         case 'temp':
@@ -41,84 +40,75 @@ def add_sensor(data, user):
             message = str.encode('password_lamp')
             answer = 'respond_lamp'
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    for i in range(2, 254):
-        check_ip = '192.168.0.'+str(i)
+    url = user.ngrok.ngrok + ADD_DEVICE
+    message = {
+        "port": port,
+        "message": message,
+        "answer": answer,
+    }
 
-        try:
-            sock.sendto(message, (check_ip, port))
-            sock.settimeout(0.05)
-            data = sock.recvfrom(128)
-            response = data[0].decode('UTF-8')
+    anwser = requests.post(url, data=message).json()
+    if anwser["success"]:
+        if user.sensor_set.filter(ip=anwser["ip"]).exists():
+            return {
+                'response': 'Czujnik już dodano'
+            }
 
-            if response == answer:
-                new_sensor_ip = str(data[1][0])
-
-                if user.sensor_set.filter(ip=new_sensor_ip).exists():
-                    respond = {'response': 'Czujnik już dodano'}
-                    return respond
-
-                sensor = user.sensor_set.create(name=data['name'],
-                                                fun=data['fun'],
-                                                ip=new_sensor_ip,
-                                                port=port)
-                sensor.save()
-                respond = {
-                    'response': 'Udało sie dodać czujnik', 'id': sensor.id}
-                sock.close()
-                return respond
-
-        except TimeoutError:
-            continue
-
-    else:
-        respond = {'response': 'Nie udało się zapisać czujnika'}
-        sock.close()
-        return respond
+        sensor = user.sensor_set.create(name=data['name'],
+                                        fun=data['fun'],
+                                        ip=anwser["ip"],
+                                        port=port)
+        return {
+            'response': 'Udało sie dodać czujnik',
+            'id': sensor.id,
+        }
+    return {
+        'response': 'Nie udało sie dodać czujnik',
+    }
 
 
 def add_uid(data, user):
     '''
         Add new rfid card to user
     '''
+    name = data['name']
 
-    respond = {}
     try:
-        sensor = user.sensor_set.objects.get(id=data['id'])
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.bind(('', 6721))
+        sensor = user.sensor_set.get(id=data['id'])
+        url = user.ngrok.ngrok + ADD_CARD
+        data = {
+            "ip": sensor.ip,
+            "port": sensor.port,
+        }
 
-        except:
-            respond = {'response': 'Nie udało się otworzyć socketu'}
-            return respond
+        anwser = requests.post(url, data=data).json()
 
-        message = str.encode('add-tag')
-        sock.sendto(message, (sensor.ip, sensor.port))
-        sock.settimeout(9)
-        data = sock.recvfrom(128)
-        uid = int(data[0].decode('UTF-8'))
+        if anwser["success"]:
 
-        if sensor.cart_set.filter(uid=uid).exists():
-            respond = {'response': 'Ta karta jest już dodana'}
-            return respond
+            if sensor.card_set.filter(uid=anwser["uid"]).exists():
+                return {
+                    'response': 'Ta karta jest już dodana'
+                }
 
-        card = sensor.cart_set.create(uid=uid, name=data['name'])
-        card.save()
-        respond = {'response': 'Udało sie dodać czujnik', 'id': card.id}
+            card = sensor.card_set.create(uid=anwser["uid"], name=name)
+            card.save()
+            return {
+                'response': 'Udało sie dodać kartę',
+                'id': card.id,
+            }
 
-    except:
-        respond = {'response': 'Nie udało dodać się czujnika'}
+    except Exception as e:
+        print(e)
     finally:
-        sock.close()
-
-    return respond
+        return {
+            'response': 'Nie udało dodać się czujnika'
+        }
 
 
 def delete_sensor(get_data, user):
-    '''
+    """
     Delete user sensor
-    '''
+    """
     print(get_data)
     try:
         sensor = str(get_data['id'])
