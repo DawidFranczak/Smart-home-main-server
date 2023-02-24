@@ -53,6 +53,19 @@ class UserChangeEmail(View):
 
         return render(request, self.template_name, context)
 
+    def post(self, request):
+        form = self.form_class(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Zmiana hasła przebiegła pomyślnie')
+            return redirect('user_page')
+
+        old = request.user.email
+        context = {'action': 'email',
+                   'form': form,
+                   'old': old}
+        return render(request, self.template_name, context)
+
 
 class UserChangeNgrok(View):
     template_name = 'user_page.html'

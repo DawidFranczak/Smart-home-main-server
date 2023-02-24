@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('api/stairs/', include('stairs.api.urls')),
     path('api/aquarium/', include('aquarium.api.urls')),
+    path('api/chart/', include('chart.api.urls'))
 ]
 
 if settings.DEBUG:

@@ -7,15 +7,15 @@ from .views import UserPage, UserChangePassword, UserChangeEmail, UserChangeImag
 urlpatterns = [
     path('', login_required(UserPage.as_view(),
          login_url='login'), name="user_page"),
-    path('zmiana-hasla', login_required(UserChangePassword.as_view(),
+    path('zmiana-hasla/', login_required(UserChangePassword.as_view(),
          login_url='login'), name="user_change_password"),
-    path('zmiana-emaila', login_required(UserChangeEmail.as_view(),
+    path('zmiana-emaila/', login_required(UserChangeEmail.as_view(),
          login_url='login'), name="user_change_email"),
-    path('zmiana-zdjec', login_required(UserChangeImage.as_view(),
+    path('zmiana-zdjec/', login_required(UserChangeImage.as_view(),
          login_url='login'), name="user_change_image"),
-    path('usun-konto', login_required(UserDelete.as_view(),
+    path('usun-konto/', login_required(UserDelete.as_view(),
          login_url='login'), name="user_delete"),
-    path('zmiana-linku', login_required(UserChangeNgrok.as_view(),
+    path('zmiana-linku/', login_required(UserChangeNgrok.as_view(),
          login_url='login'), name="user_change_url"),
 
 
