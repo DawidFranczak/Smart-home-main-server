@@ -1,7 +1,8 @@
 import json
 import requests
-from .api.serialized import AquaSerializer
+from app.const import CHANGE_AQUA, CHECK_AQUA
 from .tester import check_aqua_testet
+from .api.serialized import AquaSerializer
 
 
 def change(message, sensor, ngrok) -> bool:
@@ -12,7 +13,7 @@ def change(message, sensor, ngrok) -> bool:
         'ip': sensor.ip,
         'port': sensor.port
     }
-    api = ngrok+'/api/aquarium/change'
+    api = ngrok+CHANGE_AQUA
     # api = ngrok+'/api/aquarium/start'
 
     response = requests.post(api, data=data)
@@ -29,7 +30,7 @@ def check(sensor, ngrok) -> bool:
     settings = AquaSerializer(aqua, many=False).data
     settings['ip'] = sensor.ip
     settings['port'] = sensor.port
-    api = ngrok+'/api/aquarium/check'
+    api = ngrok+CHECK_AQUA
     response = requests.post(api, data=settings)
 
     response = response.json()

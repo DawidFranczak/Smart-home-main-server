@@ -81,14 +81,8 @@ async function settingsStairs(e) {
         };
         break;
     }
-    const success = await sendData("POST", dict);
-    if (success["success"]) {
-      document.querySelector("#message").innerHTML =
-        "Udało się zmienić ustawienia";
-    } else {
-      document.querySelector("#message").innerHTML =
-        "Brak komunikacji ze schodami";
-    }
+    const respond = await sendData("POST", dict);
+    document.querySelector("#message").innerHTML = respond["respond"];
   }
 }
 
