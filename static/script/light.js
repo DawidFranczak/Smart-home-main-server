@@ -8,15 +8,16 @@ const changeLight = async (e) => {
     };
 
     const dataRep = await sendData("POST", dict);
+    console.log(dataRep);
     switch (dataRep["response"]) {
-      case 1:
+      case "ON":
         lamp.src = "/static/images/lamp_on.png";
         break;
-      case 0:
+      case "OFF":
         lamp.src = "/static/images/lamp_off.png";
         break;
-      case -1:
-        lamp.nextElementSibling.innerHTML = "Nie udało się połączyć z lampą";
+      default:
+        lamp.nextElementSibling.innerHTML = dataRep["response"];
         break;
     }
   }

@@ -4,7 +4,7 @@ from django.views import View
 import json
 
 from .mod import change_light
-
+from app.const import CHANGE_LIGHT
 # Create your views here.
 
 
@@ -31,20 +31,21 @@ class LightView(View):
         if get_data['action'] == 'change':
             id = get_data['id']
             sensor = request.user.sensor_set.get(pk=id)
+            ngrok = request.user.ngrok.ngrok
 
             # Simulation turn on/off light
             if sensor.name == 'tester':
                 light = sensor.light
                 if light.light:
                     light.light = False
-                    response = {'response': 0}
+                    response = {'response': "OFF"}
 
                 else:
                     light.light = True
-                    response = {'response': 1}
+                    response = {'response': "ON"}
                 light.save()
 
                 return JsonResponse(response)
             # End simulation
 
-            return JsonResponse(change_light(sensor))
+            return JsonResponse(change_light(sensor, ngrok))

@@ -1,29 +1,31 @@
-import socket
+import requests
+from app.const import CHANGE_LIGHT
 
 
-def change_light(sensor):
-    '''
-    communicate with lamp and try to change it state
-    '''
+def change_light(sensor, ngrok):
+    """
+    Communicate with lamp and try to change it state
+"""
     try:
-        sock = socket.socket(
-            socket.AF_INET, socket.SOCK_DGRAM)  # INTERNET / UDP
-        wiad = str.encode('change')
-        sock.sendto(wiad, (sensor.ip, 4324))
-        sock.settimeout(1)
-        data = sock.recvfrom(128)
-        data = data[0].decode('UTF-8')
-        light = sensor.light
-
-        if data == 'ON':
-            light.light = True
-            response = {'response': 1}
+        data = {
+            "ip": sensor.ip,
+            "port": sensor.port,
+        }
+        anwser = requests.put(ngrok + CHANGE_LIGHT, data=data)
+        anwser = anwser.json()
+        print(anwser)
+        if anwser["success"]:
+            light = sensor.light
+            if anwser["result"] == 'ON':
+                light.light = True
+                response = {'response': "ON"}
+            else:
+                light.light = False
+                response = {'response': "OFF"}
+            light.save()
         else:
-            light.light = False
-            response = {'response': 0}
-        light.save()
-    except TimeoutError:
-        response = {'response': -1}
+            response = {'response': "Nie udało się połączyć z lampą"}
+    except:
+        response = {'response': "Wystąpił niespodziewany błąd"}
     finally:
-        sock.close()
         return response
