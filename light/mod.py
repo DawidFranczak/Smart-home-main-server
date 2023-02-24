@@ -11,12 +11,12 @@ def change_light(sensor, ngrok):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-        anwser = requests.put(ngrok + CHANGE_LIGHT, data=data)
-        anwser = anwser.json()
-        print(anwser)
-        if anwser["success"]:
+        answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
+        answer = answer.json()
+        print(answer)
+        if answer["success"]:
             light = sensor.light
-            if anwser["result"] == 'ON':
+            if answer["result"] == 'ON':
                 light.light = True
                 response = {'response': "ON"}
             else:

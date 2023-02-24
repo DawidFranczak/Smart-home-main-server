@@ -47,16 +47,16 @@ def add_sensor(data, user):
         "answer": answer,
     }
 
-    anwser = requests.post(url, data=message).json()
-    if anwser["success"]:
-        if user.sensor_set.filter(ip=anwser["ip"]).exists():
+    answer = requests.post(url, data=message).json()
+    if answer["success"]:
+        if user.sensor_set.filter(ip=answer["ip"]).exists():
             return {
                 'response': 'Czujnik już dodano'
             }
 
         sensor = user.sensor_set.create(name=data['name'],
                                         fun=data['fun'],
-                                        ip=anwser["ip"],
+                                        ip=answer["ip"],
                                         port=port)
         return {
             'response': 'Udało sie dodać czujnik',
@@ -81,16 +81,16 @@ def add_uid(data, user):
             "port": sensor.port,
         }
 
-        anwser = requests.post(url, data=data).json()
+        answer = requests.post(url, data=data).json()
 
-        if anwser["success"]:
+        if answer["success"]:
 
-            if sensor.card_set.filter(uid=anwser["uid"]).exists():
+            if sensor.card_set.filter(uid=answer["uid"]).exists():
                 return {
                     'response': 'Ta karta jest już dodana'
                 }
 
-            card = sensor.card_set.create(uid=anwser["uid"], name=name)
+            card = sensor.card_set.create(uid=answer["uid"], name=name)
             card.save()
             return {
                 'response': 'Udało sie dodać kartę',
