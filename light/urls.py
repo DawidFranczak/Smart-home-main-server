@@ -3,7 +3,7 @@ from .views import LightView
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('światło/', login_required(LightView.as_view(),
+    path('', login_required(LightView.as_view(),
          login_url='login'), name="light"),
 
 ]

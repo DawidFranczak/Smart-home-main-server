@@ -29,7 +29,8 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        print(username)
+        print(password)
         if username == "" or password == "":
             messages.error(request, 'Proszę wypełnić obydwa pola.')
             return redirect('login')

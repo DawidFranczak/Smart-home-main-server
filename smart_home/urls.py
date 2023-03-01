@@ -15,10 +15,10 @@ urlpatterns = [
     path('urzadzenia/', include('devices.urls')),
     path('ustawienia/', include('user_page.urls')),
 
-
+    path('api/uid/', include('rpl.api.urls')),
+    path('api/chart/', include('chart.api.urls')),
     path('api/stairs/', include('stairs.api.urls')),
     path('api/aquarium/', include('aquarium.api.urls')),
-    path('api/chart/', include('chart.api.urls'))
 ]
 
 if settings.DEBUG:

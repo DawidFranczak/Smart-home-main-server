@@ -75,7 +75,7 @@ class Card(models.Model):
     uid = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.rfid)
+        return str(self.sensor)
 
 
 class Button(models.Model):
