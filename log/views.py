@@ -56,6 +56,9 @@ def user_logout(request):
     return redirect('login')
 
 
+def handling_404(request, exception):
+    return render(request, '404.html', {})
+
 @login_required(login_url='login')
 def home(request):
 
