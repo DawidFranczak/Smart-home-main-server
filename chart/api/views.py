@@ -37,14 +37,13 @@ def updateSensor(request):
                 temp=measurment['temp'])
         else:
             email.append(user.sensor_set.get(ip=measurment['ip']).name)
-    if email:
-        send_mail(
-            'Błąd pomiaru temperatury',
-            message(email),
-            EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
-        )
-        print('send email')
+    # if email:
+    #     send_mail(
+    #         'Błąd pomiaru temperatury',
+    #         message(email),
+    #         EMAIL_HOST_USER,
+    #         [user.email],
+    #         fail_silently=False,
+    #     )
 
-    return Response({"s": 's'})
+    return Response({"success": True})

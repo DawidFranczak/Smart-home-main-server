@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("uid/",views.checkUID, name = "checkUID"),
-    path("lamp/",views.checkLamp, name = "checkLamp")
+    path("uid/", views.check_UID, name="check_UID"),
+    path("lamp/", views.check_lamp, name="check_lamp")
 ]
-
