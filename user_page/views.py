@@ -109,6 +109,10 @@ class UserChangeImage(View):
                 form.save(request.user)
                 messages.success(request, 'Udało się zmienić zdjęcie(a)')
                 return redirect('user_page')
+
+            context = {'action': 'image',
+                       'form': form}
+            return render(request, self.template_name, context)
         else:
             form.reset(request.user)
             messages.success(request, 'Zresetowano zdjęcia')

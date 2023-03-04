@@ -1,13 +1,27 @@
 <form method="post" class="Image-change" enctype="multipart/form-data">
   {% csrf_token %}
   <h1 class="Image-change__h1">Zmiana Zdjęć</h1>
+
+  
+  
+
   {% for field in form %}
-  <div class="Image-change__div">
-    <label for="id_{{field.name}}" class="Image-change__div__label"
-      >{{field.label}}</label
-    >
-    {{ field }} {{ field.errors }}
-  </div>
+    <div class="Image-change__div">
+      <label for="id_{{field.name}}" class="Image-change__div__label"
+        >{{field.label}}</label
+      >
+      {{ field }}
+      
+
+      {% if form.errors %} 
+        {% for name,message in form.errors.items%}
+          {% if name == field.name %}
+            {{message}}
+          {% endif %}
+        {% endfor %}
+      {% endif  %}
+      
+    </div>
   {% endfor %}
   <button name="save" type="submit" class="Image-change__submit">
     Zmień zdjęcia

@@ -1,4 +1,6 @@
+from django.core.files.images import get_image_dimensions
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django import forms
 
@@ -79,19 +81,36 @@ class ChangeEmailForm(forms.Form):
 
 
 class ChangeImageForm(forms.Form):
-    home = forms.ImageField(label='Zdjęcie domku', required=False)
+    home = forms.ImageField(
+        label='Zdjęcie domku',
+        required=False)
     rpl = forms.ImageField(
-        label='Zdjęcie grupowania urządzeń', required=False)
-    aquarium = forms.ImageField(label='Zdjęcie akwarium', required=False)
-    sunblind = forms.ImageField(label='Zdjęcie rolet', required=False)
+        label='Zdjęcie grupowania urządzeń',
+        required=False)
+    aquarium = forms.ImageField(
+        label='Zdjęcie akwarium',
+        required=False)
+    sunblind = forms.ImageField(
+        label='Zdjęcie rolet',
+        required=False)
     temperature = forms.ImageField(
-        label='Zdjęcie temperatury', required=False)
-    profile = forms.ImageField(label='Zdjęcie ustawień', required=False)
-    light = forms.ImageField(label='Zdjęcie światła', required=False)
-    stairs = forms.ImageField(label='Zdjęcie schodów', required=False)
+        label='Zdjęcie temperatury',
+        required=False)
+    profile = forms.ImageField(
+        label='Zdjęcie ustawień',
+        required=False)
+    light = forms.ImageField(
+        label='Zdjęcie światła',
+        required=False)
+    stairs = forms.ImageField(
+        label='Zdjęcie schodów',
+        required=False)
     sensor = forms.ImageField(
-        label='Zdjęcie dodawania urządzeń', required=False)
-    logout = forms.ImageField(label='Zdjęcie wylogowywania', required=False)
+        label='Zdjęcie dodawania urządzeń',
+        required=False)
+    logout = forms.ImageField(
+        label='Zdjęcie wylogowywania',
+        required=False)
 
     IMAGES = ['home', 'rpl', 'aquarium', 'sunblind', 'temperature',
               'profile', 'light', 'stairs', 'sensor', 'logout']
@@ -116,6 +135,20 @@ class ChangeImageForm(forms.Form):
         user_image.save()
 
         return self.user
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for name in cleaned_data.keys():
+            if cleaned_data[name] is not None:
+                image = cleaned_data.get(name)
+                w, h = get_image_dimensions(image)
+
+                w_max = 600 if name == "home" else 400
+                h_max = 600 if name == "home" else 400
+
+                if w > w_max or h > h_max:
+                    raise forms.ValidationError(
+                        {name: f"Zdjęcie za duże, powinno być maksymalnie {w_max}px na {h_max}px"}, code=name)
 
     def save(self, user):
 

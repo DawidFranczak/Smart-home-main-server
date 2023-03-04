@@ -22,6 +22,7 @@ def user_register(request):
             return redirect('login')
 
     context = {'form': form}
+    print(form)
     return render(request, 'register.html', context)
 
 
@@ -29,8 +30,6 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username)
-        print(password)
         if username == "" or password == "":
             messages.error(request, 'Proszę wypełnić obydwa pola.')
             return redirect('login')
