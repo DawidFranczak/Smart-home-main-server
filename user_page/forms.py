@@ -1,6 +1,5 @@
 from django.core.files.images import get_image_dimensions
 from django.contrib.auth.forms import PasswordChangeForm
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django import forms
 
@@ -193,7 +192,8 @@ class ChangeNgrokForm(forms.Form):
 
     new_link = forms.URLField(
         widget=forms.URLInput(
-            attrs={"class": "URL__div__input"}),
+            attrs={"class": "URL__div__input"}
+        ),
         label="Podaj nowy adres URL"
     )
 
@@ -203,7 +203,13 @@ class ChangeNgrokForm(forms.Form):
 
     def clean_new_link(self):
         new_link = self.cleaned_data.get("new_link")
-        return new_link
+
+        if new_link.startswith("https"):
+            return new_link
+
+        raise forms.ValidationError(
+            "Adres email powinein zaczynać się od 'https'"
+        )
 
     def save(self):
         new_link = self.cleaned_data.get("new_link")

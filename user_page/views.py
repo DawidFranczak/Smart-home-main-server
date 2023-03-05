@@ -89,6 +89,15 @@ class UserChangeNgrok(View):
             messages.success(request, 'Zmiana URL przebiegła pomyślnie')
             return redirect('user_page')
 
+        old = request.user.ngrok.ngrok
+        form = ChangeNgrokForm(request.user, request.POST)
+        context = {'action': 'ngrok',
+                   'form': form,
+                   'old': old}
+        print(form)
+
+        return render(request, self.template_name, context)
+
 
 class UserChangeImage(View):
     template_name = 'user_page.html'
