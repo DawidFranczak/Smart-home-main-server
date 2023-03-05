@@ -12,41 +12,47 @@ class CreateUserForm(UserCreationForm):
                    'type': 'login'}),
         label="Login*",
         min_length=5,
-        max_length=150)
+        max_length=150
+    )
 
     password1 = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' ',
                    'type': 'password'}),
-        label="Hasło*")
+        label="Hasło*"
+    )
 
     password2 = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' ',
                    'type': 'password'}),
-        label="Powtórz hasło*")
+        label="Powtórz hasło*"
+    )
 
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
-        label="Email*")
+        label="Email*"
+    )
 
     first_name = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
         required=False,
-        label="Imię")
+        label="Imię"
+    )
 
     last_name = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
         required=False,
-        label="Nazwisko")
+        label="Nazwisko"
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

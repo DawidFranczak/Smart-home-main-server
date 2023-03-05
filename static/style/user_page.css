@@ -66,6 +66,7 @@
   padding: 0;
 }
 .errorlist li {
+
   list-style-type: none;
   font-size: 0.75em;
   color: red;
@@ -101,7 +102,8 @@
 
 .Image-change__div {
   display: grid;
-  gap: 5px;
+  gap: 7px;
+  justify-items: center;
 }
 
 .Messages__success {
