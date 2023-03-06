@@ -71,22 +71,22 @@ class RplView(View):
             for id in connect_rfid:
                 rfid = request.user.sensor_set.get(pk=id).rfid
                 rfid.lamp = lamp.ip
-                rfid.save()
+                rfid.save(update_fields=["lamp"])
 
             for id in remove_rfid:
                 rfid = request.user.sensor_set.get(pk=id).rfid
                 rfid.lamp = ""
-                rfid.save()
+                rfid.save(update_fields=["lamp"])
 
             for id in connect_buttons:
                 btn = request.user.sensor_set.get(pk=id).button
                 btn.lamp = lamp.ip
-                btn.save()
+                btn.save(update_fields=["lamp"])
 
             for id in remove_buttons:
                 btn = request.user.sensor_set.get(pk=id).button
                 btn.lamp = ""
-                btn.save()
+                btn.save(update_fields=["lamp"])
 
             message = {'message': 'Połączono'}
             return JsonResponse(message)

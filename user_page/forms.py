@@ -72,7 +72,7 @@ class ChangeEmailForm(forms.Form):
         user = User.objects.get(email=self.user.email)
         user.email = new_email
         if commit:
-            user.save()
+            user.save(update_fields=["email"])
         return self.user
 
     class Meta:
@@ -198,7 +198,7 @@ class ChangeNgrokForm(forms.Form):
         label="Podaj nowy adres URL",
         validators=[
             URLValidator(
-                schemes=["https"], message='Adres powienien zaczynać się od "https"'),
+                schemes=["https", "http"], message='Adres powienien zaczynać się od "https"'),
         ]
     )
 
@@ -212,5 +212,5 @@ class ChangeNgrokForm(forms.Form):
     def save(self):
         new_link = self.cleaned_data.get("new_link")
         self.user.ngrok.ngrok = new_link
-        self.user.ngrok.save()
+        self.user.ngrok.save(update_fields=["ngrok"])
         return self.user

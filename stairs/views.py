@@ -30,18 +30,22 @@ class StairsView(View):
 
                 stairs.lightTime = int(get_data['lightingTime'])
                 message = 'te'+str(get_data['lightingTime'])
+                field = "lightTime"
 
             case 'set-brightness':
 
                 stairs.brightness = int(get_data['brightness'])
                 message = 'bs'+str(get_data['brightness'])
+                field = "brightness"
 
             case 'set-step':
 
                 stairs.steps = int(get_data['step'])
                 message = 'sp'+str(get_data['step'])
+                field = "steps"
 
             case 'change-stairs':
+                field = "mode"
 
                 if stairs.mode:
                     stairs.mode = False
@@ -52,7 +56,7 @@ class StairsView(View):
 
         # Control simulation
         if sensor.name == 'tester':
-            stairs.save()
+            stairs.save(update_fields=[field])
             return JsonResponse({'respond': "Udało się zmienić ustawienia"})
         # End simulation
 
@@ -65,7 +69,8 @@ class StairsView(View):
             answer = requests.put(ngrok+CHANGE_STAIRS, data=data).json()
         except:
             return JsonResponse({'respond': "Brak komunikacji z serwerem w domu"})
+
         if answer:
-            stairs.save()
+            stairs.save(update_fields=[field])
         return JsonResponse({'respond': "Udało się zmienić ustawienia"
                              if answer else "Brak komunikacji ze schodami"})

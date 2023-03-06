@@ -43,7 +43,7 @@ class LightView(View):
                 else:
                     light.light = True
                     response = {'response': "ON"}
-                light.save()
+                light.save(update_fields=[light])
 
                 return JsonResponse(response)
             # End simulation

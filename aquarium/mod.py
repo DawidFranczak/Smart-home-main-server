@@ -1,11 +1,12 @@
-import json
 import requests
+import json
+
 from app.const import CHANGE_AQUA, CHECK_AQUA
-from .tester import check_aqua_testet
 from .api.serialized import AquaSerializer
+from .tester import check_aqua_testet
 
 
-def change(message, sensor, ngrok) -> bool:
+def change(message, sensor, ngrok, field) -> bool:
     """Return True if the communication with aqua is successful."""
 
     data = {
@@ -23,7 +24,9 @@ def change(message, sensor, ngrok) -> bool:
     response = response.json()['response']
 
     if response:
-        sensor.aqua.save()
+
+        sensor.aqua.save(update_fields=[field])
+
     return response
 
 
@@ -47,7 +50,7 @@ def check(sensor, ngrok) -> bool:
     if success:
         aqua.fluo_mode = response['fluo_mode']
         aqua.led_mode = response['led_mode']
-        aqua.save()
+        aqua.save(update_fields=['fluo_mode', 'led_mode'])
     return success
 
 
@@ -65,7 +68,20 @@ def aquarium_contorler(request):
             green = str(get_data['g'])
             blue = str(get_data['b'])
             message = f'r{red}g{green}b{blue}'
-            response = change(message, sensor, ngrok)
+            aqua.color = message
+            response = change(message, sensor, ngrok, "color")
+
+        case 'changeFluoLampState':
+            # True -> on
+            message = 's1' if get_data['value'] else 's0'
+            aqua.fluo_mode = get_data['value']
+            response = change(message, sensor, ngrok, "fluo_mode")
+
+        case 'changeLedState':
+            # True -> on
+            message = 'r1' if get_data['value'] else 'r0'
+            aqua.led_mode = get_data['value']
+            response = change(message, sensor, ngrok, "led_mode")
 
         case 'changeLedTime':
             aqua.led_start = get_data['ledStart']
@@ -79,7 +95,7 @@ def aquarium_contorler(request):
 
         case 'changeMode':
             aqua.mode = get_data['mode']  # True -> manual
-            aqua.save()
+            aqua.save(update_fields=['mode'])
 
             if get_data['mode']:  # maunal
                 response = {
@@ -88,18 +104,6 @@ def aquarium_contorler(request):
                 }
                 return response
             response = check(sensor, ngrok)  # auto
-
-        case 'changeFluoLampState':
-            # True -> on
-            message = 's1' if get_data['value'] else 's0'
-            aqua.fluo_mode = get_data['value']
-            response = change(message, sensor, ngrok)
-
-        case 'changeLedState':
-            # True -> on
-            message = 'r1' if get_data['value'] else 'r0'
-            aqua.led_mode = get_data['value']
-            response = change(message, sensor, ngrok)
 
     # Control simulation
     if sensor.name == 'tester':

@@ -32,5 +32,5 @@ def check_aqua_testet(aqua):
 
     aqua.fluo_mode = fluo_mode
     aqua.led_mode = led_mode
-    aqua.save()
+    aqua.save(update_fields=["fluo_mode", "led_mode"])
     return True

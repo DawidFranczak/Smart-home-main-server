@@ -25,7 +25,7 @@ def change_light(sensor, ngrok):
             else:
                 light.light = False
                 response = {'response': "OFF"}
-            light.save()
+            light.save(update_fields=["light"])
         else:
             return {'response': "Nie udało się połączyć z lampą"}
     except:
