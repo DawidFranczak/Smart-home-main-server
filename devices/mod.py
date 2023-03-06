@@ -46,8 +46,12 @@ def add_sensor(data, user):
         "message": message,
         "answer": answer,
     }
-
-    answer = requests.post(url, data=message).json()
+    try:
+        answer = requests.post(url, data=message).json()
+    except:
+        return {
+            'response': "Brak komunikacji z serwerem w domu"
+        }
     if answer["success"]:
         if user.sensor_set.filter(ip=answer["ip"]).exists():
             return {
@@ -80,8 +84,12 @@ def add_uid(data, user):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-
-        answer = requests.post(url, data=data).json()
+        try:
+            answer = requests.post(url, data=data).json()
+        except:
+            return {
+                'response': "Brak komunikacji z serwerem w domu"
+            }
 
         if answer["success"]:
 

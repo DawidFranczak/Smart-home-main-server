@@ -1,9 +1,10 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-import json
-from .mod import add_uid, add_sensor, delete_sensor
-# Create your views here.
+from django.shortcuts import render
 from django.views import View
+
+import json
+
+from .mod import add_uid, add_sensor, delete_sensor
 
 
 class DevicesView(View):
@@ -18,10 +19,10 @@ class DevicesView(View):
                     'fun': sensor.fun,
                     'name': sensor.name,
                     'id': sensor.id,
-                    'cards': [
-                        {'id': card.id,
-                            'name': card.name
-                         } for card in sensor.card_set.all()
+                    'cards': [{
+                        'id': card.id,
+                        'name': card.name
+                    } for card in sensor.card_set.all()
                     ] if sensor.fun == 'rfid' else ""
                 } for sensor in sensors]
         }

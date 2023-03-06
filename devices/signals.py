@@ -22,35 +22,35 @@ def tester_chart_data(user):
         Q(fun='temp') &
         Q(name='tester'))
 
-    # data_from = str(datetime.now().date() - timedelta(days=60)).split('-')
-    # month = int(data_from[1])
-    # day = int(data_from[2])
-    month = 1
-    day = 1
+    data_from = str(datetime.now().date() - timedelta(days=8)).split('-')
+    month = int(data_from[1])
+    day = int(data_from[2])
+    # month = 1
+    # day = 1
     hour = 0
     year = 2023
-    for i in range(50):
-        for j in range(365):
-            for k in range(24):
-                try:
-                    y = datetime(year, month, day, hour, 0, 0)
-                except ValueError:
-                    if month > 12:
-                        year += 1
-                        month = 0
-                        print(year)
-                    day = 1
-                    month += 1
-                    hour = 0
+    # for i in range(50):
+    for j in range(8):
+        for k in range(24):
+            try:
+                y = datetime(year, month, day, hour, 0, 0)
+            except ValueError:
+                if month > 12:
+                    year += 1
+                    month = 0
+                    print(year)
+                day = 1
+                month += 1
+                hour = 0
 
-                x = randint(0, 20)
-                yy = randint(0, 100)
-                p = Temp(sensor_id=sensor.id, time=y, temp=x, humi=yy)
-                p.save()
-                hour += 1
+            x = randint(0, 20)
+            yy = randint(0, 100)
+            p = Temp(sensor_id=sensor.id, time=y, temp=x, humi=yy)
+            p.save()
+            hour += 1
 
-            hour = 0
-            day += 1
+        hour = 0
+        day += 1
 
 
 def add_sensors_to_tester(user):

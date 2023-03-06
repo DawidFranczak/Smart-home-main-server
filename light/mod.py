@@ -11,9 +11,12 @@ def change_light(sensor, ngrok):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-        answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
+        try:
+            answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
+        except:
+            return {'response': "Brak komunikacji z serwerem w domu"}
+
         answer = answer.json()
-        print(answer)
         if answer["success"]:
             light = sensor.light
             if answer["result"] == 'ON':
@@ -24,8 +27,6 @@ def change_light(sensor, ngrok):
                 response = {'response': "OFF"}
             light.save()
         else:
-            response = {'response': "Nie udało się połączyć z lampą"}
+            return {'response': "Nie udało się połączyć z lampą"}
     except:
-        response = {'response': "Wystąpił niespodziewany błąd"}
-    finally:
-        return response
+        return {'response': "Wystąpił niespodziewany błąd"}

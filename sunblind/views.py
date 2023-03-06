@@ -5,7 +5,6 @@ import requests
 import json
 
 from app.const import MESSAGE_SUNBLIND
-from .mod import send_data
 
 # Create your views here.
 
@@ -44,15 +43,18 @@ class SunblindView(View):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
-
+        try:
+            answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
+        except:
+            return JsonResponse({'success': False,
+                                 'message': "Brak komunikacji z serwerem w domu"})
         # Sending message to microcontroller and waiting on response
         if answer:
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save()
         return JsonResponse({'success': answer,
-                             'message': "" if answer else 'Brak komunikacji', })
+                             'message': "" if answer else 'Brak komunikacji'})
 
 
 class CalibrationView(View):

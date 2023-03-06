@@ -14,7 +14,6 @@ const selectAqua = async (e) => {
 
   settings = await fetch(`/api/aquarium/${aquarium.id}`);
   settings = await settings.json();
-  console.log(settings);
 
   const containerAqua = document.querySelector("#containers-aqua");
   containerAqua.classList.add("Containers-aqua--active");
@@ -53,6 +52,7 @@ const selectAqua = async (e) => {
 
 const aqua = async (e) => {
   /* This function allow to change the aquarium settings */
+
   const target = e.target;
   if (target.type === "submit" || target.id === "color") {
     document.querySelector("#message").innerHTML = "";
@@ -137,9 +137,6 @@ const aqua = async (e) => {
         };
 
         data = await sendData("POST", dict);
-        console.log(data);
-        console.log(data["fluo"]);
-        console.log(data["led"]);
 
         const modeFluolampButton = document.querySelector(
           "#mode-button-fluolamp"
@@ -185,6 +182,7 @@ const aqua = async (e) => {
         break;
     }
     const rep = await sendData("POST", dict);
+    console.log(rep)
     if (rep["message"] != undefined) {
       document.querySelector("#message").innerHTML = rep["message"];
     }

@@ -14,10 +14,14 @@ def change(message, sensor, ngrok) -> bool:
         'port': sensor.port
     }
     api = ngrok+CHANGE_AQUA
-    # api = ngrok+'/api/aquarium/start'
 
-    response = requests.post(api, data=data)
+    try:
+        response = requests.post(api, data=data)
+    except:
+        return False
+
     response = response.json()['response']
+
     if response:
         sensor.aqua.save()
     return response
@@ -31,7 +35,11 @@ def check(sensor, ngrok) -> bool:
     settings['ip'] = sensor.ip
     settings['port'] = sensor.port
     api = ngrok+CHECK_AQUA
-    response = requests.post(api, data=settings)
+
+    try:
+        response = requests.post(api, data=settings)
+    except:
+        return False
 
     response = response.json()
     success = response['response']

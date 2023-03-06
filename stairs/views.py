@@ -61,9 +61,10 @@ class StairsView(View):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-
-        answer = requests.put(ngrok+CHANGE_STAIRS, data=data).json()
-
+        try:
+            answer = requests.put(ngrok+CHANGE_STAIRS, data=data).json()
+        except:
+            return JsonResponse({'respond': "Brak komunikacji z serwerem w domu"})
         if answer:
             stairs.save()
         return JsonResponse({'respond': "Udało się zmienić ustawienia"
