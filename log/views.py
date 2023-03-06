@@ -22,7 +22,6 @@ def user_register(request):
             return redirect('login')
 
     context = {'form': form}
-    print(form)
     return render(request, 'register.html', context)
 
 

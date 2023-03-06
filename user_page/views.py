@@ -57,7 +57,8 @@ class UserChangeEmail(View):
         form = self.form_class(request.user, request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Zmiana hasła przebiegła pomyślnie')
+            messages.success(
+                request, 'Zmiana adresu email przebiegła pomyślnie')
             return redirect('user_page')
 
         old = request.user.email

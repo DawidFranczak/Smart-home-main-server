@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +20,9 @@ urlpatterns = [
     path('api/chart/', include('chart.api.urls')),
     path('api/stairs/', include('stairs.api.urls')),
     path('api/aquarium/', include('aquarium.api.urls')),
+
+    path('__debug__/', include('debug_toolbar.urls')),
+
 ]
 
 if settings.DEBUG:

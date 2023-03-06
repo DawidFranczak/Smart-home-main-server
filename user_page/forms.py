@@ -1,6 +1,7 @@
 from django.core.files.images import get_image_dimensions
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.validators import URLValidator
 from django import forms
 
 from .models import HomeNavImage
@@ -53,7 +54,7 @@ class ChangeEmailForm(forms.Form):
     new_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={"class": "Email__div__input"}),
-        label="Podaj nowego emaila"
+        label="Podaj nowego emaila",
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -194,22 +195,19 @@ class ChangeNgrokForm(forms.Form):
         widget=forms.URLInput(
             attrs={"class": "URL__div__input"}
         ),
-        label="Podaj nowy adres URL"
+        label="Podaj nowy adres URL",
+        validators=[
+            URLValidator(
+                schemes=["https"], message='Adres powienien zaczynać się od "https"'),
+        ]
     )
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
-
-    def clean_new_link(self):
-        new_link = self.cleaned_data.get("new_link")
-
-        if new_link.startswith("https"):
-            return new_link
-
-        raise forms.ValidationError(
-            "Adres email powinein zaczynać się od 'https'"
-        )
+        self.fields["new_link"].error_messages = {"validators": {
+            "URLValidator": "Czemu to musi być 2 razy napisane ? "
+        }}
 
     def save(self):
         new_link = self.cleaned_data.get("new_link")

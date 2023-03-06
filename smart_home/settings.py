@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    
+    "debug_toolbar",
+
     'rpl',
     'log',
     'light',
@@ -51,17 +52,23 @@ INSTALLED_APPS = [
     'sunblind',
     'user_page',
     'rest_framework',
+
 ]
 
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'smart_home.urls'
@@ -132,7 +139,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
@@ -154,3 +161,8 @@ EMAIL_HOST_PASSWORD = 'jttxxltcfecaawil'
 # EMAIL_HOST_PASSWORD = 'cdznyxxgqaivurzw'
 EMAIL_USE_TLS = True
 # /////////////////////////////////
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

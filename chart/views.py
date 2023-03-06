@@ -25,4 +25,4 @@ class Chart(View):
             context = {}
             return render(request, cls.template_name, context)
 
-        return data_for_chart(request)
+        return data_for_chart(request, list_place)

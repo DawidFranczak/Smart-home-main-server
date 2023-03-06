@@ -19,9 +19,9 @@ class Sensor(models.Model):
 
 class Temp(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now_add=True)
-    temp = models.CharField(max_length=10)
-    humi = models.CharField(max_length=10, default="")
+    time = models.DateTimeField(auto_now_add=False)
+    temp = models.FloatField()
+    humi = models.FloatField(default="")
 
     def __str__(self):
         return str(self.sensor)
