@@ -86,8 +86,9 @@
   cursor: pointer;
   position: relative;
 }
+.Delete-user__back,
 .Delete-user__submit {
-  width: 10em;
+  width: 12em;
 }
 
 .Image-change__submit,

@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 import requests
 import json
 
@@ -110,4 +111,4 @@ def aquarium_contorler(request):
         response = check_aqua_testet(aqua)
     # End simulation
 
-    return {'message': 'Udało się zmienić ustawienia' if response else 'Brak komunikacji z akwarium'}
+    return {'message': _('Settings updated successfully') if response else _('No connection with aquarium')}

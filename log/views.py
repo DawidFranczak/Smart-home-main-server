@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -18,7 +19,7 @@ def user_register(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Rejestracja przebiegła pomyślnie.')
+            messages.success(request, _("Registration was successful."))
             return redirect('login')
 
     context = {'form': form}
@@ -30,20 +31,20 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username == "" or password == "":
-            messages.error(request, 'Proszę wypełnić obydwa pola.')
+            messages.error(request, _('Please fill all fields.'))
             return redirect('login')
 
         if User.objects.filter(username=username).exists():
             user = authenticate(request, username=username, password=password)
         else:
-            messages.error(request, 'Użytkownik nie istenieje.')
+            messages.error(request, _("User doesn't exists."))
             return redirect('login')
 
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Nazwa albo hasło są nieprawidłowe.')
+            messages.error(request, _("Incorrect name or password."))
             return redirect('login')
 
     return render(request, 'login.html')

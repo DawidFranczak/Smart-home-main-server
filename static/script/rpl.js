@@ -1,3 +1,17 @@
+function translation(){
+  const LANG = window.navigator.language;
+  if (LANG === "pl-PL"){
+      let TRANSLATE = {
+        "LAMP" : "Wybierz lampy",
+      }
+  return TRANSLATE
+  }else{
+      let TRANSLATE = {
+        "LAMP" : "Select lamp",
+      }
+  return TRANSLATE
+  }
+}
 const rplConnect = async () => {
   const lamp = document.querySelectorAll("#lamp");
   const rfid = document.querySelectorAll("#rfid");
@@ -37,6 +51,7 @@ const rplConnect = async () => {
 };
 
 const rplSelect = async (e) => {
+  const TR = translation()
   const target = e.target;
   document.querySelector("#mess").innerHTML = "";
   switch (target.id) {
@@ -81,7 +96,7 @@ const rplSelect = async (e) => {
           break;
         }
       }
-      if (!flag) document.querySelector("#mess").innerHTML = "Wybierz lampy";
+      if (!flag) document.querySelector("#mess").innerHTML = TR["LAMP"];
       break;
   }
 };

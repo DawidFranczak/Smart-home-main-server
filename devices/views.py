@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
@@ -36,12 +37,12 @@ class DevicesView(View):
             EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
 
             if get_data['fun'] in EXCLUDED_SENSORS:
-                return JsonResponse({'response': 'Wybacz akurat tego czujnika nie można dodać w wersji testowej'})
+                return JsonResponse({'response': _("Sorry, you can't add this type of device in the test version")})
 
             sensor = request.user.sensor_set.create(name=get_data['name'],
                                                     ip='111.111.111.111',
                                                     port=1234, fun=get_data['fun'])
-            return JsonResponse({'response': 'Udało sie dodać czujnik', 'id': sensor.id})
+            return JsonResponse({'response': _("Device added successfully"), 'id': sensor.id})
         # End simulation
 
         elif get_data['fun'] == 'uid':

@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Rolety {% endblock%}
+{% load i18n %}
+{% block title %} {% trans "Sunblind" %}  {% endblock%}
 {% block content %}
 <link
   rel="stylesheet"
@@ -8,16 +9,16 @@
   media="screen"
   href='{% static "style/sunblind.css" %}'
 />
-<button class="Calibration-button" id="calibration">Kalibracja</button>
+<button class="Calibration-button" id="calibration"> {% trans "Calibration" %} </button>
 <ul class="Sunblind-containers">
   <li>
-    <p class="Sunblind-containers__sunblind-name">Nazwa</p>
-    <p class="Sunblind-containers__div">Suwak</p>
+    <p class="Sunblind-containers__sunblind-name">{% trans "Name" %}</p>
+    <p class="Sunblind-containers__div">{% trans "Slider" %}</p>
     <p
       class="Sunblind-containers__calibration-button-header"
       id="button-calibration"
     >
-      Kalibracja
+      {% trans "Calibration" %}
     </p>
   </li>
   {% for sensor in sensors %}
@@ -39,7 +40,7 @@
         href="{% url 'calibration' sensor.id %}"
         class="Sunblind-containers__calibration-button"
         id="button-calibration">
-        Kalibruj
+        {% trans "Calibrate" %}
       </a>
       <p class="Sunblind-containers__messages" id="message"></p>
     </li>

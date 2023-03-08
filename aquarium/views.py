@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.utils.translation import gettext as _
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 from .mod import *
 
@@ -12,7 +13,7 @@ class AquariumView(View):
     def get(self, request, *args, **kwargs):
         aquas = request.user.sensor_set.filter(fun='aqua')
         context = {
-            'aquas': aquas
+            'aquas': aquas,
         }
         return render(request, self.template_name, context)
 

@@ -47,7 +47,7 @@
 .Select-place__button {
   margin-bottom: 0.5em;
   font-size: 1em;
-  width: 5em;
+  width: auto;
   background: none;
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.5);

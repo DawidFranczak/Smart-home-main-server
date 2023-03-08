@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <nav class="Navbar">
   <div class="Navbar__path">
     <a href="{% url 'home' %}" class="Navbar__path-name" id="path-name"></a>
@@ -10,35 +12,35 @@
   <ul class="Navbar__nav-links" id="nav-links">
     {% if request.user.is_authenticated %}
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'light' %}">Światła</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'light' %}">{% translate "Light" %}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'stairs' %}">Schody</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'stairs' %}">{% translate "Stairs"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'chart' %}">Temperatura</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'chart' %}">{% translate "Chart"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'aquarium' %}">Akwarium</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'aquarium' %}">{% translate "Aquarium"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'sunblind' %}">Rolety</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'sunblind' %}">{% translate "Sunblinds"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'devices' %}">Urządzenia</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'devices' %}">{% translate "Devices"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'rpl' %}">RPL</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'rpl' %}">{% translate "RPL"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'user_page' %}">Ustawienia</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'user_page' %}">{% translate "Settings"%}</a>
       </li>
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'logout' %}">Wyloguj</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'logout' %}">{% trans "Logout"%}</a>
       </li>
     {% else %}
       <li class="Navbar__nav-links__li">
-        <a class="Navbar__nav-links__li__a" href="{% url 'login' %}">Zaloguj</a>
+        <a class="Navbar__nav-links__li__a" href="{% url 'login' %}">{% trans "Login"%}</a>
       </li>
     {% endif %}
   </ul>

@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title%} Kalibracja {%endblock%} 
+{% load i18n %}
+{% block title%} {% trans "Calibration" %} {%endblock%} 
 {% block content %}
 <link
   rel="stylesheet"
@@ -17,7 +18,7 @@
     id="up"
     class="Calibration-button__up"
   ></button>
-  <button id="save" class="Calibration-button__save">Zapisz</button>
+  <button id="save" class="Calibration-button__save">{% trans "Save" %}</button>
   <button
     type="button"
     id="down"
@@ -25,13 +26,13 @@
   ></button>
 </div>
 <div class="Save-button" id="save-buttons">
-  <button id="repeat" class="Save-button__repeat">Tak</button>
+  <button id="repeat" class="Save-button__repeat">{% trans "Yes" %}</button>
   <a href="{% url 'sunblind' %}"
-    ><button class="Save-button__end">Nie</button></a
+    ><button class="Save-button__end">{% trans "No" %}</button></a
   >
 </div>
 <p class="Message" id="message">
-  Zaczynamy kalibrację, proszę zasunąć roletę i nacisnąć przycisk "Zapisz"
+  {% trans 'During the calibration process, please open the sunblind and press "save" button' %}
 </p>
 <script src="{% static 'script/calibration.js' %}"></script>
 {% endblock content %}

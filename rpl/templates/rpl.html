@@ -1,5 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %} RPL {% endblock %}
 {% block content %}
 <link
@@ -10,7 +11,7 @@
 />
 <ul class="Elements">
   <li class="Elements__lamps">
-    <p class="Elements__lamps__message">Wybierz lampy</p>
+    <p class="Elements__lamps__message">{% trans "Select lamp"%}</p>
     {% for lamp in lamps %}
       <ul class="Elements__lamps__lamp">
         <input
@@ -25,7 +26,7 @@
     {% endfor %}
   </li>
   <li class="Elements__rfids">
-    <p class="Elements__rfids__message">Wybierz czujnik</p>
+    <p class="Elements__rfids__message">{% trans "Select devices"%}</p>
     {% for rfid in rfids %}
       <ul class="Elements__rfids__rfid">
         <input
@@ -39,7 +40,7 @@
     {% endfor %}
   </li>
   <li class="Elements__buttons">
-    <p class="Elements__buttons__message">Wybierz przyciski</p>
+    <p class="Elements__buttons__message">{% trans "Select buttons"%}</p>
     {% for buton in buttons %}
       <ul class="Elements__buttons__button">
         <input
@@ -53,7 +54,7 @@
     {% endfor %}
   </li>
 </ul>
-<button class="Button" id="rpl-btn">Zapisz</button>
+<button class="Button" id="rpl-btn">{% trans "Save" %}</button>
 <p class="Message" id="mess"></p>
 <script src='{% static "script/rpl.js" %}'></script>
 {% endblock content %}

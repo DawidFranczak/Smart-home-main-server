@@ -2,8 +2,8 @@ from django.views import View
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+from django.utils.translation import gettext as _
 from django.contrib.auth import update_session_auth_hash
-
 
 from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm, ChangeNgrokForm
 
@@ -31,7 +31,7 @@ class UserChangePassword(View):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, 'Zmiana hasła przebiegła pomyślnie')
+            messages.success(request, _("Password successfully updated"))
             return redirect('user_page')
 
         context = {'action': 'password',
@@ -58,7 +58,7 @@ class UserChangeEmail(View):
         if form.is_valid():
             form.save()
             messages.success(
-                request, 'Zmiana adresu email przebiegła pomyślnie')
+                request, _("Email successfully updated"))
             return redirect('user_page')
 
         old = request.user.email
@@ -87,7 +87,7 @@ class UserChangeNgrok(View):
         form = ChangeNgrokForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Zmiana URL przebiegła pomyślnie')
+            messages.success(request, _("URL successfully updated"))
             return redirect('user_page')
 
         old = request.user.ngrok.ngrok
@@ -117,7 +117,7 @@ class UserChangeImage(View):
 
             if form.is_valid():
                 form.save(request.user)
-                messages.success(request, 'Udało się zmienić zdjęcie(a)')
+                messages.success(request, _("Image(s) sccessfully updated"))
                 return redirect('user_page')
 
             context = {'action': 'image',
@@ -125,7 +125,7 @@ class UserChangeImage(View):
             return render(request, self.template_name, context)
         else:
             form.reset(request.user)
-            messages.success(request, 'Zresetowano zdjęcia')
+            messages.success(request, _("Images reseted"))
             return redirect('user_page')
 
 
@@ -139,5 +139,5 @@ class UserDelete(View):
 
     def post(self, request):
         request.user.delete()
-        messages.success(request, 'Konto zostało usunięte')
+        messages.success(request, _("Account has deleted"))
         return redirect('login')

@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
+{% load i18n %}
 {% load static %}
-{% block title %} Temperatura {% endblock %}
+{% block title %} {% trans "Chart" %} {% endblock %}
 {% block content %}
 <script src='{% static "script/Chart.js" %}'></script>
 <script src='{% static "script/chart2.js" %}'></script>
@@ -10,11 +11,11 @@
         {% csrf_token %}
         <div class="Get-data__select-data">
             <div class="Get-data__select-data__div">
-                <p class="Get-data__select-data__div__p">Wybierz datę od</p>
+                <p class="Get-data__select-data__div__p">{% trans "Start on"%}</p>
                 <input class="Get-data__select-data__div__select" type="date" name="data-from">
             </div>
             <div class="Get-data__select-data__div">
-                <p class="Get-data__select-data__div__p">Wybierz datę do</p>
+                <p class="Get-data__select-data__div__p">{% trans "End on"%}</p>
                 <input class="Get-data__select-data__div__select" type="date" name="data-to">
             </div>
         </div>
@@ -24,12 +25,12 @@
                 <option>{{i}}</option>
                 {% endfor %}
             </select>
-            <button class="Select-place__button">Pokaż</button>
+            <button class="Select-place__button">{% trans "Show data"%}</button>
         </div>
     </form>
     {% if data_temp|length == 0  %}
     <div class="Display-char">
-        <p class="Display-char__p">Brak danych do wyświetlenia</p>
+        <p class="Display-char__p">{% trans "Lack of data to display" %}</p>
     </div>
 
     {% elif  data_average_data|length > 7 %}
@@ -55,8 +56,8 @@
 {% endif %}
         <ul class="Temp-avarage" id = "temp_avarage_containers">
             <li class="Temp-avarage__li-header">
-                <p class="Temp-avarage__li__p-header">Średnie temperatury</p>
-                <p class="Temp-avarage__li__p-data">Data</p>
+                <p class="Temp-avarage__li__p-header">{% trans "Average temperature" %}</p>
+                <p class="Temp-avarage__li__p-data">{% trans "Date"%}</p>
                 <img class="Temp-avarage__li__p-sun" src="{% static 'images/sun.png' %}" alt="Sun icon">
                 <img class="Temp-avarage__li__p-moon" src="{% static 'images/moon.png' %}" alt="Moon icon">
             </li>

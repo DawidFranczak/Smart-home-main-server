@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
@@ -88,5 +89,5 @@ class RplView(View):
                 btn.lamp = ""
                 btn.save(update_fields=["lamp"])
 
-            message = {'message': 'Połączono'}
+            message = {'message': _("Connected")}
             return JsonResponse(message)

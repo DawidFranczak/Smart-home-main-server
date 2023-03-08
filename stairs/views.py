@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
@@ -57,7 +58,7 @@ class StairsView(View):
         # Control simulation
         if sensor.name == 'tester':
             stairs.save(update_fields=[field])
-            return JsonResponse({'respond': "Udało się zmienić ustawienia"})
+            return JsonResponse({'respond': _('Settings updated successfully')})
         # End simulation
 
         data = {
@@ -68,9 +69,9 @@ class StairsView(View):
         try:
             answer = requests.put(ngrok+CHANGE_STAIRS, data=data).json()
         except:
-            return JsonResponse({'respond': "Brak komunikacji z serwerem w domu"})
+            return JsonResponse({'respond': _("No connection with home server.")})
 
         if answer:
             stairs.save(update_fields=[field])
-        return JsonResponse({'respond': "Udało się zmienić ustawienia"
-                             if answer else "Brak komunikacji ze schodami"})
+        return JsonResponse({'respond': _('Settings updated successfully')
+                             if answer else _('No connection with stairs')})

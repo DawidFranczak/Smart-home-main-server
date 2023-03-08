@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% load static %}
-{% block title %} Ustawienia {%endblock %}
+{% load i18n %}
+{% block title %} {% trans "Settings" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -9,16 +10,16 @@
   href='{% static "style/user_page.css" %}'
 />
 <section class="Nav__profil" id="profil-buttons">
-  <a class="Nav__profil__a" href="{% url 'user_change_password'%}">Zmień hasło</a>
-  <a class="Nav__profil__a" href="{% url 'user_change_email'%}">Zmień email</a>
+  <a class="Nav__profil__a" href="{% url 'user_change_password'%}">{% trans "Change passowrd"%}</a>
+  <a class="Nav__profil__a" href="{% url 'user_change_email'%}">{% trans "Change email" %}</a>
   <a class="Nav__profil__a" href="{% url 'user_change_image'%}">
-    Zmień zdjęcia na stronie startowej
+    {% trans "Change icons on home page" %}
   </a>
   <a class="Nav__profil__a" href="{% url 'user_delete'%}">
-    Usuń konto
+    {% trans "Delete account" %}
     </a>
   <a class="Nav__profil__a" href="{% url 'user_change_url'%}">
-    Zmień URL
+    {% trans "Change URL" %}
     </a>
 </section>
 <section>

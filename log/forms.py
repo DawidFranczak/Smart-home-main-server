@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -10,7 +11,7 @@ class CreateUserForm(UserCreationForm):
             attrs={'class': 'Register__div__input',
                    'placeholder': ' ',
                    'type': 'login'}),
-        label="Login*",
+        label=_("Login*"),
         min_length=5,
         max_length=150
     )
@@ -20,7 +21,7 @@ class CreateUserForm(UserCreationForm):
             attrs={'class': 'Register__div__input',
                    'placeholder': ' ',
                    'type': 'password'}),
-        label="Hasło*"
+        label=_("Password*")
     )
 
     password2 = forms.CharField(
@@ -28,14 +29,14 @@ class CreateUserForm(UserCreationForm):
             attrs={'class': 'Register__div__input',
                    'placeholder': ' ',
                    'type': 'password'}),
-        label="Powtórz hasło*"
+        label=_("Repeat password*")
     )
 
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
-        label="Email*"
+        label=_("Email*")
     )
 
     first_name = forms.CharField(
@@ -43,7 +44,7 @@ class CreateUserForm(UserCreationForm):
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
         required=False,
-        label="Imię"
+        label=_("Name")
     )
 
     last_name = forms.CharField(
@@ -51,7 +52,7 @@ class CreateUserForm(UserCreationForm):
             attrs={'class': 'Register__div__input',
                    'placeholder': ' '}),
         required=False,
-        label="Nazwisko"
+        label=_("Last name")
     )
 
     def __init__(self, *args, **kwargs):
@@ -61,26 +62,27 @@ class CreateUserForm(UserCreationForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Użytkowniek już istnieje")
+            raise forms.ValidationError(_("User is already exists."))
         return username
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
         if len(password1) < 8:
-            raise forms.ValidationError("Hasło jest za krótkie.")
+            raise forms.ValidationError(
+                _("Password is too short. Must have 8 characters"))
         return password1
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 != password2:
-            raise forms.ValidationError("Hasła nie są takie same.")
+            raise forms.ValidationError(_("Passwords isn't this same"))
         return password2
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Email jest już zajęty')
+            raise forms.ValidationError(_("Email is already exists"))
         return email
 
     class Meta:

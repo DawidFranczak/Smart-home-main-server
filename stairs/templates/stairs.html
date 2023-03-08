@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Schody {% endblock %}
+{% load i18n %}
+{% block title %} {% trans "Stairs" %} {% endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -9,7 +10,7 @@
   href='{% static "style/stairs.css" %}'
 />
 <div class="Select-stairs" id="select-stairs">
-  <h1>Wybierz schody</h1>
+  <h1>{% trans "Select stairs"%}</h1>
   <div class="Select-stairs__line"></div>
   {% for sensor in sensors %}
   <button class="Select-stairs__button" id="{{sensor.id}}">
@@ -25,15 +26,15 @@
 <div class="Stairs-containers" id="stairs-containers">
   <div class="Select-stairs__line"></div>
   <label class="Stairs-containers__label" for="lightingTime"
-    >Czas świecenia [s]</label>
+    >{% trans "Lightning time [s]"%}</label>
   <input
     class="Stairs-containers__input"
     type="number"
     id="lightingTime"
     min="1"
   />
-  <button class="Stairs-containers__button" id="lightingTime">Ustaw</button>
-  <label class="Stairs-containers__label" for="brightness">Jasność [%]</label>
+  <button class="Stairs-containers__button" id="lightingTime">{% trans "Set" %}</button>
+  <label class="Stairs-containers__label" for="brightness">{% trans "Brightness [%]"%}</label>
   <input
     class="Stairs-containers__input"
     type="number"
@@ -41,10 +42,10 @@
     min="0"
     max="100"
   />
-  <button class="Stairs-containers__button" id="brightness">Ustaw</button>
-  <label class="Stairs-containers__label" for="step">Ilość kroków</label>
+  <button class="Stairs-containers__button" id="brightness">{% trans "Save" %}</button>
+  <label class="Stairs-containers__label" for="step">{% trans "Number of steps"%}</label>
   <input class="Stairs-containers__input" type="number" id="step" min="1" />
-  <button class="Stairs-containers__button" id="step">Ustaw</button>
+  <button class="Stairs-containers__button" id="step">{% trans "Save" %}</button>
   <button class="Stairs-containers__button" id="stairs-button"></button>
 </div>
 

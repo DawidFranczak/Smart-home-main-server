@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Rejestracja {%endblock %}
+{% load i18n %}
+{% block title %} {% trans "Registration" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -11,7 +12,7 @@
 <div class="container">
   <form method="post" class="Register">
     {% csrf_token %}
-    <h1>Rejestracja</h1>
+    <h1>{% trans "Registration"%}</h1>
     {% for field in form %}
     <div class="Register__div">
       {{ field }}
@@ -21,7 +22,7 @@
       {{ field.errors }}
     </div>
     {% endfor %}
-    <button type="submit" class="Register__submit">Zarejestruj</button>
+    <button type="submit" class="Register__submit">{% trans "Sign up" %}</button>
   </form>
 </div>
 {% endblock content %}

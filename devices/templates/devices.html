@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Czujniki {%endblock %}
+{% load i18n %}
+{% block title %} {% trans "Devices" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -13,7 +14,7 @@
     type="text"
     class="Sensor-add__name"
     id="sensor-name-add"
-    placeholder="Podaj nazwę"
+    placeholder={% trans "Select name"%}
   />
   <ul class="Sensor-add__select">
     <li class="Sensor-add__select__li">
@@ -25,7 +26,7 @@
         value="temp"
         checked
       />
-      <label for="temp">Temperatura</label>
+      <label for="temp">{% trans "Temperature" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -35,7 +36,7 @@
         id="sensor-fun"
         value="sunblind"
       />
-      <label for="sunblind">Rolety</label>
+      <label for="sunblind">{%trans "Sunblind" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -45,7 +46,7 @@
         id="sensor-fun"
         value="aqua"
       />
-      <label for="aqua">Akwarium</label>
+      <label for="aqua">{% trans "Aquarium" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -55,7 +56,7 @@
         id="sensor-fun"
         value="light"
       />
-      <label for="light">Swiatlo</label>
+      <label for="light">{% trans "Light" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -65,7 +66,7 @@
         id="sensor-fun"
         value="stairs"
       />
-      <label for="stairs">Schody</label>
+      <label for="stairs">{% trans "Stairs" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -75,7 +76,7 @@
         id="sensor-fun"
         value="rfid"
       />
-      <label for="rfid">Czytnik RFID</label>
+      <label for="rfid">{% trans "RFID sensor"%}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -85,7 +86,7 @@
         id="sensor-fun"
         value="button"
       />
-      <label for="button">Przyciski</label>
+      <label for="button">{% trans "Button" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -95,7 +96,7 @@
         id="sensor-fun"
         value="lamp"
       />
-      <label for="lamp">Lampy</label>
+      <label for="lamp">{% trans "Lamp" %}</label>
     </li>
     <li class="Sensor-add__select__li">
       <input
@@ -106,7 +107,7 @@
         value="uid"
         id="uid"
       />
-      <label for="uid">Krata/brelok</label>
+      <label for="uid">{% trans "Card" %}</label>
     </li>
     <li class="Sensor-add__select__select-rfid" id="select-rfid">
       {% for sensor in sensors %}
@@ -126,8 +127,8 @@
       {% endfor %}
     </li>
   </ul>
-  <button id="save" value="save" class="Sensor-add__button-save">Zapisz</button>
-  <button id="back" value="back" class="Sensor-add__button-back">Wróć</button>
+  <button id="save" value="save" class="Sensor-add__button-save">{% trans "Save" %}</button>
+  <button id="back" value="back" class="Sensor-add__button-back">{% trans "Back" %}</button>
   <p class="Sensor-add__message" id="response"></p>
 </section>
 <section
@@ -135,10 +136,10 @@
   id="add-sensor-button"
 >
   <button type="button" class="Add-sensor-button__add" id="add-sensor">
-    Dodaj czujnik
+    {% trans "Add device"%}
   </button>
   <button type="button" class="Add-sensor-button__delete" id="add-del-button">
-    Usuń czujnik
+    {% trans "Remove device" %}
   </button>
 </section>
 <section class="Sensor-container" id="sensor-container">
@@ -146,13 +147,13 @@
     id="search"
     class="Sensor-container__search"
     type="text"
-    placeholder="Szukaj"
+    placeholder={% trans "search" %}
   />
   <ul class="Sensor-container__ul">
     <li>
       <ul class="Sensor-container__ul__sensor">
-        <p class="Sensor-container__ul__sensor__name">Nazwa</p>
-        <p class="Sensor-container__ul__sensor__function" >Funkcja</p>
+        <p class="Sensor-container__ul__sensor__name">{% trans "Name" %}</p>
+        <p class="Sensor-container__ul__sensor__function" >{% trans "Function" %}</p>
       </ul>
     </li>
     <li id="add-sensors-temp-container">

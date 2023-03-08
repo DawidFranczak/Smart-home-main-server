@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Logowanie {%endblock %}
+{% load i18n %}
+{% block title %} {% trans "Login" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -9,7 +10,7 @@
   href='{% static "style/login.css" %}'
 />
 
-<h1>Zaloguj się</h1>
+<h1>{% trans "Login" %}</h1>
 <form method="post" class="Login">
   {% csrf_token %}
   <div class="Login__username">
@@ -20,7 +21,7 @@
       name="username"
       placeholder=" "
     />
-    <label class="Login__label" for="username">Login</label>
+    <label class="Login__label" for="username">{% trans "Login" %}</label>
   </div>
   <div class="Login__password">
     <input
@@ -30,13 +31,13 @@
       name="password"
       placeholder=" "
     />
-    <label class="Login__label" for="password">Hasło</label>
+    <label class="Login__label" for="password">{% trans "Passowrd" %}</label>
   </div>
   <div class="Login__buttons">
-    <button type="submit" class="Login__button__login">Zaloguj</button>
+    <button type="submit" class="Login__button__login">{% trans "Login" %}</button>
 
     <a class="Login__button__register" href="{% url 'user_register' %}"
-      >Rejestracja</a
+      >{% trans "Registration" %}</a
     >
   </div>
   <div class="Login__messages">
@@ -50,5 +51,5 @@
   </div>
 </form>
 
-<a class="Password-reset" href="{% url 'password_reset' %}">Przypomnij hasło</a>
+<a class="Password-reset" href="{% url 'password_reset' %}">{% trans "Forgot password?" %}</a>
 {% endblock content %}

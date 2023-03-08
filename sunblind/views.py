@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
@@ -30,12 +31,13 @@ class SunblindView(View):
         sensor = request.user.sensor_set.get(pk=get_data['id'])
         message = 'set' + str(get_data['value'])
         ngrok = request.user.ngrok.ngrok
+
         # Simulation sunblind
         if sensor.name == 'tester':
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
-            sunblind.save()
-            return JsonResponse({'success': 1})
+            sunblind.save(update_fields=["value"])
+            return JsonResponse(status=200)
         # End simulation
 
         data = {
@@ -47,23 +49,20 @@ class SunblindView(View):
             answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
         except:
             return JsonResponse({'success': False,
-                                 'message': "Brak komunikacji z serwerem w domu"})
+                                 'message': _("No connection home server.")})
         # Sending message to microcontroller and waiting on response
         if answer:
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save()
         return JsonResponse({'success': answer,
-                             'message': "" if answer else 'Brak komunikacji'})
+                             'message': "" if answer else _('No connection')})
 
 
 class CalibrationView(View):
     template_name = 'calibration.html'
 
     def get(self, request, pk):
-        sensor = request.user.sensor_set.get(pk=pk)
-        send_data('calibration', sensor.ip, sensor.port)
-
         return render(request, self.template_name)
 
     def post(self, request, pk):
@@ -77,13 +76,20 @@ class CalibrationView(View):
             "ip": sensor.ip,
             "port": sensor.port,
         }
-        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
+        try:
+            answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
+        except:
+
+            if sensor.name == "tester":
+                sunblind = sensor.sunblind
+                sunblind.value = 100
+                sunblind.save(update_fields=["value"])
 
         # Ending calibration, set value to 100 and save in database
         if get_data['action'] == 'end' and answer:
 
             sunblind = sensor.sunblind
             sunblind.value = 100
-            sunblind.save()
+            sunblind.save(update_fields=["value"])
 
         return JsonResponse(status=200, data={'success': answer, })

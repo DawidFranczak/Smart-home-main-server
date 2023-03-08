@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-08 10:33+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: devices/mod.py:54 devices/mod.py:92
+msgid "No communication with home server."
+msgstr "Brak komunikacji z serwerem w domu"
+
+#: devices/mod.py:59
+msgid "Sensor already exist"
+msgstr "Czujnik juz dodano"
+
+#: devices/mod.py:67 devices/views.py:45
+msgid "Device added successfully"
+msgstr "Udało sie dodać urządzenie"
+
+#: devices/mod.py:71 devices/mod.py:113
+msgid "Failed added device"
+msgstr "Nie udało się dodać urządzenia"
+
+#: devices/mod.py:99
+msgid "This card is already exists."
+msgstr "Ta karta jest już dodana"
+
+#: devices/mod.py:105
+msgid "Successfully added card."
+msgstr "Udało się dodać kartę"
+
+#: devices/mod.py:132
+msgid "Failed deleted device"
+msgstr "Nie udało się usunąc urządzenia"
+
+#: devices/templates/devices.html:4
+msgid "Devices"
+msgstr "Urządzenia"
+
+#: devices/templates/devices.html:17
+msgid "Select name"
+msgstr "Wybierz nazwę"
+
+#: devices/templates/devices.html:29
+msgid "Temperature"
+msgstr "Temperatura"
+
+#: devices/templates/devices.html:39
+msgid "Sunblind"
+msgstr "Roleta"
+
+#: devices/templates/devices.html:49
+msgid "Aquarium"
+msgstr "Akwarium"
+
+#: devices/templates/devices.html:59
+msgid "Light"
+msgstr "Światło"
+
+#: devices/templates/devices.html:69
+msgid "Stairs"
+msgstr "Schody"
+
+#: devices/templates/devices.html:79
+msgid "RFID sensor"
+msgstr "Czytnik RFID"
+
+#: devices/templates/devices.html:89
+msgid "Button"
+msgstr "Przycisk"
+
+#: devices/templates/devices.html:99
+msgid "Lamp"
+msgstr "Lapmy"
+
+#: devices/templates/devices.html:110
+msgid "Card"
+msgstr "Karty"
+
+#: devices/templates/devices.html:130
+msgid "Save"
+msgstr "Zapisz"
+
+#: devices/templates/devices.html:131
+msgid "Back"
+msgstr "Wróć"
+
+#: devices/templates/devices.html:139
+msgid "Add device"
+msgstr "Dodaj urządzenie"
+
+#: devices/templates/devices.html:142
+msgid "Remove device"
+msgstr "Usuń urządzenia"
+
+#: devices/templates/devices.html:150
+msgid "search"
+msgstr "Szukaj"
+
+#: devices/templates/devices.html:155
+msgid "Name"
+msgstr "Nazwa"
+
+#: devices/templates/devices.html:156
+msgid "Function"
+msgstr "Funkcja"
+
+#: devices/views.py:40
+msgid "Sorry, you can't add this type of device in the test version"
+msgstr "Wybacz ale nie możesz dodać tego typu urządzenia w wersji testowej"

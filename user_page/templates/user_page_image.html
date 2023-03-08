@@ -1,6 +1,7 @@
+{% load i18n %}
 <form method="post" class="Image-change" enctype="multipart/form-data">
   {% csrf_token %}
-  <h1 class="Image-change__h1">Zmiana Zdjęć</h1>
+  <h1 class="Image-change__h1">{% trans "Images change" %}</h1>
   
   {% for field in form %}
     <div class="Image-change__div">
@@ -13,9 +14,9 @@
   {% endfor %}
   {{form.non_field_errors}}
   <button name="save" type="submit" class="Image-change__submit">
-    Zmień zdjęcia
+    {% trans "Save image(s)" %}
   </button>
   <button name="reset" class="Image-change__submit-reset">
-    Zresetuj zdjęcia
+    {% trans "Reset images" %}
   </button>
 </form>

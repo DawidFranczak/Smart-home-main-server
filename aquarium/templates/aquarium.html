@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Akwarium {% endblock%}
+{% load i18n %}
+{% block title %} {% trans "Aquarium" %} {% endblock%}
 {% block content %}
 <link
   rel="stylesheet"
@@ -9,7 +10,7 @@
   href='{% static "style/aqua.css" %}'
 />
 <section class="Select-aqua" id="select-aqua">
-  <h1>Wybierz akwarium</h1>
+  <h1>{% trans "Select aquarium" %}</h1>
   <div class="Select-aqua__line"></div>
     {% for aqua in aquas %}
       <button class="Select-aqua__button" id="{{aqua.id}}">{{aqua.name}}</button>
@@ -19,8 +20,8 @@
 <section class="Containers-aqua" id="containers-aqua">
   <p class="Containers-aqua__success" id="message"></p>
   <div class="Select-aqua__line"></div>
-  <p class="Containers-aqua__p-header">Ustawienia</p>
-  <p class="Containers-aqua__p">Wybierz kolor</p>
+  <p class="Containers-aqua__p-header">{% trans "Settings" %}</p>
+  <p class="Containers-aqua__p">{% trans "Select color" %}</p>
   <input
     id="color"
     value="rgb(255,255,255)"
@@ -30,35 +31,35 @@
   />
   <p class="aqua-error-message"></p>
   <div class="Containers-aqua__settings-aqua" id="settings-aqua">
-    <p class="Containers-aqua__settings-aqua__p">Załączenie led</p>
+    <p class="Containers-aqua__settings-aqua__p">{% trans "lED light on "%}</p>
     <div class="Containers-aqua__settings-aqua__led">
       <input type="time" id="led-start" />
       <input type="time" id="led-stop" />
     </div>
     <p id="led-mess"></p>
     <button class="Containers-aqua__settings-aqua__button" id="led-button">
-      Ustaw
+      {% trans "Save" %}
     </button>
-    <p class="Containers-aqua__settings-aqua__p">Załączenie swietlówki</p>
+    <p class="Containers-aqua__settings-aqua__p">{% trans "Fluorescent lamp on"%}</p>
     <div class="Containers-aqua__settings-aqua__fluolamp">
       <input type="time" id="fluolamp-start" />
       <input type="time" id="fluolamp-stop" />
     </div>
     <p id="fluolamp-mess"></p>
     <button class="Containers-aqua__settings-aqua__button" id="fluolamp-button">
-      Ustaw
+      {% trans "Save" %}
     </button>
   </div>
 
-  <p class="Containers-aqua__settings-aqua__p">Ustaw tryb pracy</p>
+  <p class="Containers-aqua__settings-aqua__p">{% trans "Choose mode"%}</p>
   <button class="Containers-aqua__mode-button" id="mode"></button>
   <div class="Containers-aqua__mode-buttons" id="mode-buttons">
-    <p class="Containers-aqua__settings-aqua__p">LED</p>
+    <p class="Containers-aqua__settings-aqua__p">{% trans "LED" %}</p>
     <button
       class="Containers-aqua__mode-buttons__led"
       id="mode-button-led"
     ></button>
-    <p class="Containers-aqua__settings-aqua__p">Świetlówka</p>
+    <p class="Containers-aqua__settings-aqua__p">{% trans "Fluorescent lamp" %}</p>
     <button
       class="Containers-aqua__mode-buttons__fluolamp"
       id="mode-button-fluolamp"

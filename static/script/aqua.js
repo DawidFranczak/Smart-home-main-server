@@ -1,9 +1,33 @@
+function translation(){
+  const LANG = window.navigator.language;
+  if (LANG === "pl-PL"){
+      let TRANSLATE = {
+          "ON" : "Włącz",
+          "OFF" : "Wyłącz",
+          "MODE_MAUAL" : "Ręczny",
+          "MODE_AUTO" : "Automat",
+          "HOUR_ERROR" : "Brak jednej godziny",
+          "SELECT": "Wybrano ",
+      }
+  return TRANSLATE
+  }else{
+      let TRANSLATE = {
+          "ON" : "ON",
+          "OFF" : "OFF",
+          "MODE_MAUAL" : "Manual",
+          "MODE_AUTO" : "Auto",
+          "HOUR_ERROR" : "Without one hour",
+          "SELECT": "Selected ",
+
+      }
+  return TRANSLATE
+  }
+}
 const selectAqua = async (e) => {
   /* The function getting
      the settings of the operating mode,
      lighting time of fluorescent lamps and LEDs 
   */
-
   const selectButton = e.target.type;
   const aquariumMessage = document.querySelector("#message");
   aquariumMessage.innerHTML = "";
@@ -14,6 +38,7 @@ const selectAqua = async (e) => {
 
   settings = await fetch(`/api/aquarium/${aquarium.id}`);
   settings = await settings.json();
+  tr = translation()
 
   const containerAqua = document.querySelector("#containers-aqua");
   containerAqua.classList.add("Containers-aqua--active");
@@ -24,18 +49,18 @@ const selectAqua = async (e) => {
   document.querySelector("#fluolamp-stop").value = settings["fluo_stop"];
   document.querySelector("#led-start").value = settings["led_start"];
   document.querySelector("#led-stop").value = settings["led_stop"];
-  document.querySelector("#select").innerHTML = `Wybrano ${aquarium.innerHTML}`;
+  document.querySelector("#select").innerHTML = tr["SELECT"] + aquarium.innerHTML;
 
   const mode = document.querySelector("#mode");
   const modeButton = document.querySelector("#mode-buttons");
   const settingsAqua = document.querySelector("#settings-aqua");
 
   if (settings["mode"]) {
-    mode.innerHTML = "Automat";
+    mode.innerHTML = tr["MODE_AUTO"];
     modeButton.classList.add("Containers-aqua__mode-buttons--active");
     settingsAqua.classList.remove("Containers-aqua__settings-aqua--active");
   } else {
-    mode.innerHTML = "Ręczny";
+    mode.innerHTML = tr["MODE_MAUAL"];
     modeButton.classList.remove("Containers-aqua__mode-buttons--active");
     settingsAqua.classList.add("Containers-aqua__settings-aqua--active");
   }
@@ -43,8 +68,8 @@ const selectAqua = async (e) => {
   const modeFluoLampButton = document.querySelector("#mode-button-fluolamp");
   const modeLedButton = document.querySelector("#mode-button-led");
 
-  modeFluoLampButton.innerHTML = settings["fluo_mode"] ? "Wyłącz" : "Włącz";
-  modeLedButton.innerHTML = settings["led_mode"] ? "Wyłącz" : "Włącz";
+  modeFluoLampButton.innerHTML = settings["fluo_mode"] ? tr["OFF"] : tr["ON"];
+  modeLedButton.innerHTML = settings["led_mode"] ? tr["OFF"] : tr["ON"];
 
   document.querySelector("#containers-aqua").addEventListener("click", aqua);
   document.querySelector("#color").addEventListener("input", aqua);
@@ -82,7 +107,7 @@ const aqua = async (e) => {
         const ledStop = document.querySelector("#led-stop");
 
         if (ledStart.value === "" || ledStop.value === "") {
-          document.querySelector("#led-mess").innerHTML = "Brak jednej godziny";
+          document.querySelector("#led-mess").innerHTML = tr["HOUR_ERROR"];
         } else {
           dict = {
             action: "changeLedTime",
@@ -111,9 +136,9 @@ const aqua = async (e) => {
       case "mode":
         let mode = false;
         const modeButton = e.target;
-        if (modeButton.innerHTML === "Ręczny") {
+        if (modeButton.innerHTML === tr["MODE_MAUAL"]) {
           mode = true;
-          modeButton.innerHTML = "Automat";
+          modeButton.innerHTML = tr["MODE_AUTO"];
           document
             .querySelector("#mode-buttons")
             .classList.add("Containers-aqua__mode-buttons--active");
@@ -121,7 +146,7 @@ const aqua = async (e) => {
             .querySelector("#settings-aqua")
             .classList.remove("Containers-aqua__settings-aqua--active");
         } else {
-          modeButton.innerHTML = "Ręczny";
+          modeButton.innerHTML = tr["MODE_MAUAL"];
           document
             .querySelector("#mode-buttons")
             .classList.remove("Containers-aqua__mode-buttons--active");
@@ -144,18 +169,18 @@ const aqua = async (e) => {
 
         const modeLedButton = document.querySelector("#mode-button-led");
 
-        modeFluolampButton.innerHTML = data["fluo"] ? "Wyłącz" : "Włącz";
-        modeLedButton.innerHTML = data["led"] ? "Wyłącz" : "Włącz";
+        modeFluolampButton.innerHTML = data["fluo"] ? tr["OFF"] : tr["ON"];
+        modeLedButton.innerHTML = data["led"] ? tr["OFF"] : tr["ON"];
 
         break;
       case "mode-button-fluolamp":
         let valueFluolamp = false;
         const fluolampMode = e.target;
-        if (fluolampMode.innerHTML === "Włącz") {
-          fluolampMode.innerHTML = "Wyłącz";
+        if (fluolampMode.innerHTML === tr["ON"]) {
+          fluolampMode.innerHTML = tr["OFF"];
           valueFluolamp = true;
         } else {
-          fluolampMode.innerHTML = "Włącz";
+          fluolampMode.innerHTML = tr["ON"];
         }
 
         dict = {
@@ -168,11 +193,11 @@ const aqua = async (e) => {
         let valueLed = false;
         const ledMode = e.target;
 
-        if (ledMode.innerHTML === "Włącz") {
-          ledMode.innerHTML = "Wyłącz";
+        if (ledMode.innerHTML === tr["ON"]) {
+          ledMode.innerHTML = tr["OFF"];
           valueLed = true;
         } else {
-          ledMode.innerHTML = "Włącz";
+          ledMode.innerHTML = tr["ON"];
         }
         dict = {
           action: "changeLedState",

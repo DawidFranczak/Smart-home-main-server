@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 import requests
 
 from devices.models import Card
@@ -50,12 +51,12 @@ def add_sensor(data, user):
         answer = requests.post(url, data=message).json()
     except:
         return {
-            'response': "Brak komunikacji z serwerem w domu"
+            'response': _("No communication with home server.")
         }
     if answer["success"]:
         if user.sensor_set.filter(ip=answer["ip"]).exists():
             return {
-                'response': 'Czujnik już dodano'
+                'response': _('Sensor already exists')
             }
 
         sensor = user.sensor_set.create(name=data['name'],
@@ -63,11 +64,11 @@ def add_sensor(data, user):
                                         ip=answer["ip"],
                                         port=port)
         return {
-            'response': 'Udało sie dodać czujnik',
+            'response': _("Successfully added device"),
             'id': sensor.id,
         }
     return {
-        'response': 'Nie udało sie dodać czujnik',
+        'response': _("System failed to add the device"),
     }
 
 
@@ -88,20 +89,20 @@ def add_uid(data, user):
             answer = requests.post(url, data=data).json()
         except:
             return {
-                'response': "Brak komunikacji z serwerem w domu"
+                'response': _("No communication with home server.")
             }
 
         if answer["success"]:
 
             if sensor.card_set.filter(uid=answer["uid"]).exists():
                 return {
-                    'response': 'Ta karta jest już dodana'
+                    'response': _('This card is already exists.')
                 }
 
             card = sensor.card_set.create(uid=answer["uid"], name=name)
             card.save()
             return {
-                'response': 'Udało sie dodać kartę',
+                'response': _('Card addes successfully.'),
                 'id': card.id,
             }
 
@@ -109,7 +110,7 @@ def add_uid(data, user):
         print(e)
     finally:
         return {
-            'response': 'Nie udało dodać się czujnika'
+            'response': _("System failed to add the device"),
         }
 
 
@@ -128,5 +129,5 @@ def delete_sensor(get_data, user):
             user.sensor_set.get(id=sensor).delete()
             response = {'response': 'permission'}
     except:
-        response = {'response': 'Nie udało się usunąć czujnika'}
+        response = {'response': _("Failed deleted device")}
     return response

@@ -1,9 +1,34 @@
+function translation(){
+  const LANG = window.navigator.language;
+  if (LANG === "pl-PL"){
+      let TRANSLATE = {
+          "ON" : "Włącz",
+          "OFF" : "Wyłącz",
+          "MODE_MAUAL" : "Ręczny",
+          "MODE_AUTO" : "Automat",
+          "HOUR_ERROR" : "Brak jednej godziny",
+          "SELECT": "Wybrano ",
+      }
+  return TRANSLATE
+  }else{
+      let TRANSLATE = {
+          "ON" : "ON",
+          "OFF" : "OFF",
+          "MODE_MAUAL" : "Manual",
+          "MODE_AUTO" : "Auto",
+          "HOUR_ERROR" : "Without one hour",
+          "SELECT": "Selected ",
+
+      }
+  return TRANSLATE
+  }
+}
 const selectStairs = async (e) => {
   if (e.target.type != "submit") return;
   document.querySelector("#message").innerHTML = "";
   settings = await fetch(`/api/stairs/${e.target.id}`);
   settings = await settings.json();
-
+  TR = translation()
   document.querySelector("#stairs-error-message").innerHTML = "";
   document.querySelector("#lightingTime").value = settings["lightTime"];
   document.querySelector("#brightness").value = settings["brightness"];
@@ -16,9 +41,9 @@ const selectStairs = async (e) => {
   stairs.classList.add("Stairs-containers--active");
   stairs.addEventListener("click", settingsStairs);
 
-  stairsBtn.innerHTML = settings["mode"] ? "Wyłącz" : "Włącz";
+  stairsBtn.innerHTML = settings["mode"] ? TR["OFF"] : TR["ON"];
 
-  document.querySelector("#mess").innerHTML = `Wybrano ${e.target.innerHTML}`;
+  document.querySelector("#mess").innerHTML = TR["SELECT"] + e.target.innerHTML;
 };
 
 async function settingsStairs(e) {
@@ -39,7 +64,7 @@ async function settingsStairs(e) {
           id: id,
         };
         onOffButton.innerHTML =
-          onOffButton.innerHTML == "Włącz" ? "Wyłącz" : "Włącz";
+          onOffButton.innerHTML == TR["ON"] ? TR["OFF"] : TR["ON"];
         break;
 
       case "step":

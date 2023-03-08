@@ -2,7 +2,6 @@ from django.db.models import Q
 
 from datetime import datetime, timedelta
 from statistics import fmean
-import time
 
 
 def data_for_chart(request, list_place):

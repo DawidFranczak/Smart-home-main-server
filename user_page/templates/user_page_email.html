@@ -1,7 +1,8 @@
+{% load i18n %}
 <form method="post" class="Email-change">
   {% csrf_token %}
-  <h1 class="Email-change__h1">Zmiana emaila</h1>
-  <p class="Email-change__p">Aktualny email</p>
+  <h1 class="Email-change__h1">{% trans "Email change" %}</h1>
+  <p class="Email-change__p">{% trans "Current email" %}</p>
   <p class="Email-change__p">{{old}}</p>
   {% for field in form %}
   <div class="Email-change__div">
@@ -12,5 +13,5 @@
     {{ field.errors }}
   </div>
   {% endfor %}
-  <button type="submit" class="Email-change__submit">Zmień email</button>
+  <button type="submit" class="Email-change__submit">{% trans "Save" %}</button>
 </form>

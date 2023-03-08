@@ -1,7 +1,8 @@
+{% load i18n %}
 <form method="post" class="URL-change">
     {% csrf_token %}
-    <h1 class="URL-change__h1">Zmiana URL</h1>
-    <p class="URL-change__p">Aktualny URL</p>
+    <h1 class="URL-change__h1">{% trans "URL change" %}</h1>
+    <p class="URL-change__p">{% trans "Current URL" %}</p>
     <p class="URL-change__p">{{old}}</p>
     {% for field in form %}
     <div class="URL-change__div">
@@ -12,6 +13,6 @@
       {{ field.errors }}
     </div>
     {% endfor %}
-    <button type="submit" class="URL-change__submit">Zmień URL</button>
+    <button type="submit" class="URL-change__submit">{% trans "Save"%}</button>
   </form>
   

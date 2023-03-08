@@ -1,7 +1,8 @@
+{% load i18n %}
 <form action="" method="post" class="Delete-user">
     {% csrf_token %}
-    <p>Czy aby na pewno chcesz usunąć konto ?</p>
-    <button type="submit" class="Delete-user__submit">Tak, usuń konto</button>
-    <a href="{% url 'home' %}" class="Delete-user__back">Nie, wróć do strony głównej</a>
+    <p>{% trans "Are you sure, you want to delete the account?" %}</p>
+    <button type="submit" class="Delete-user__submit">{% trans "Yes, delete the account." %}</button>
+    <a href="{% url 'home' %}" class="Delete-user__back">{% trans "No, go back to home page" %}</a>
 </form>
 

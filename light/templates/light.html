@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %} Światło {%endblock %}
+{% load i18n %}
+{% block title %} {% trans "Light" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -10,8 +11,8 @@
 />
 <section class="Led-container" id="led-container">
   <div class="Led-container__div-header">
-    <p class="Led-container__div__light-name">Nazwa</p>
-    <p class="Led-container__div__light-state">Status</p>
+    <p class="Led-container__div__light-name">{%trans "Name"%}</p>
+    <p class="Led-container__div__light-state">{%trans "Status"%}</p>
   </div>
   {% for sensor in sensors %}
     <div class="Led-container__div">

@@ -4,44 +4,46 @@ from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 from django import forms
 
+from django.utils.translation import gettext as _
+
 from .models import HomeNavImage
-# from django.utils.translation import gettext as _
 
 
 class ChangePasswordForm(PasswordChangeForm):
     old_password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"class": "Register__div__input"}),
-        label="Podaj aktualne hasło")
+        label=_("Current password"))
 
     new_password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"class": "Register__div__input"}),
-        label="Podaj nowe hasło")
+        label=_("New password"))
 
     new_password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"class": "Register__div__input"}),
-        label="Powtórz nowe hasło")
+        label=_("Repeat new password"))
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")
 
         if not self.user.check_password(old_password):
-            raise forms.ValidationError("Podane hsało jest nieprawidłowe.")
+            raise forms.ValidationError(_("New password is incorrect"))
         return old_password
 
     def clean_new_password1(self):
         new_password1 = self.cleaned_data.get("new_password1")
         if len(new_password1) < 8:
-            raise forms.ValidationError("Hasło jest za krótkie.")
+            raise forms.ValidationError(
+                _("Password is too short. Must have 8 characters"))
         return new_password1
 
     def clean_new_password2(self):
         new_password1 = self.cleaned_data.get("new_password1")
         new_password2 = self.cleaned_data.get("new_password2")
         if new_password1 != new_password2:
-            raise forms.ValidationError("Hasła nie są takie same.")
+            raise forms.ValidationError(_("Passwords isn't this same"))
         return new_password2
 
     class Meta:
@@ -54,7 +56,7 @@ class ChangeEmailForm(forms.Form):
     new_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={"class": "Email__div__input"}),
-        label="Podaj nowego emaila",
+        label=_("New email"),
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -64,7 +66,7 @@ class ChangeEmailForm(forms.Form):
     def clean_new_email(self):
         new_email = self.cleaned_data.get("new_email")
         if User.objects.filter(email=new_email).exists():
-            raise forms.ValidationError("Adres email jest już zajęty")
+            raise forms.ValidationError(_("Email is already exist."))
         return new_email
 
     def save(self, commit=True):
@@ -82,34 +84,34 @@ class ChangeEmailForm(forms.Form):
 
 class ChangeImageForm(forms.Form):
     home = forms.ImageField(
-        label="Zdjęcie domku",
+        label=_("Home icon"),
         required=False)
     rpl = forms.ImageField(
-        label="Zdjęcie grupowania urządzeń",
+        label=_("RPL icon"),
         required=False)
     aquarium = forms.ImageField(
-        label="Zdjęcie akwarium",
+        label=_("Aquarium icon"),
         required=False)
     sunblind = forms.ImageField(
-        label="Zdjęcie rolet",
+        label=_("Sunblind icon"),
         required=False)
     temperature = forms.ImageField(
-        label="Zdjęcie temperatury",
+        label=_("Chart icon"),
         required=False)
     profile = forms.ImageField(
-        label="Zdjęcie ustawień",
+        label=_("Settings icon"),
         required=False)
     light = forms.ImageField(
-        label="Zdjęcie światła",
+        label=_("Light icon"),
         required=False)
     stairs = forms.ImageField(
-        label="Zdjęcie schodów",
+        label=_("Stairs icon"),
         required=False)
     sensor = forms.ImageField(
-        label="Zdjęcie dodawania urządzeń",
+        label=_("Devices icon"),
         required=False)
     logout = forms.ImageField(
-        label="Zdjęcie wylogowywania",
+        label=_("Logout icon"),
         required=False)
 
     IMAGES = ["home", "rpl", "aquarium", "sunblind", "temperature",
@@ -151,10 +153,10 @@ class ChangeImageForm(forms.Form):
 
                 if w > w_max or h > h_max:
                     self.add_error(
-                        name, f"Zdjęcie za duże, powinno mieć {w_max}px na {h_max}px")
+                        name, _(f"Picture is to big, it should has {w_max}px x {h_max}px"))
 
         if self.errors:
-            raise forms.ValidationError("Proszę przesłać zdjęcia jeszcze raz")
+            raise forms.ValidationError(_("Please send images once again."))
 
     def save(self, user):
 
@@ -195,10 +197,10 @@ class ChangeNgrokForm(forms.Form):
         widget=forms.URLInput(
             attrs={"class": "URL__div__input"}
         ),
-        label="Podaj nowy adres URL",
+        label=_("New URL"),
         validators=[
             URLValidator(
-                schemes=["https", "http"], message='Adres powienien zaczynać się od "https"'),
+                schemes=["https", "http"], message=_('URL should start with "https" or "http"')),
         ]
     )
 

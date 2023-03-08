@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from django.utils.translation import gettext as _
 from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,14 +62,13 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 
 ]
 
@@ -133,6 +134,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = False
 
 
@@ -155,8 +158,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "zawierzyciel98@gmail.com"
-EMAIL_HOST_PASSWORD = 'jttxxltcfecaawil'
+EMAIL_HOST_USER = "testowymailsmart.home@gmail.com"
+EMAIL_HOST_PASSWORD = "uyabxfxanjqqhbua"
 # EMAIL_HOST_USER = "testsmarthometest@gmail.com"
 # EMAIL_HOST_PASSWORD = 'cdznyxxgqaivurzw'
 EMAIL_USE_TLS = True
