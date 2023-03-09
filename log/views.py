@@ -23,7 +23,7 @@ def user_register(request):
             return redirect('login')
 
     context = {'form': form}
-    return render(request, 'register.html', context)
+    return render(request, 'register.html', context, status=200)
 
 
 def user_login(request):
@@ -47,7 +47,7 @@ def user_login(request):
             messages.error(request, _("Incorrect name or password."))
             return redirect('login')
 
-    return render(request, 'login.html')
+    return render(request, 'login.html', status=200)
 
 
 def user_logout(request):
@@ -56,7 +56,7 @@ def user_logout(request):
 
 
 def handling_404(request, exception):
-    return render(request, '404.html', {})
+    return render(request, '404.html', {}, status=404)
 
 
 @login_required(login_url='login')
@@ -65,4 +65,4 @@ def home(request):
     nav = request.user.homenavimage
     context = {'image': nav}
 
-    return render(request, 'home.html', context)
+    return render(request, 'home.html', context, status=200)

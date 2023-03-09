@@ -23,7 +23,7 @@ class UserChangePassword(View):
         context = {'action': 'password',
                    'form': ChangePasswordForm(request.user)}
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
         form = self.form_class(request.user, request.POST)
@@ -37,7 +37,7 @@ class UserChangePassword(View):
         context = {'action': 'password',
                    'form': form}
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
 
 class UserChangeEmail(View):
@@ -51,7 +51,7 @@ class UserChangeEmail(View):
                    'form': form,
                    'old': old}
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
         form = self.form_class(request.user, request.POST)
@@ -65,7 +65,7 @@ class UserChangeEmail(View):
         context = {'action': 'email',
                    'form': form,
                    'old': old}
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
 
 class UserChangeNgrok(View):
@@ -81,7 +81,7 @@ class UserChangeNgrok(View):
                    'form': form,
                    'old': old}
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
         form = ChangeNgrokForm(request.user, request.POST)
@@ -95,9 +95,8 @@ class UserChangeNgrok(View):
         context = {'action': 'ngrok',
                    'form': form,
                    'old': old}
-        print(form)
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
 
 class UserChangeImage(View):
@@ -108,7 +107,7 @@ class UserChangeImage(View):
 
         context = {'action': 'image',
                    'form': form}
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
         form = ChangeImageForm(request.user, request.POST, request.FILES)
@@ -122,7 +121,7 @@ class UserChangeImage(View):
 
             context = {'action': 'image',
                        'form': form}
-            return render(request, self.template_name, context)
+            return render(request, self.template_name, context, status=200)
         else:
             form.reset(request.user)
             messages.success(request, _("Images reseted"))

@@ -25,7 +25,7 @@ class RplView(View):
                 'id': button.id,
                 'name': button.name} for button in buttons]}
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
 
@@ -42,7 +42,7 @@ class RplView(View):
             respond = {'rfid': [rfid.id for rfid in rfids if rfid.rfid.lamp == lamp.ip],
                        'btn': [button.id for button in buttons if button.button.lamp == lamp.ip]}
 
-            return JsonResponse(respond)
+            return JsonResponse(respond, status=200)
 
         elif get_data['action'] == 'connect':
 
@@ -90,4 +90,4 @@ class RplView(View):
                 btn.save(update_fields=["lamp"])
 
             message = {'message': _("Connected")}
-            return JsonResponse(message)
+            return JsonResponse(message, status=200)

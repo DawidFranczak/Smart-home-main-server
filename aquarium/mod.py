@@ -111,4 +111,4 @@ def aquarium_contorler(request):
         response = check_aqua_testet(aqua)
     # End simulation
 
-    return {'message': _('Settings updated successfully') if response else _('No connection with aquarium')}
+    return response

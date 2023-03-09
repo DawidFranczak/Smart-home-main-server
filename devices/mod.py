@@ -52,7 +52,8 @@ def add_sensor(data, user):
     except:
         return {
             'response': _("No communication with home server.")
-        }
+        }, 200
+
     if answer["success"]:
         if user.sensor_set.filter(ip=answer["ip"]).exists():
             return {
@@ -66,10 +67,10 @@ def add_sensor(data, user):
         return {
             'response': _("Successfully added device"),
             'id': sensor.id,
-        }
+        }, 201
     return {
         'response': _("System failed to add the device"),
-    }
+    }, 200
 
 
 def add_uid(data, user):
@@ -90,28 +91,28 @@ def add_uid(data, user):
         except:
             return {
                 'response': _("No communication with home server.")
-            }
+            }, 200
 
         if answer["success"]:
 
             if sensor.card_set.filter(uid=answer["uid"]).exists():
                 return {
                     'response': _('This card is already exists.')
-                }
+                }, 200
 
             card = sensor.card_set.create(uid=answer["uid"], name=name)
             card.save()
             return {
                 'response': _('Card addes successfully.'),
                 'id': card.id,
-            }
+            }, 200
 
     except Exception as e:
         print(e)
     finally:
         return {
             'response': _("System failed to add the device"),
-        }
+        }, 200
 
 
 def delete_sensor(get_data, user):
@@ -125,9 +126,14 @@ def delete_sensor(get_data, user):
             card_id = get_data['id'].split(' ')[1]
             Card.objects.get(pk=card_id).delete()
             response = {'response': 'permission'}
+            status = 200
+
         else:
             user.sensor_set.get(id=sensor).delete()
             response = {'response': 'permission'}
+            status = 200
     except:
         response = {'response': _("Failed deleted device")}
-    return response
+        status = 500
+
+    return response, status

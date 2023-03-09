@@ -21,4 +21,9 @@ class AquariumView(View):
 
         response = aquarium_contorler(request)
 
-        return JsonResponse(response)
+        message = _('No connection with aquarium')
+
+        if response:
+            message = _('Settings updated successfully')
+
+        return JsonResponse({'message': message}, status=200)

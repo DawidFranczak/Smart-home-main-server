@@ -44,8 +44,7 @@ class LightView(View):
                     light.light = True
                     response = {'response': "ON"}
                 light.save(update_fields=["light"])
-                print(response)
-                return JsonResponse(response)
+                return JsonResponse(response, status=200)
             # End simulation
-
-            return JsonResponse(change_light(sensor, ngrok))
+            message, status = change_light(sensor, ngrok)
+            return JsonResponse(message, status=status)

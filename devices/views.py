@@ -37,19 +37,22 @@ class DevicesView(View):
             EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
 
             if get_data['fun'] in EXCLUDED_SENSORS:
-                return JsonResponse({'response': _("Sorry, you can't add this type of device in the test version")})
+                return JsonResponse({'response': _("Sorry, you can't add this type of device in the test version")}, status=200)
 
             sensor = request.user.sensor_set.create(name=get_data['name'],
                                                     ip='111.111.111.111',
                                                     port=1234, fun=get_data['fun'])
-            return JsonResponse({'response': _("Device added successfully"), 'id': sensor.id})
+            return JsonResponse({'response': _("Device added successfully"), 'id': sensor.id}, status=200)
         # End simulation
 
         elif get_data['fun'] == 'uid':
-            return JsonResponse(add_uid(get_data, request.user))
+            message, status = add_uid(get_data, request.user)
+            return JsonResponse(message, status=status)
         else:
-            return JsonResponse(add_sensor(get_data, request.user))
+            message, status = add_sensor(get_data, request.user)
+            return JsonResponse(message, status=status)
 
     def delete(self, request):
         get_data = json.loads(request.body)
-        return JsonResponse(delete_sensor(get_data, request.user))
+        message, status = delete_sensor(get_data, request.user)
+        return JsonResponse(message, status=status)

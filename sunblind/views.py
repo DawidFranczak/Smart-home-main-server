@@ -24,7 +24,7 @@ class SunblindView(View):
                         'value': sensor.sunblind.value
                         } for sensor in sensors]
         }
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
@@ -37,7 +37,7 @@ class SunblindView(View):
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save(update_fields=["value"])
-            return JsonResponse(status=200)
+            return JsonResponse(status=204)
         # End simulation
 
         data = {
@@ -49,21 +49,27 @@ class SunblindView(View):
             answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
         except:
             return JsonResponse({'success': False,
-                                 'message': _("No connection home server.")})
+                                 'message': _("No connection home server.")}, status=500)
         # Sending message to microcontroller and waiting on response
+
+        message = _('No connection')
+        status = 500
         if answer:
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
-            sunblind.save()
+            sunblind.save(updated_fiels=["value"])
+            message = ""
+            status = 500
+
         return JsonResponse({'success': answer,
-                             'message': "" if answer else _('No connection')})
+                             'message': message}, status=status)
 
 
 class CalibrationView(View):
     template_name = 'calibration.html'
 
     def get(self, request, pk):
-        return render(request, self.template_name)
+        return render(request, self.template_name, status=200)
 
     def post(self, request, pk):
         sensor = request.user.sensor_set.get(id=pk)

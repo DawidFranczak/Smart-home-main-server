@@ -16,7 +16,7 @@ def change_light(sensor, ngrok):
         try:
             answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
         except:
-            return {'response': _("No nconnection home server.")}
+            return {'response': _("No nconnection home server.")}, 200
 
         answer = answer.json()
         if answer["success"]:
@@ -28,8 +28,8 @@ def change_light(sensor, ngrok):
                 light.light = False
                 response = {'response': "OFF"}
             light.save(update_fields=["light"])
-            return response
+            return response, 200
         else:
-            return {'response': _("No nconnection with lamp")}
+            return {'response': _("No connection with lamp")}, 500
     except:
-        return {'response': _("Unexpected error")}
+        return {'response': _("Unexpected error")}, 500

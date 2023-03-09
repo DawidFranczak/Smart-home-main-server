@@ -58,7 +58,7 @@ class StairsView(View):
         # Control simulation
         if sensor.name == 'tester':
             stairs.save(update_fields=[field])
-            return JsonResponse({'respond': _('Settings updated successfully')})
+            return JsonResponse({'respond': _('Settings updated successfully')}, status=200)
         # End simulation
 
         data = {
@@ -69,9 +69,13 @@ class StairsView(View):
         try:
             answer = requests.put(ngrok+CHANGE_STAIRS, data=data).json()
         except:
-            return JsonResponse({'respond': _("No connection with home server.")})
+            return JsonResponse({'respond': _("No connection with home server.")}, status=500)
+
+        message = {'respond': _('No connection with stairs')}
+        status = 500
 
         if answer:
             stairs.save(update_fields=[field])
-        return JsonResponse({'respond': _('Settings updated successfully')
-                             if answer else _('No connection with stairs')})
+            message = {'respond': _('Settings updated successfully')}
+            status = 200
+        return JsonResponse(message, status=status)
