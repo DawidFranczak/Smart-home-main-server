@@ -30,7 +30,7 @@ def tester_chart_data(user):
     hour = 0
     year = 2023
     # for i in range(50):
-    for j in range(8):
+    for j in range(9):
         for k in range(24):
             try:
                 y = datetime(year, month, day, hour, 0, 0)

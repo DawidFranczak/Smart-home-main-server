@@ -22,7 +22,7 @@ def data_for_chart(request, list_place):
         data_to = str(datetime.strptime(
             data_to[:19], format) + timedelta(days=1))
     else:
-        data_from = datetime.now().date() - timedelta(days=6)
+        data_from = datetime.now().date() - timedelta(days=7)
         data_to = str(datetime.now())
 
     data_average_temp_day = []
