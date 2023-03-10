@@ -1,11 +1,13 @@
 from django.utils.translation import gettext as _
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 import requests
 import json
 
 from app.const import CHANGE_STAIRS
+from devices.models import Sensor
 # Create your views here.
 
 
@@ -22,7 +24,8 @@ class StairsView(View):
     def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
 
-        sensor = request.user.sensor_set.get(pk=get_data['id'])
+        # sensor = request.user.sensor_set.get(pk=get_data['id'])
+        sensor = get_object_or_404(Sensor, pk=get_data['id'])
         stairs = sensor.stairs
         ngrok = request.user.ngrok.ngrok
 

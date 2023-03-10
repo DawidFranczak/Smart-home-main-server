@@ -18,6 +18,8 @@ def user_register(request):
         form = CreateUserForm(request.POST)
 
         if form.is_valid():
+
+            print('form is valid')
             form.save()
             messages.success(request, _("Registration was successful."))
             return redirect('login')

@@ -1,8 +1,11 @@
 from django.utils.translation import gettext as _
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 import json
+
+from devices.models import Sensor
 
 # Create your views here.
 
@@ -15,9 +18,10 @@ class RplView(View):
         lamps = request.user.sensor_set.filter(fun='lamp')
         buttons = request.user.sensor_set.filter(fun='btn')
 
-        context = {'rfids': [{
-            'id': rfid.id,
-            'name': rfid.name} for rfid in rfids],
+        context = {
+            'rfids': [{
+                'id': rfid.id,
+                'name': rfid.name} for rfid in rfids],
             'lamps': [{
                 'id': lamp.id,
                 'name': lamp.name} for lamp in lamps],
@@ -32,6 +36,7 @@ class RplView(View):
         get_data = json.loads(request.body)
 
         if get_data['action'] == 'get':
+
             lamp = request.user.sensor_set.get(pk=get_data['id'])
 
             rfids = request.user.sensor_set.filter(
@@ -46,7 +51,8 @@ class RplView(View):
 
         elif get_data['action'] == 'connect':
 
-            lamp = request.user.sensor_set.get(pk=get_data['lamp'])
+            lamp = get_object_or_404(Sensor, pk=get_data['lamp'])
+            # lamp = request.user.sensor_set.get(pk=get_data['lamp'])
 
             # RFID
             sensors_rfid = request.user.sensor_set.filter(

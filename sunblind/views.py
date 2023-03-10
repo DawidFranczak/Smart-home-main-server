@@ -1,12 +1,13 @@
 from django.utils.translation import gettext as _
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 import requests
 import json
 
 from app.const import MESSAGE_SUNBLIND
-
+from devices.models import Sensor
 # Create your views here.
 
 
@@ -28,7 +29,7 @@ class SunblindView(View):
 
     def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
-        sensor = request.user.sensor_set.get(pk=get_data['id'])
+        sensor = get_object_or_404(Sensor, pk=get_data['id'])
         message = 'set' + str(get_data['value'])
         ngrok = request.user.ngrok.ngrok
 
@@ -37,7 +38,7 @@ class SunblindView(View):
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save(update_fields=["value"])
-            return JsonResponse(status=204)
+            return JsonResponse({}, status=204)
         # End simulation
 
         data = {
@@ -49,17 +50,17 @@ class SunblindView(View):
             answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
         except:
             return JsonResponse({'success': False,
-                                 'message': _("No connection home server.")}, status=500)
+                                 'message': _("No connection home server.")}, status=504)
         # Sending message to microcontroller and waiting on response
 
         message = _('No connection')
-        status = 500
+        status = 504
         if answer:
             sunblind = sensor.sunblind
             sunblind.value = get_data['value']
             sunblind.save(updated_fiels=["value"])
             message = ""
-            status = 500
+            status = 504
 
         return JsonResponse({'success': answer,
                              'message': message}, status=status)
@@ -69,10 +70,12 @@ class CalibrationView(View):
     template_name = 'calibration.html'
 
     def get(self, request, pk):
+        get_object_or_404(Sensor, pk=pk)
         return render(request, self.template_name, status=200)
 
     def post(self, request, pk):
-        sensor = request.user.sensor_set.get(id=pk)
+
+        sensor = get_object_or_404(Sensor, pk=pk)
         ngrok = request.user.ngrok.ngrok
 
         # Sending 'up', 'down' or 'stop' message to microcontroller
@@ -90,6 +93,7 @@ class CalibrationView(View):
                 sunblind = sensor.sunblind
                 sunblind.value = 100
                 sunblind.save(update_fields=["value"])
+                answer = True
 
         # Ending calibration, set value to 100 and save in database
         if get_data['action'] == 'end' and answer:
