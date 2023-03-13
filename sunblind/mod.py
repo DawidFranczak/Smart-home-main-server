@@ -12,19 +12,18 @@ def sunblind_move(ngrok, sensor, get_data):
         "port": sensor.port,
     }
     try:
-        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
+        answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data)
+
     except:
         message = {
-            'success': False,
             'message': _("No connection home server.")
         }
         status = 504
         return message, status
-    # Sending message to microcontroller and waiting on response
 
-    message = _('No connection')
+    message = {'message': _('No connection')}
     status = 504
-    if answer:
+    if answer.status_code == 200:
         sunblind = sensor.sunblind
         sunblind.value = get_data['value']
         sunblind.save(updated_fiels=["value"])

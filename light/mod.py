@@ -16,11 +16,12 @@ def change_light(sensor, ngrok):
         try:
             answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
         except:
-            return {'response': _("No nconnection home server.")}, 504
+            return {'response': _("No connection home server.")}, 504
 
-        answer = answer.json()
-        if answer["success"]:
+        if answer.status_code == 200:
+            answer = answer.json()
             light = sensor.light
+
             if answer["result"] == 'ON':
                 light.light = True
                 response = {'response': "ON"}

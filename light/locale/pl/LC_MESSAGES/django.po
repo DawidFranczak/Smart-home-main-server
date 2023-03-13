@@ -21,11 +21,11 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: light/mod.py:19
-msgid "No nconnection home server."
+msgid "No connection home server."
 msgstr "Brak komunikacji z serwerem w domu"
 
 #: light/mod.py:33
-msgid "No nconnection with lamp"
+msgid "No connection with lamp"
 msgstr "Brak połączenia z lampą"
 
 #: light/mod.py:35
