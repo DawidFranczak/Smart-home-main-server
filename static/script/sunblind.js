@@ -16,6 +16,7 @@ const sunblind = async (e) => {
           id: slider.placeholder,
         };
         let rep = await sendData("POST", dict);
+        rep = await rep.json()
         if (!rep["success"]) {
           sunblindValue.innerHTML = rep["message"];
           sunblindValue.classList.add(

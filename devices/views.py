@@ -5,7 +5,7 @@ from django.views import View
 
 import json
 
-from .mod import add_uid, add_sensor, delete_sensor
+from .mod import add_uid, add_sensor, delete_sensor, add_sensor_tester
 
 
 class DevicesView(View):
@@ -32,25 +32,19 @@ class DevicesView(View):
 
     def post(self, request):
         get_data = json.loads(request.body)
+
         # Simulation adding sensors
         if get_data['name'] == 'tester':
-            EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
-
-            if get_data['fun'] in EXCLUDED_SENSORS:
-                return JsonResponse({'response': _("Sorry, you can't add this type of device in the test version")}, status=417)
-
-            sensor = request.user.sensor_set.create(name=get_data['name'],
-                                                    ip='111.111.111.111',
-                                                    port=1234, fun=get_data['fun'])
-            return JsonResponse({'response': _("Device added successfully"), 'id': sensor.id}, status=201)
+            message, status = add_sensor_tester(get_data, request)
+            return JsonResponse(message, status=status)
         # End simulation
 
-        elif get_data['fun'] == 'uid':
+        if get_data['fun'] == 'uid':
             message, status = add_uid(get_data, request.user)
-            return JsonResponse(message, status=status)
         else:
             message, status = add_sensor(get_data, request.user)
-            return JsonResponse(message, status=status)
+
+        return JsonResponse(message, status=status)
 
     def delete(self, request):
         get_data = json.loads(request.body)

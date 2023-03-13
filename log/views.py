@@ -1,71 +1,70 @@
-from django.utils.translation import gettext as _
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm
-from .models import *
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.views import View
 
+from .forms import CreateUserForm
 
 # Create your views here.
 
 
-def user_register(request):
-    form = CreateUserForm()
-
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-
-        if form.is_valid():
-
-            print('form is valid')
-            form.save()
-            messages.success(request, _("Registration was successful."))
-            return redirect('login')
-
-    context = {'form': form}
-    return render(request, 'register.html', context, status=200)
+class UserRegister(SuccessMessageMixin, CreateView):
+    model = User
+    form_class = CreateUserForm
+    template_name = 'register.html'
+    success_url = '/zaloguj/'
+    success_message = _("Registration was successful.")
 
 
-def user_login(request):
-    if request.method == 'POST':
+class UserLogin(View):
+    template = 'login.html'
+
+    def get(self, request):
+        return render(request, self.template, status=200)
+
+    def post(self, request):
+
         username = request.POST.get('username')
         password = request.POST.get('password')
+
         if username == "" or password == "":
             messages.error(request, _('Please fill all fields.'))
-            return redirect('login')
+            return render(request, self.template, status=404)
 
-        if User.objects.filter(username=username).exists():
-            user = authenticate(request, username=username, password=password)
-        else:
+        if not User.objects.filter(username=username).exists():
             messages.error(request, _("User doesn't exists."))
-            return redirect('login')
+            return render(request, self.template, status=404)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
             messages.error(request, _("Incorrect name or password."))
-            return redirect('login')
+            return render(request, self.template, status=401)
 
-    return render(request, 'login.html', status=200)
+        login(request, user)
+        return redirect('home')
 
 
-def user_logout(request):
-    logout(request)
-    return redirect('login')
+class Home(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['image'] = self.request.user.homenavimage
+        return context
+
+
+class UserLogout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')
 
 
 def handling_404(request, exception):
     print(exception)
     return render(request, '404.html', {}, status=404)
-
-
-@login_required(login_url='login')
-def home(request):
-
-    nav = request.user.homenavimage
-    context = {'image': nav}
-
-    return render(request, 'home.html', context, status=200)

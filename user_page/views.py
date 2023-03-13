@@ -2,8 +2,13 @@ from django.views import View
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.utils.translation import gettext as _
+from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
+from log.models import Ngrok
+from .models import HomeNavImage
 
 from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm, ChangeNgrokForm
 
@@ -15,6 +20,7 @@ class UserPage(TemplateView):
 
 
 class UserChangePassword(View):
+
     template_name = 'user_page.html'
     form_class = ChangePasswordForm
 
@@ -40,103 +46,72 @@ class UserChangePassword(View):
         return render(request, self.template_name, context, status=200)
 
 
-class UserChangeEmail(View):
-    template_name = 'user_page.html'
+class UserChangeEmail(SuccessMessageMixin, UpdateView):
+    model = User
+    success_message = _("Email successfully updated")
     form_class = ChangeEmailForm
-
-    def get(self, request):
-        form = self.form_class(request.user)
-        old = request.user.email
-        context = {'action': 'email',
-                   'form': form,
-                   'old': old}
-
-        return render(request, self.template_name, context, status=200)
-
-    def post(self, request):
-        form = self.form_class(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request, _("Email successfully updated"))
-            return redirect('user_page')
-
-        old = request.user.email
-        context = {'action': 'email',
-                   'form': form,
-                   'old': old}
-        return render(request, self.template_name, context, status=200)
-
-
-class UserChangeNgrok(View):
+    success_url = '/ustawienia/'
     template_name = 'user_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'email'
+        return context
+
+
+class UserChangeNgrok(SuccessMessageMixin, UpdateView):
+    model = Ngrok
     form_class = ChangeNgrokForm
+    success_url = '/ustawienia/'
+    template_name = 'user_page.html'
+    success_message = _("URL successfully updated")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'ngrok'
+        return context
+
+
+class UserChangeImage(SuccessMessageMixin, UpdateView):
+    template_name = 'user_page.html'
+    model = HomeNavImage
+    form_class = ChangeImageForm
+    success_url = '/ustawienia/'
+    success_message = _("Image(s) sccessfully updated")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'image'
+        return context
+
+
+class UserChangeImageReset(View):
 
     def get(self, request):
-        form = self.form_class(request.user)
+        user_image = request.user.homenavimage
+        user_image.home = "images/home.png"
+        user_image.rpl = "images/rfid.png"
+        user_image.aquarium = "images/aqua.png"
+        user_image.sunblind = "images/sunblind.png"
+        user_image.temperature = "images/temp.png"
+        user_image.profile = "images/user.png"
+        user_image.light = "images/lamp.png"
+        user_image.stairs = "images/stairs.png"
+        user_image.sensor = "images/sensor.png"
+        user_image.logout = "images/logout.png"
+        user_image.save()
+        messages.success(request, _("Images reseted"))
 
-        old = request.user.ngrok.ngrok
-
-        context = {'action': 'ngrok',
-                   'form': form,
-                   'old': old}
-
-        return render(request, self.template_name, context, status=200)
-
-    def post(self, request):
-        form = ChangeNgrokForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _("URL successfully updated"))
-            return redirect('user_page')
-
-        old = request.user.ngrok.ngrok
-        form = ChangeNgrokForm(request.user, request.POST)
-        context = {'action': 'ngrok',
-                   'form': form,
-                   'old': old}
-
-        return render(request, self.template_name, context, status=200)
+        return redirect('user_page')
 
 
-class UserChangeImage(View):
+class UserDelete(SuccessMessageMixin, DeleteView):
+    model = User
+    success_message = _("Account has deleted")
+    success_url = '/zaloguj/'
     template_name = 'user_page.html'
 
-    def get(self, request):
-        form = ChangeImageForm(request.user)
-
-        context = {'action': 'image',
-                   'form': form}
-        return render(request, self.template_name, context, status=200)
-
-    def post(self, request):
-        form = ChangeImageForm(request.user, request.POST, request.FILES)
-
-        if request.POST.get('save') is not None:
-
-            if form.is_valid():
-                form.save(request.user)
-                messages.success(request, _("Image(s) sccessfully updated"))
-                return redirect('user_page')
-
-            context = {'action': 'image',
-                       'form': form}
-            return render(request, self.template_name, context, status=200)
-        else:
-            form.reset(request.user)
-            messages.success(request, _("Images reseted"))
-            return redirect('user_page')
-
-
-class UserDelete(View):
-    template_name = 'user_page.html'
-
-    def get(self, request):
-        context = {'action': 'delete'}
-
-        return render(request, self.template_name, context)
-
-    def post(self, request):
-        request.user.delete()
-        messages.success(request, _("Account has deleted"))
-        return redirect('login')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'delete'
+        return context

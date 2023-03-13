@@ -20,12 +20,7 @@ async function sendData(method, _dict) {
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
     body: JSON.stringify(_dict),
   });
-  return await data
-    .json()
-    .then((data) => {
-      return data;
-    })
-    .catch((e) => {});
+  return  data
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////

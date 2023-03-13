@@ -106,7 +106,8 @@ async function settingsStairs(e) {
         };
         break;
     }
-    const respond = await sendData("POST", dict);
+    let respond = await sendData("POST", dict);
+    respond = await respond.json();
     document.querySelector("#message").innerHTML = respond["respond"];
   }
 }

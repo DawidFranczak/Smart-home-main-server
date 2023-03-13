@@ -55,7 +55,7 @@ def check(sensor, ngrok) -> bool:
     return success
 
 
-def aquarium_contorler(request):
+def aquarium_contorler(request) -> bool:
 
     get_data = json.loads(request.body)
     sensor = request.user.sensor_set.get(pk=get_data['id'])

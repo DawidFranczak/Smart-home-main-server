@@ -8,6 +8,7 @@ import json
 
 from app.const import MESSAGE_SUNBLIND
 from devices.models import Sensor
+from .mod import sunblind_move, sunblind_move_tester, sunblind_calibrations, sunblind_calibrations_tester
 # Create your views here.
 
 
@@ -19,51 +20,29 @@ class SunblindView(View):
         sensors = request.user.sensor_set.filter(fun='sunblind')
 
         context = {
-            'sensors': [{
-                        'id': sensor.id,
-                        'name': sensor.name,
-                        'value': sensor.sunblind.value
-                        } for sensor in sensors]
+            'sensors': [
+                {
+                    'id': sensor.id,
+                    'name': sensor.name,
+                    'value': sensor.sunblind.value
+                }
+                for sensor in sensors]
         }
         return render(request, self.template_name, context, status=200)
 
     def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
         sensor = get_object_or_404(Sensor, pk=get_data['id'])
-        message = 'set' + str(get_data['value'])
         ngrok = request.user.ngrok.ngrok
 
         # Simulation sunblind
         if sensor.name == 'tester':
-            sunblind = sensor.sunblind
-            sunblind.value = get_data['value']
-            sunblind.save(update_fields=["value"])
+            sunblind_move_tester(sensor, get_data)
             return JsonResponse({}, status=204)
         # End simulation
 
-        data = {
-            "message": message,
-            "ip": sensor.ip,
-            "port": sensor.port,
-        }
-        try:
-            answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
-        except:
-            return JsonResponse({'success': False,
-                                 'message': _("No connection home server.")}, status=504)
-        # Sending message to microcontroller and waiting on response
-
-        message = _('No connection')
-        status = 504
-        if answer:
-            sunblind = sensor.sunblind
-            sunblind.value = get_data['value']
-            sunblind.save(updated_fiels=["value"])
-            message = ""
-            status = 504
-
-        return JsonResponse({'success': answer,
-                             'message': message}, status=status)
+        message, status = sunblind_move(ngrok, sensor, get_data)
+        return JsonResponse(message, status=status)
 
 
 class CalibrationView(View):
@@ -80,26 +59,13 @@ class CalibrationView(View):
 
         # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
-        data = {
-            "message": get_data['action'],
-            "ip": sensor.ip,
-            "port": sensor.port,
-        }
-        try:
-            answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data).json()
-        except:
 
-            if sensor.name == "tester":
-                sunblind = sensor.sunblind
-                sunblind.value = 100
-                sunblind.save(update_fields=["value"])
-                answer = True
+        # Simulation calibration
+        if sensor.name == "tester":
+            sunblind_calibrations_tester(sensor)
+            return JsonResponse(status=200, data={'success': True})
+        # End simulation
 
-        # Ending calibration, set value to 100 and save in database
-        if get_data['action'] == 'end' and answer:
+        answer, status = sunblind_calibrations(ngrok, sensor, get_data)
 
-            sunblind = sensor.sunblind
-            sunblind.value = 100
-            sunblind.save(update_fields=["value"])
-
-        return JsonResponse(status=200, data={'success': answer, })
+        return JsonResponse(status=status, data={'success': answer, })

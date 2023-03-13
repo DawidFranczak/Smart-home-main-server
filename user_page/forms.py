@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 from django import forms
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from .models import HomeNavImage
+from log.models import Ngrok
 
 
 class ChangePasswordForm(PasswordChangeForm):
@@ -51,38 +52,30 @@ class ChangePasswordForm(PasswordChangeForm):
         fields = ["old_password", "new_password1", "new_password2"]
 
 
-class ChangeEmailForm(forms.Form):
+class ChangeEmailForm(forms.ModelForm):
 
-    new_email = forms.EmailField(
+    email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={"class": "Email__div__input"}),
         label=_("New email"),
     )
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super().__init__(*args, **kwargs)
+    # def __init__(self, user, *args, **kwargs):
+    #     self.user = user
+    #     super().__init__(*args, **kwargs)
 
-    def clean_new_email(self):
-        new_email = self.cleaned_data.get("new_email")
-        if User.objects.filter(email=new_email).exists():
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
             raise forms.ValidationError(_("Email is already exist."))
-        return new_email
-
-    def save(self, commit=True):
-        new_email = self.cleaned_data.get("new_email")
-        user = User.objects.get(email=self.user.email)
-        user.email = new_email
-        if commit:
-            user.save(update_fields=["email"])
-        return self.user
+        return email
 
     class Meta:
         model = User
         fields = ["email"]
 
 
-class ChangeImageForm(forms.Form):
+class ChangeImageForm(forms.ModelForm):
     home = forms.ImageField(
         label=_("Home icon"),
         required=False)
@@ -117,40 +110,19 @@ class ChangeImageForm(forms.Form):
     IMAGES = ["home", "rpl", "aquarium", "sunblind", "temperature",
               "profile", "light", "stairs", "sensor", "logout"]
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super().__init__(*args, **kwargs)
-
-    def reset(self, user):
-
-        user_image = user.homenavimage
-        user_image.home = "images/home.png"
-        user_image.rpl = "images/rfid.png"
-        user_image.aquarium = "images/aqua.png"
-        user_image.sunblind = "images/sunblind.png"
-        user_image.temperature = "images/temp.png"
-        user_image.profile = "images/user.png"
-        user_image.light = "images/lamp.png"
-        user_image.stairs = "images/stairs.png"
-        user_image.sensor = "images/sensor.png"
-        user_image.logout = "images/logout.png"
-        user_image.save()
-
-        return self.user
-
     def clean(self):
         IMAGES = ["home", "rpl", "aquarium", "sunblind", "temperature",
                   "profile", "light", "stairs", "sensor", "logout"]
 
         cleaned_data = super().clean()
         for name in IMAGES:
+            print(cleaned_data[name])
             if cleaned_data[name] is not None:
                 image = cleaned_data.get(name)
                 w, h = get_image_dimensions(image)
 
-                w_max = 600 if name == "home" else 400
-                h_max = 600 if name == "home" else 400
-
+                w_max = 1000
+                h_max = 1000
                 if w > w_max or h > h_max:
                     self.add_error(
                         name, _(f"Picture is to big, it should has {w_max}px x {h_max}px"))
@@ -158,44 +130,18 @@ class ChangeImageForm(forms.Form):
         if self.errors:
             raise forms.ValidationError(_("Please send images once again."))
 
-    def save(self, user):
-
-        user_image = user.homenavimage
-
-        if self.cleaned_data.get("home") is not None:
-            user_image.home = self.cleaned_data.get("home")
-        if self.cleaned_data.get("rpl") is not None:
-            user_image.rpl = self.cleaned_data.get("rpl")
-        if self.cleaned_data.get("aquarium") is not None:
-            user_image.aquarium = self.cleaned_data.get("aquarium")
-        if self.cleaned_data.get("sunblind") is not None:
-            user_image.sunblind = self.cleaned_data.get("sunblind")
-        if self.cleaned_data.get("temperature") is not None:
-            user_image.temperature = self.cleaned_data.get("temperature")
-        if self.cleaned_data.get("profile") is not None:
-            user_image.profile = self.cleaned_data.get("profile")
-        if self.cleaned_data.get("light") is not None:
-            user_image.light = self.cleaned_data.get("light")
-        if self.cleaned_data.get("stairs") is not None:
-            user_image.stairs = self.cleaned_data.get("stairs")
-        if self.cleaned_data.get("sensor") is not None:
-            user_image.sensor = self.cleaned_data.get("sensor")
-        if self.cleaned_data.get("logout") is not None:
-            user_image.logout = self.cleaned_data.get("logout")
-
-        user_image.save()
-        return self.user
-
     class Meta:
         model = HomeNavImage
-        fields = "__all__"
+        exclude = ['user']
 
 
-class ChangeNgrokForm(forms.Form):
+class ChangeNgrokForm(forms.ModelForm):
 
-    new_link = forms.URLField(
+    ngrok = forms.URLField(
         widget=forms.URLInput(
-            attrs={"class": "URL__div__input"}
+            attrs={
+                "class": "URL__div__input"
+            }
         ),
         label=_("New URL"),
         validators=[
@@ -204,15 +150,12 @@ class ChangeNgrokForm(forms.Form):
         ]
     )
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["new_link"].error_messages = {"validators": {
+        self.fields["ngrok"].error_messages = {"validators": {
             "URLValidator": "Czemu to musi być 2 razy napisane ? "
         }}
 
-    def save(self):
-        new_link = self.cleaned_data.get("new_link")
-        self.user.ngrok.ngrok = new_link
-        self.user.ngrok.save(update_fields=["ngrok"])
-        return self.user
+    class Meta:
+        model = Ngrok
+        fields = ['ngrok']

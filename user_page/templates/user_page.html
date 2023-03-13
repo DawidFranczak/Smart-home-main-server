@@ -11,14 +11,14 @@
 />
 <section class="Nav__profil" id="profil-buttons">
   <a class="Nav__profil__a" href="{% url 'user_change_password'%}">{% trans "Change passowrd"%}</a>
-  <a class="Nav__profil__a" href="{% url 'user_change_email'%}">{% trans "Change email" %}</a>
-  <a class="Nav__profil__a" href="{% url 'user_change_image'%}">
+  <a class="Nav__profil__a" href="{% url 'user_change_email' user.id %}">{% trans "Change email" %}</a>
+  <a class="Nav__profil__a" href="{% url 'user_change_image' user.id%}">
     {% trans "Change icons on home page" %}
   </a>
-  <a class="Nav__profil__a" href="{% url 'user_delete'%}">
+  <a class="Nav__profil__a" href="{% url 'user_delete' user.id%}">
     {% trans "Delete account" %}
     </a>
-  <a class="Nav__profil__a" href="{% url 'user_change_url'%}">
+  <a class="Nav__profil__a" href="{% url 'user_change_url' user.ngrok.id%}">
     {% trans "Change URL" %}
     </a>
 </section>

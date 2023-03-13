@@ -31,10 +31,10 @@ class TestRplView(TransactionTestCase):
         lamp_id = self.user.sensor_set.filter(fun='lamp')[0].id
         data = {
             'action': 'get',
-            'id': lamp_id
+            'id': lamp_id,
         }
 
-        response = self.client.post(
+        response = self.client.get(
             self.rpl_url, data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -49,6 +49,6 @@ class TestRplView(TransactionTestCase):
             'btns': [button_id],
         }
 
-        response = self.client.post(
+        response = self.client.put(
             self.rpl_url, data, content_type='application/json')
         self.assertEqual(response.status_code, 200)

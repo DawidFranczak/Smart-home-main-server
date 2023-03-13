@@ -48,6 +48,9 @@ h1 {
 }
 .Register__div {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Register__div__label {
   font-size: 1em;

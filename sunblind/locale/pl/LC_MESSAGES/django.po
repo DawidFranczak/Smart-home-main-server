@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-08 10:33+0100\n"
+"POT-Creation-Date: 2023-03-13 17:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,53 +20,53 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: sunblind/templates/calibration.html:4 sunblind/templates/sunblind.html:12
-#: sunblind/templates/sunblind.html:21
+#: mod.py:19
+msgid "No connection home server."
+msgstr "Brak połączenia"
+
+#: mod.py:25
+msgid "No connection"
+msgstr "Brak połączenia"
+
+#: templates/calibration.html:4 templates/sunblind.html:12
+#: templates/sunblind.html:21
 msgid "Calibration"
 msgstr "Kalibracja"
 
-#: sunblind/templates/calibration.html:21
+#: templates/calibration.html:21
 msgid "Save"
 msgstr "Zapisz"
 
-#: sunblind/templates/calibration.html:29
+#: templates/calibration.html:29
 msgid "Yes"
 msgstr "Tak"
 
-#: sunblind/templates/calibration.html:31
+#: templates/calibration.html:31
 msgid "No"
 msgstr "Nie"
 
-#: sunblind/templates/calibration.html:35
+#: templates/calibration.html:35
 msgid ""
-"We start the calibration, please open the blind and press the \"Save\" "
+"During the calibration process, please open the sunblind and press \"save\" "
 "button"
 msgstr ""
 "Zaczynamy kalibrację, proszę rozsuń roletę oraz naciśnij przycisk \"Zapisz\""
 
-#: sunblind/templates/sunblind.html:4
+#: templates/sunblind.html:4
 msgid "Sunblind"
 msgstr "Roleta"
 
-msgid "Sunblinds"
-msgstr "Rolety"
-
-#: sunblind/templates/sunblind.html:15
+#: templates/sunblind.html:15
 msgid "Name"
 msgstr "Nazwa"
 
-#: sunblind/templates/sunblind.html:16
+#: templates/sunblind.html:16
 msgid "Slider"
 msgstr "Suwak"
 
-#: sunblind/templates/sunblind.html:43
+#: templates/sunblind.html:43
 msgid "Calibrate"
 msgstr "Kalibruj"
 
-#: sunblind/views.py:51
-msgid "No connection home server."
-msgstr "Brak połączenia z serverem w domu"
-
-#: sunblind/views.py:58
-msgid "No connection"
-msgstr "Brak połączenia"
+#~ msgid "Sunblinds"
+#~ msgstr "Rolety"

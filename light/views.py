@@ -1,12 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 import json
 
-from .mod import change_light
-from devices.models import Sensor
 from app.const import CHANGE_LIGHT
+from devices.models import Sensor
+from .mod import change_light, change_light_tester
 # Create your views here.
 
 
@@ -25,7 +25,7 @@ class LightView(View):
             ]
         }
 
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request):
         get_data = json.loads(request.body)
@@ -37,16 +37,9 @@ class LightView(View):
 
             # Simulation turn on/off light
             if sensor.name == 'tester':
-                light = sensor.light
-                if light.light:
-                    light.light = False
-                    response = {'response': "OFF"}
-
-                else:
-                    light.light = True
-                    response = {'response': "ON"}
-                light.save(update_fields=["light"])
-                return JsonResponse(response, status=200)
+                message = change_light_tester(sensor)
+                return JsonResponse(message, status=200)
             # End simulation
+
             message, status = change_light(sensor, ngrok)
             return JsonResponse(message, status=status)

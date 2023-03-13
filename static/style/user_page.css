@@ -78,7 +78,7 @@
 .Email-change__submit,
 .Password-change__submit {
   font-size: 1em;
-  width: 8em;
+  width: 10em;
   background: none;
   border-radius: 15px;
   border-color: rgba(0, 0, 0, 0.2);
@@ -149,4 +149,9 @@
 .Email-change__submit:hover::before,
 .Password-change__submit:hover::before {
   transform: scaleX(1);
+}
+
+.small{
+  width: 10em;
+
 }

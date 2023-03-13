@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-08 10:33+0100\n"
+"POT-Creation-Date: 2023-03-13 10:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,87 +20,86 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: log/forms.py:14
+#: forms.py:14
 msgid "Login*"
 msgstr "Login*"
 
-#: log/forms.py:24
+#: forms.py:24
 msgid "Password*"
 msgstr "Hasło*"
 
-#: log/forms.py:32
+#: forms.py:32
 msgid "Repeat password*"
 msgstr "Powtórz hasło*"
 
-#: log/forms.py:39
+#: forms.py:39
 msgid "Email*"
 msgstr "Email*"
 
-#: log/forms.py:47
+#: forms.py:47
 msgid "Name"
 msgstr "Imię"
 
-#: log/forms.py:55
+#: forms.py:55
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: log/forms.py:65
+#: forms.py:65
 msgid "User is already exists."
 msgstr "Użytkownik już istenieje"
 
-#: log/forms.py:72
+#: forms.py:72
 msgid "Password is too short. Must have 8 characters"
 msgstr "Hasło jest za krótkie. Musi mieć co najmniej 8 zaków"
 
-#: log/forms.py:79
+#: forms.py:79
 msgid "Passwords isn't this same"
 msgstr "Hasła nie są takie same"
 
-#: log/forms.py:85
+#: forms.py:85
 msgid "Email is already exists"
 msgstr "Email juz istnieje"
 
-#: log/templates/home.html:4
+#: templates/home.html:4
 msgid "Home"
 msgstr "Dom"
 
-#: log/templates/login.html:4 log/templates/login.html:13
-#: log/templates/login.html:24 log/templates/login.html:37
+#: templates/login.html:4 templates/login.html:13 templates/login.html:24
+#: templates/login.html:37
 msgid "Login"
 msgstr "Login"
 
-#: log/templates/login.html:34
+#: templates/login.html:34
 msgid "Passowrd"
 msgstr "Hasło"
 
-#: log/templates/login.html:40 log/templates/register.html:4
-#: log/templates/register.html:15
+#: templates/login.html:40 templates/register.html:4 templates/register.html:15
 msgid "Registration"
 msgstr "Rejestracja"
 
-#: log/templates/login.html:54
+#: templates/login.html:54
 msgid "Forgot password?"
 msgstr "Zaponiałeś hasła?"
 
-#: log/templates/register.html:25
+#: templates/register.html:25
 msgid "Sign up"
 msgstr "Zarejestruj się"
 
-#: log/views.py:22
+#: views.py:22
 msgid "Registration was successful."
 msgstr "Rejestracja przebiegła pomyslnie"
 
-#: log/views.py:34
+#: views.py:58
 msgid "Please fill all fields."
 msgstr "Prosz wypełnić wszytskie pola"
 
-#: log/views.py:40
+#: views.py:62
 msgid "User doesn't exists."
 msgstr "Użytkownik nie istenieje"
 
-#: log/views.py:47
+#: views.py:68
 msgid "Incorrect name or password."
 msgstr "Nieprawidłowa nazwa lub hasło"
 
-msgid "Logout"
-msgstr "Wyloguj"
+#~ msgid "Logout"
+#~ msgstr "Wyloguj"

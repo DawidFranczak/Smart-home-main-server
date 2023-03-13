@@ -159,12 +159,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "testowymailsmart.home@gmail.com"
-EMAIL_HOST_PASSWORD = "uyabxfxanjqqhbua"
-# EMAIL_HOST_USER = "testsmarthometest@gmail.com"
-# EMAIL_HOST_PASSWORD = 'cdznyxxgqaivurzw'
+EMAIL_HOST_PASSWORD = "lwedjoivpwwhtqre"
 EMAIL_USE_TLS = True
 # /////////////////////////////////
-
 
 INTERNAL_IPS = [
     "127.0.0.1",

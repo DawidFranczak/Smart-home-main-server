@@ -3,7 +3,7 @@
   {% csrf_token %}
   <h1 class="Email-change__h1">{% trans "Email change" %}</h1>
   <p class="Email-change__p">{% trans "Current email" %}</p>
-  <p class="Email-change__p">{{old}}</p>
+  <p class="Email-change__p">{{user.email}}</p>
   {% for field in form %}
   <div class="Email-change__div">
     <label for="id_{{field.name}}" class="Email-change__div__label">
@@ -14,4 +14,5 @@
   </div>
   {% endfor %}
   <button type="submit" class="Email-change__submit">{% trans "Save" %}</button>
+  {{action2}}
 </form>

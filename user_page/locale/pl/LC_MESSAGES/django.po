@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-08 10:33+0100\n"
+"POT-Creation-Date: 2023-03-13 13:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,132 +20,127 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: user_page/forms.py:16
+#: forms.py:16
 #, fuzzy
 #| msgid "Reset password"
 msgid "Current password"
 msgstr "Reset hasła"
 
-#: user_page/forms.py:21
+#: forms.py:21
 #, fuzzy
 #| msgid "Reset password"
 msgid "New password"
 msgstr "Reset hasła"
 
-#: user_page/forms.py:26
+#: forms.py:26
 msgid "Repeat new password"
 msgstr "Reset hasła"
 
-#: user_page/forms.py:32
+#: forms.py:32
 msgid "New password is incorrect"
 msgstr "Nowe hasło jest nieprawidłowe"
 
-#: user_page/forms.py:39
+#: forms.py:39
 msgid "Password is too short. Must have 8 characters"
 msgstr "Hsło za krótkie. Powinno mieć co najmniej 8 znaków"
 
-#: user_page/forms.py:46
+#: forms.py:46
 msgid "Passwords isn't this same"
 msgstr "Hasła nie są takie same"
 
-#: user_page/forms.py:59
+#: forms.py:59
 msgid "New email"
-msgstr "nowy email"
+msgstr "Nowy email"
 
-#: user_page/forms.py:69
+#: forms.py:69
 msgid "Email is already exist."
 msgstr "Email jest już zajęty"
 
-#: user_page/forms.py:87
+#: forms.py:79
 msgid "Home icon"
 msgstr "Ikona domku"
 
-#: user_page/forms.py:90
+#: forms.py:82
 msgid "RPL icon"
 msgstr "Ikona RPL"
 
-#: user_page/forms.py:93
+#: forms.py:85
 msgid "Aquarium icon"
 msgstr "Ikona akwarium"
 
-#: user_page/forms.py:96
+#: forms.py:88
 msgid "Sunblind icon"
 msgstr "Ikona rolety"
 
-#: user_page/forms.py:99
+#: forms.py:91
 msgid "Chart icon"
 msgstr "Ikona wykresu"
 
-#: user_page/forms.py:102
+#: forms.py:94
 msgid "Settings icon"
 msgstr "Ikona ustawien"
 
-#: user_page/forms.py:105
+#: forms.py:97
 msgid "Light icon"
 msgstr "Ikona światła"
 
-#: user_page/forms.py:108
+#: forms.py:100
 msgid "Stairs icon"
 msgstr "Ikona schodów"
 
-#: user_page/forms.py:111
+#: forms.py:103
 msgid "Devices icon"
 msgstr "Ikona urządzeń"
 
-#: user_page/forms.py:114
+#: forms.py:106
 msgid "Logout icon"
 msgstr "Ikona wylogowywania"
 
-#: user_page/forms.py:156
-#, python-brace-format
-msgid "Icon is to big, it should has {w_max}px x {h_max}px"
+#: forms.py:148
+msgid "Picture is to big, it should has {w_max}px x {h_max}px"
 msgstr "Ikona jest za duża, powinna mieć {w_max}px x {h_max}px"
 
-#: user_page/forms.py:159
+#: forms.py:151
 msgid "Please send images once again."
 msgstr "Prosze przesłac ikony jeszcze raz"
 
-#: user_page/forms.py:200
+#: forms.py:192
 msgid "New URL"
 msgstr "Nowy URL"
 
-#: user_page/forms.py:203
+#: forms.py:195
 msgid "URL should start with \"https\" or \"http\""
 msgstr "URL powinien zaycznac sie od \"https\" lub \"http\""
 
-#: user_page/templates/password_reset_complete.html:4
-#: user_page/templates/password_reset_confirm.html:4
-#: user_page/templates/password_reset_confirm.html:15
-#: user_page/templates/password_reset_done.html:4
-#: user_page/templates/password_reset_view.html:4
+#: templates/password_reset_complete.html:4
+#: templates/password_reset_confirm.html:4
+#: templates/password_reset_confirm.html:15
+#: templates/password_reset_done.html:4 templates/password_reset_view.html:4
 msgid "Reset password"
 msgstr "Reset hasła"
 
-#: user_page/templates/password_reset_complete.html:13
+#: templates/password_reset_complete.html:13
 msgid "Password reset complete"
 msgstr "Pomyslnie zmieniono hasło"
 
-#: user_page/templates/password_reset_complete.html:14
+#: templates/password_reset_complete.html:14
 msgid "Your password has been set. You may go ahead and log in now."
 msgstr "Twoje hsło zostało zmienione. Możesz się teraz zalogować"
 
-#: user_page/templates/password_reset_complete.html:15
+#: templates/password_reset_complete.html:15
 msgid "Log in"
 msgstr "Zaloguj się"
 
-#: user_page/templates/password_reset_confirm.html:25
-#: user_page/templates/user_page_email.html:16
-#: user_page/templates/user_page_ngrok.html:16
-#: user_page/templates/user_page_password.html:13
+#: templates/password_reset_confirm.html:25 templates/user_page_email.html:16
+#: templates/user_page_ngrok.html:16 templates/user_page_password.html:13
 msgid "Save"
 msgstr "Zapisz"
 
-#: user_page/templates/password_reset_done.html:14
-#: user_page/templates/password_reset_view.html:14
+#: templates/password_reset_done.html:14 templates/password_reset_view.html:14
 msgid "Password reset"
 msgstr "Reset hasła"
 
-#: user_page/templates/password_reset_done.html:17
+#: templates/password_reset_done.html:17
 msgid ""
 "We’ve emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
@@ -153,7 +148,7 @@ msgstr ""
 "Instrukcja pozwalająca ustawić nowe hasło dla podanegoadresu e-mail została "
 "wysłana. Niebawem powinna się pojawić na twoimkoncie pocztowym."
 
-#: user_page/templates/password_reset_done.html:20
+#: templates/password_reset_done.html:20
 msgid ""
 "If you don’t receive an email, please make sure you’ve entered the address "
 "you registered with, and check your spam folder."
@@ -162,104 +157,113 @@ msgstr ""
 "wprowadzony jest zgodny z tym podanym podczas rejestracjii sprawdź zawartość "
 "folderu SPAM na swoim koncie."
 
-#: user_page/templates/password_reset_view.html:15
+#: templates/password_reset_view.html:15
 msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
 msgstr "Zapomniałeś hasła? Podaj swój email poniżej."
 
-#: user_page/templates/password_reset_view.html:25
+#: templates/password_reset_view.html:25
 msgid "Reset my password"
 msgstr "Resetuj hasło"
 
-#: user_page/templates/user_page.html:4
+#: templates/user_page.html:4
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: user_page/templates/user_page.html:13
+#: templates/user_page.html:13
 msgid "Change passowrd"
 msgstr "Zmień hasło"
 
-#: user_page/templates/user_page.html:14
+#: templates/user_page.html:14
 msgid "Change email"
 msgstr "Zmień email"
 
-#: user_page/templates/user_page.html:16
-msgid "Change images on home page"
+#: templates/user_page.html:16
+msgid "Change icons on home page"
 msgstr "Zmień zdjęcia na stronie głównej"
 
-#: user_page/templates/user_page.html:19
+#: templates/user_page.html:19
 msgid "Delete account"
 msgstr "Usuń konto"
 
-#: user_page/templates/user_page.html:22
+#: templates/user_page.html:22
 msgid "Change URL"
 msgstr "Zmień URL"
 
-#: user_page/templates/user_page_delete.html:4
+#: templates/user_page_delete.html:4
 msgid "Are you sure, you want to delete the account?"
 msgstr "Czy na pewno chcesz usunąć konto?"
 
-#: user_page/templates/user_page_delete.html:5
+#: templates/user_page_delete.html:5
 msgid "Yes, delete the account."
 msgstr "Tak, usuń konto"
 
-#: user_page/templates/user_page_delete.html:6
-msgid "No, back to home page"
+#: templates/user_page_delete.html:6
+#, fuzzy
+#| msgid "No, back to home page"
+msgid "No, go back to home page"
 msgstr "Nie, wróć na stronę główną"
 
-#: user_page/templates/user_page_email.html:4
+#: templates/user_page_email.html:4
 msgid "Email change"
 msgstr "Zmiana email"
 
-#: user_page/templates/user_page_email.html:5
+#: templates/user_page_email.html:5
 msgid "Current email"
 msgstr "Obecny email"
 
-#: user_page/templates/user_page_image.html:4
+#: templates/user_page_image.html:4
 msgid "Images change"
 msgstr "Zmiana zdjęć"
 
-#: user_page/templates/user_page_image.html:17
+#: templates/user_page_image.html:17
 msgid "Save image(s)"
-msgstr "Zaisz zdjęcie(a)"
+msgstr "Zapisz zdjęcie(a)"
 
-#: user_page/templates/user_page_image.html:20
+#: templates/user_page_image.html:20
 msgid "Reset images"
 msgstr "Zresetuj zdjęcia"
 
-#: user_page/templates/user_page_ngrok.html:4
+#: templates/user_page_ngrok.html:4
 msgid "URL change"
 msgstr "Zmiana URL"
 
-#: user_page/templates/user_page_ngrok.html:5
+#: templates/user_page_ngrok.html:5
 msgid "Current URL"
 msgstr "Obecny URL"
 
-#: user_page/templates/user_page_password.html:4
+#: templates/user_page_password.html:4
 msgid "Password change"
 msgstr "Zmiana hasła"
 
-#: user_page/views.py:34
-msgid "Password updated successfully"
+#: views.py:37
+msgid "Password successfully updated"
 msgstr "Zmiana hasła przebiegła pomyślnie"
 
-#: user_page/views.py:61
-msgid "Email updated successfully"
+#: views.py:48
+msgid "Email successfully updated"
 msgstr "Zmiana emailu przebiegła pomyślnie"
 
-#: user_page/views.py:90
-msgid "URL updated successfully"
+#: views.py:105
+msgid "URL successfully updated"
 msgstr "Zmiana URL przebeigła pomyślnie"
 
-#: user_page/views.py:120
-msgid "Image(s) updated sccessfully"
+#: views.py:134
+msgid "Image(s) sccessfully updated"
 msgstr "Zmiana zdjęcie(a) przebiegła pomyslnie"
 
-#: user_page/views.py:128
+#: views.py:142
 msgid "Images reseted"
 msgstr "Zdjęcia zresetowane"
 
-#: user_page/views.py:142
+#: views.py:156
 msgid "Account has deleted"
 msgstr "Konto zostało usunięte"
+
+msgid "Logout"
+msgstr "Wyloguj"
+
+msgid "Sunblinds"
+msgstr "Rolety"
+

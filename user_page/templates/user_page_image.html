@@ -1,5 +1,5 @@
 {% load i18n %}
-<form method="post" class="Image-change" enctype="multipart/form-data">
+<form method="POST" class="Image-change" enctype="multipart/form-data">
   {% csrf_token %}
   <h1 class="Image-change__h1">{% trans "Images change" %}</h1>
   
@@ -8,15 +8,18 @@
       <label for="id_{{field.name}}" class="Image-change__div__label"
         >{{field.label}}</label
       >
-      {{ field }}
+      <input type="file" name="{{ field.name }}" accept="image/*" id="id_{{ field.name }}">
       {{field.errors}}
+      
     </div>
   {% endfor %}
   {{form.non_field_errors}}
   <button name="save" type="submit" class="Image-change__submit">
     {% trans "Save image(s)" %}
   </button>
-  <button name="reset" class="Image-change__submit-reset">
+  <a class="Nav__profil__a small" href={% url "user_change_image_reset" %}>
     {% trans "Reset images" %}
-  </button>
+  </a>
 </form>
+
+

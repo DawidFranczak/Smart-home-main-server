@@ -162,6 +162,7 @@ const aqua = async (e) => {
         };
 
         data = await sendData("POST", dict);
+        data = await data.json()
 
         const modeFluolampButton = document.querySelector(
           "#mode-button-fluolamp"
@@ -206,8 +207,8 @@ const aqua = async (e) => {
         };
         break;
     }
-    const rep = await sendData("POST", dict);
-    console.log(rep)
+    let rep = await sendData("POST", dict);
+    rep = await rep.json()
     if (rep["message"] != undefined) {
       document.querySelector("#message").innerHTML = rep["message"];
     }

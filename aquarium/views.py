@@ -15,7 +15,7 @@ class AquariumView(View):
         context = {
             'aquas': aquas,
         }
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, status=200)
 
     def post(self, request, *args, **kwargs):
 

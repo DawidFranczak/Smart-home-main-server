@@ -3,7 +3,7 @@
     {% csrf_token %}
     <h1 class="URL-change__h1">{% trans "URL change" %}</h1>
     <p class="URL-change__p">{% trans "Current URL" %}</p>
-    <p class="URL-change__p">{{old}}</p>
+    <p class="URL-change__p">{{user.ngrok}}</p>
     {% for field in form %}
     <div class="URL-change__div">
       <label for="id_{{field.name}}" class="URL-change__div__label">

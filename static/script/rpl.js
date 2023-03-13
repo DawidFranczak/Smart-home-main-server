@@ -46,7 +46,8 @@ const rplConnect = async () => {
     btns: btns,
   };
 
-  const response = await sendData("POST", dict);
+  let response = await sendData("PUT", dict);
+  response = await response.json()
   document.querySelector("#mess").innerHTML = response["message"];
 };
 
@@ -56,12 +57,8 @@ const rplSelect = async (e) => {
   document.querySelector("#mess").innerHTML = "";
   switch (target.id) {
     case "lamp":
-      const dict = {
-        action: "get",
-        id: target.value,
-      };
-
-      const data = await sendData("POST", dict);
+      let data = await fetch(`/api/rpl/lamp/get/${target.value}/`);
+      data = await data.json();
 
       document.querySelectorAll("#rfid").forEach((r) => {
         r.checked = false;

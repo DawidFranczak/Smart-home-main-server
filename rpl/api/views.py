@@ -1,7 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import redirect
+from django.http import JsonResponse
+
+from devices.models import Sensor
 from log.models import Ngrok
 
 
@@ -55,3 +59,18 @@ def check_lamp(request):
     except Exception as e:
         print(e)
         return redirect("home")
+
+
+@api_view(["GET"])
+# /api/rpl/lamp/get/id/
+def get_lamp(request, id):
+
+    lamp = get_object_or_404(Sensor, pk=id)
+    rfids = request.user.sensor_set.filter(
+        fun='rfid')
+    buttons = request.user.sensor_set.filter(
+        fun='btn')
+
+    respond = {'rfid': [rfid.id for rfid in rfids if rfid.rfid.lamp == lamp.ip],
+               'btn': [button.id for button in buttons if button.button.lamp == lamp.ip]}
+    return JsonResponse(respond, status=200)

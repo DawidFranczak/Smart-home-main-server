@@ -1,5 +1,5 @@
 from django.utils.translation import gettext as _
-from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 import requests
 
 from devices.models import Card, Sensor
@@ -51,9 +51,9 @@ def add_sensor(data, user):
     try:
         answer = requests.post(url, data=message).json()
     except:
-        return {
-            'response': _("No communication with home server.")
-        }, 504
+        message = {'response': _("No communication with home server.")}
+        status = 504
+        return message, status
 
     if answer["success"]:
         if user.sensor_set.filter(ip=answer["ip"]).exists():
@@ -65,13 +65,34 @@ def add_sensor(data, user):
                                         fun=data['fun'],
                                         ip=answer["ip"],
                                         port=port)
-        return {
+        message = {
             'response': _("Successfully added device"),
             'id': sensor.id,
-        }, 201
-    return {
-        'response': _("System failed to add the device"),
-    }, 500
+        }
+        status = 201
+
+    message = {'response': _("System failed to add the device")}
+    status = 500
+    return message, status
+
+
+def add_sensor_tester(get_data, request):
+    EXCLUDED_SENSORS = ['temp', 'rfid', 'button', 'lamp', 'uid']
+
+    if get_data['fun'] in EXCLUDED_SENSORS:
+
+        message = {'response': _(
+            "Sorry, you can't add this type of device in the test version")}
+        status = 417
+
+    else:
+        sensor = request.user.sensor_set.create(name=get_data['name'],
+                                                ip='111.111.111.111',
+                                                port=1234, fun=get_data['fun'])
+        message = {'response': _("Device added successfully"), 'id': sensor.id}
+        status = 201
+
+    return message, status
 
 
 def add_uid(data, user):

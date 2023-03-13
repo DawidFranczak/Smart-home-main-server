@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-08 10:33+0100\n"
+"POT-Creation-Date: 2023-03-13 18:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,39 +20,38 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: stairs/templates/stairs.html:4
-msgid "Stairs"
-msgstr "Schody"
-
-#: stairs/templates/stairs.html:13
-msgid "Select stairs"
-msgstr "Wybierz schod"
-
-#: stairs/templates/stairs.html:29
-msgid "Lightning time [s]"
-msgstr "Czas świecenia [s]"
-
-
-#: stairs/templates/stairs.html:37
-msgid "Brightness [%%]"
-msgstr "Jasność [%]"
-
-#: stairs/templates/stairs.html:45 stairs/templates/stairs.html:48
-msgid "Save"
-msgstr "Zapisz"
-
-#: stairs/templates/stairs.html:46
-msgid "Number of steps"
-msgstr "Ilość kroków"
-
-#: stairs/views.py:61 stairs/views.py:76
+#: mod.py:42 mod.py:64
 msgid "Settings updated successfully"
 msgstr "Pomyslnie zmieniono ustawienia"
 
-#: stairs/views.py:72
-msgid "No nconnection with home server."
+#: mod.py:55
+msgid "No connection with home server."
 msgstr "Brak komunikacji z serwerem w domu"
 
-#: stairs/views.py:77
-msgid "No nconnection with stairs"
+#: mod.py:59
+msgid "No connection with stairs"
 msgstr "Brak komunikacji ze schodami"
+
+#: templates/stairs.html:4
+msgid "Stairs"
+msgstr "Schody"
+
+#: templates/stairs.html:13
+msgid "Select stairs"
+msgstr "Wybierz schod"
+
+#: templates/stairs.html:29
+msgid "Lightning time [s]"
+msgstr "Czas świecenia [s]"
+
+#: templates/stairs.html:36 templates/stairs.html:45 templates/stairs.html:48
+msgid "Save"
+msgstr "Zapisz"
+
+#: templates/stairs.html:37
+msgid "Brightness [%%]"
+msgstr "Jasność [%]"
+
+#: templates/stairs.html:46
+msgid "Number of steps"
+msgstr "Ilość kroków"

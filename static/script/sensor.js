@@ -9,7 +9,6 @@ const sensorSelect = (e) => {
   switch (element.type) {
     case "radio":
       const rfid = document.querySelector("#select-rfid");
-      console.log();
       if (element.value === "uid" || element.value === "card-uid")
         rfid.classList.add("Sensor-add__select__select-rfid--active");
       else rfid.classList.remove("Sensor-add__select__select-rfid--active");
@@ -107,8 +106,10 @@ const sensorSave = async () => {
   };
 
   dataRep = await sendData("POST", dict);
-  console.log(dataRep);
-  if (dataRep["response"] == "Udało sie dodać czujnik") {
+  const status = dataRep['status']
+  dataRep = await dataRep.json()
+  
+  if (status === 201) {
     const parent = document.createElement("ul");
     const pName = document.createElement("p");
     const pFun = document.createElement("img");
@@ -227,7 +228,6 @@ const search = () => {
   const search = document.querySelector("#search").value.toLowerCase();
   for (let sensor of sensors) {
     if (sensor.innerHTML.toLowerCase().indexOf(search.toLowerCase()) > -1) {
-      console.log(sensor.innerHTML.toLowerCase());
       sensor.parentElement.classList.remove(
         "Sensor-container__ul__sensor--search"
       );

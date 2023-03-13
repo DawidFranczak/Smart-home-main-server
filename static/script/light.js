@@ -7,8 +7,9 @@ const changeLight = async (e) => {
       id: lamp.id,
     };
 
-    const dataRep = await sendData("POST", dict);
-    console.log(dataRep);
+    let dataRep = await sendData("POST", dict);
+    dataRep = await dataRep.json()
+ 
     switch (dataRep["response"]) {
       case "ON":
         lamp.src = "/static/images/lamp_on.png";

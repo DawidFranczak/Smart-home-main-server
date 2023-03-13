@@ -7,7 +7,7 @@ from app.const import CHANGE_LIGHT
 def change_light(sensor, ngrok):
     """
     Communicate with lamp and try to change it state
-"""
+    """
     try:
         data = {
             "ip": sensor.ip,
@@ -33,3 +33,17 @@ def change_light(sensor, ngrok):
             return {'response': _("No connection with lamp")}, 504
     except:
         return {'response': _("Unexpected error")}, 500
+
+
+def change_light_tester(sensor):
+    light = sensor.light
+    if light.light:
+        light.light = False
+        message = {'response': "OFF"}
+
+    else:
+        light.light = True
+        message = {'response': "ON"}
+    light.save(update_fields=["light"])
+
+    return message
