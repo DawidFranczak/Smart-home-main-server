@@ -4,7 +4,6 @@ from devices.urls import DevicesView
 
 
 class TestDevicesUrls(SimpleTestCase):
-
     def test_device_url(self):
-        url = reverse('devices')
+        url = reverse("devices")
         self.assertEquals(resolve(url).func.view_class, DevicesView)

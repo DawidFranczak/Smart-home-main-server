@@ -5,4 +5,4 @@ from devices.models import Stairs
 class AquaSerializer(ModelSerializer):
     class Meta:
         model = Stairs
-        exclude = ('id',)
+        exclude = ("id",)

@@ -5,10 +5,12 @@ from . import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', login_required(Home.as_view(), login_url='login'), name="home"),
-    path('zaloguj/', UserLogin.as_view(), name="login"),
-    path('wyloguj/', login_required(UserLogout.as_view(),
-         login_url='login'), name="logout"),
-    path('rejestracja/', UserRegister.as_view(),  name="user_register"),
-
+    path("", login_required(Home.as_view(), login_url="login"), name="home"),
+    path("zaloguj/", UserLogin.as_view(), name="login"),
+    path(
+        "wyloguj/",
+        login_required(UserLogout.as_view(), login_url="login"),
+        name="logout",
+    ),
+    path("rejestracja/", UserRegister.as_view(), name="user_register"),
 ]

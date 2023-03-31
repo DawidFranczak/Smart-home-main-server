@@ -16,18 +16,15 @@ from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm, ChangeN
 
 
 class UserPage(TemplateView):
-    template_name = 'user_page.html'
+    template_name = "user_page.html"
 
 
 class UserChangePassword(View):
-
-    template_name = 'user_page.html'
+    template_name = "user_page.html"
     form_class = ChangePasswordForm
 
     def get(self, request):
-
-        context = {'action': 'password',
-                   'form': ChangePasswordForm(request.user)}
+        context = {"action": "password", "form": ChangePasswordForm(request.user)}
 
         return render(request, self.template_name, context, status=200)
 
@@ -38,10 +35,9 @@ class UserChangePassword(View):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, _("Password successfully updated"))
-            return redirect('user_page')
+            return redirect("user_page")
 
-        context = {'action': 'password',
-                   'form': form}
+        context = {"action": "password", "form": form}
 
         return render(request, self.template_name, context, status=200)
 
@@ -50,43 +46,42 @@ class UserChangeEmail(SuccessMessageMixin, UpdateView):
     model = User
     success_message = _("Email successfully updated")
     form_class = ChangeEmailForm
-    success_url = '/ustawienia/'
-    template_name = 'user_page.html'
+    success_url = "/ustawienia/"
+    template_name = "user_page.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action'] = 'email'
+        context["action"] = "email"
         return context
 
 
 class UserChangeNgrok(SuccessMessageMixin, UpdateView):
     model = Ngrok
     form_class = ChangeNgrokForm
-    success_url = '/ustawienia/'
-    template_name = 'user_page.html'
+    success_url = "/ustawienia/"
+    template_name = "user_page.html"
     success_message = _("URL successfully updated")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action'] = 'ngrok'
+        context["action"] = "ngrok"
         return context
 
 
 class UserChangeImage(SuccessMessageMixin, UpdateView):
-    template_name = 'user_page.html'
+    template_name = "user_page.html"
     model = HomeNavImage
     form_class = ChangeImageForm
-    success_url = '/ustawienia/'
+    success_url = "/ustawienia/"
     success_message = _("Image(s) sccessfully updated")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action'] = 'image'
+        context["action"] = "image"
         return context
 
 
 class UserChangeImageReset(View):
-
     def get(self, request):
         user_image = request.user.homenavimage
         user_image.home = "images/home.png"
@@ -102,16 +97,16 @@ class UserChangeImageReset(View):
         user_image.save()
         messages.success(request, _("Images reseted"))
 
-        return redirect('user_page')
+        return redirect("user_page")
 
 
 class UserDelete(SuccessMessageMixin, DeleteView):
     model = User
     success_message = _("Account has deleted")
-    success_url = '/zaloguj/'
-    template_name = 'user_page.html'
+    success_url = "/zaloguj/"
+    template_name = "user_page.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action'] = 'delete'
+        context["action"] = "delete"
         return context

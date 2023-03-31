@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('devices', '0004_alter_temp_time'),
+        ("devices", "0004_alter_temp_time"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='temp',
-            name='humi',
-            field=models.FloatField(default=''),
+            model_name="temp",
+            name="humi",
+            field=models.FloatField(default=""),
         ),
         migrations.AlterField(
-            model_name='temp',
-            name='temp',
+            model_name="temp",
+            name="temp",
             field=models.FloatField(),
         ),
         migrations.AlterField(
-            model_name='temp',
-            name='time',
+            model_name="temp",
+            name="time",
             field=models.DateTimeField(),
         ),
     ]

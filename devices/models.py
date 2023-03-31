@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class SensorSettings(models.Model):
+    fun = models.CharField(max_length=100, default="")
+    message = models.CharField(max_length=100, default="")
+    answer = models.CharField(max_length=100, default="")
+    port = models.IntegerField()
+
+
 class Sensor(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)

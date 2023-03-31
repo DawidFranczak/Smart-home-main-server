@@ -7,21 +7,20 @@ import json
 from app.const import CHANGE_LIGHT
 from devices.models import Sensor
 from .mod import change_light, change_light_tester
+
 # Create your views here.
 
 
 class LightView(View):
-    template_name = 'light.html'
+    template_name = "light.html"
 
     def get(self, request):
-        sensors = request.user.sensor_set.filter(fun='light')
+        sensors = request.user.sensor_set.filter(fun="light")
 
         context = {
-            'sensors': [
-                {'id': sensor.id,
-                 'name': sensor.name,
-                 'light': sensor.light.light
-                 } for sensor in sensors
+            "sensors": [
+                {"id": sensor.id, "name": sensor.name, "light": sensor.light.light}
+                for sensor in sensors
             ]
         }
 
@@ -30,13 +29,13 @@ class LightView(View):
     def post(self, request):
         get_data = json.loads(request.body)
 
-        if get_data['action'] == 'change':
-            id = get_data['id']
+        if get_data["action"] == "change":
+            id = get_data["id"]
             sensor = get_object_or_404(Sensor, pk=id)
             ngrok = request.user.ngrok.ngrok
 
             # Simulation turn on/off light
-            if sensor.name == 'tester':
+            if sensor.name == "tester":
                 message = change_light_tester(sensor)
                 return JsonResponse(message, status=200)
             # End simulation

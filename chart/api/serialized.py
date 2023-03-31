@@ -3,7 +3,6 @@ from devices.models import Sensor
 
 
 class SensorSerializer(ModelSerializer):
-
     class Meta:
         model = Sensor
-        fields = ['ip', 'port', 'name']
+        fields = ["ip", "port", "name"]

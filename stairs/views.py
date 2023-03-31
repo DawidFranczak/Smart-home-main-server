@@ -7,14 +7,15 @@ import json
 
 from devices.models import Sensor
 from .mod import stairs_settings
+
 # Create your views here.
 
 
 class StairsView(View):
-    template_name = 'stairs.html'
+    template_name = "stairs.html"
 
     def get(self, request):
-        sensors = request.user.sensor_set.filter(fun='stairs')
+        sensors = request.user.sensor_set.filter(fun="stairs")
         context = {
             "sensors": sensors,
         }
@@ -23,7 +24,7 @@ class StairsView(View):
     def post(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
 
-        sensor = get_object_or_404(Sensor, pk=get_data['id'])
+        sensor = get_object_or_404(Sensor, pk=get_data["id"])
         stairs = sensor.stairs
         ngrok = request.user.ngrok.ngrok
         message, status = stairs_settings(get_data, sensor, stairs, ngrok)

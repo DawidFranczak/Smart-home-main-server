@@ -16,24 +16,23 @@ from .forms import CreateUserForm
 class UserRegister(SuccessMessageMixin, CreateView):
     model = User
     form_class = CreateUserForm
-    template_name = 'register.html'
-    success_url = '/zaloguj/'
+    template_name = "register.html"
+    success_url = "/zaloguj/"
     success_message = _("Registration was successful.")
 
 
 class UserLogin(View):
-    template = 'login.html'
+    template = "login.html"
 
     def get(self, request):
         return render(request, self.template, status=200)
 
     def post(self, request):
-
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         if username == "" or password == "":
-            messages.error(request, _('Please fill all fields.'))
+            messages.error(request, _("Please fill all fields."))
             return render(request, self.template, status=404)
 
         if not User.objects.filter(username=username).exists():
@@ -47,24 +46,24 @@ class UserLogin(View):
             return render(request, self.template, status=401)
 
         login(request, user)
-        return redirect('home')
+        return redirect("home")
 
 
 class Home(TemplateView):
-    template_name = 'home.html'
+    template_name = "home.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['image'] = self.request.user.homenavimage
+        context["image"] = self.request.user.homenavimage
         return context
 
 
 class UserLogout(View):
     def get(self, request):
         logout(request)
-        return redirect('login')
+        return redirect("login")
 
 
 def handling_404(request, exception):
     print(exception)
-    return render(request, '404.html', {}, status=404)
+    return render(request, "404.html", {}, status=404)

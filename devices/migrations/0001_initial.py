@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,92 +14,211 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Sensor',
+            name="Sensor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('ip', models.CharField(max_length=100)),
-                ('port', models.IntegerField()),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('fun', models.CharField(default='', max_length=100)),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("ip", models.CharField(max_length=100)),
+                ("port", models.IntegerField()),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("fun", models.CharField(default="", max_length=100)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Temp',
+            name="Temp",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('time', models.DateTimeField()),
-                ('temp', models.CharField(max_length=10)),
-                ('humi', models.CharField(default='', max_length=10)),
-                ('sensor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("time", models.DateTimeField()),
+                ("temp", models.CharField(max_length=10)),
+                ("humi", models.CharField(default="", max_length=10)),
+                (
+                    "sensor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Sunblind',
+            name="Sunblind",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.IntegerField(default=0)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("value", models.IntegerField(default=0)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Stairs',
+            name="Stairs",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('steps', models.IntegerField(default=200)),
-                ('brightness', models.IntegerField(default=100)),
-                ('lightTime', models.IntegerField(default=6)),
-                ('mode', models.BooleanField(default=False)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("steps", models.IntegerField(default=200)),
+                ("brightness", models.IntegerField(default=100)),
+                ("lightTime", models.IntegerField(default=6)),
+                ("mode", models.BooleanField(default=False)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Rfid',
+            name="Rfid",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('lamp', models.CharField(default='', max_length=50)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("lamp", models.CharField(default="", max_length=50)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Light',
+            name="Light",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('light', models.BooleanField(default=False)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("light", models.BooleanField(default=False)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Card',
+            name="Card",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(default='', max_length=50)),
-                ('uid', models.IntegerField(default=0)),
-                ('sensor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(default="", max_length=50)),
+                ("uid", models.IntegerField(default=0)),
+                (
+                    "sensor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Button',
+            name="Button",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('lamp', models.CharField(default='', max_length=50)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("lamp", models.CharField(default="", max_length=50)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Aqua',
+            name="Aqua",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('color', models.CharField(default='r255g255b255', max_length=100)),
-                ('led_start', models.CharField(default='00:00:00', max_length=10)),
-                ('led_stop', models.CharField(default='00:00:00', max_length=10)),
-                ('fluo_start', models.CharField(default='00:00:00', max_length=10)),
-                ('fluo_stop', models.CharField(default='00:00:00', max_length=10)),
-                ('mode', models.BooleanField(default=False)),
-                ('led_mode', models.BooleanField(default=False)),
-                ('fluo_mode', models.BooleanField(default=False)),
-                ('sensor', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='devices.sensor')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("color", models.CharField(default="r255g255b255", max_length=100)),
+                ("led_start", models.CharField(default="00:00:00", max_length=10)),
+                ("led_stop", models.CharField(default="00:00:00", max_length=10)),
+                ("fluo_start", models.CharField(default="00:00:00", max_length=10)),
+                ("fluo_stop", models.CharField(default="00:00:00", max_length=10)),
+                ("mode", models.BooleanField(default=False)),
+                ("led_mode", models.BooleanField(default=False)),
+                ("fluo_mode", models.BooleanField(default=False)),
+                (
+                    "sensor",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="devices.sensor"
+                    ),
+                ),
             ],
         ),
     ]

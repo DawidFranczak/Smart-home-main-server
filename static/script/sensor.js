@@ -217,6 +217,7 @@ const deleteSensor = async (e) => {
       id: sensorId,
     };
     dataRep = await sendData("DELETE", dict);
+    dataRep = await dataRep.json()
     if (dataRep["response"] == "permission") {
       sensorDelete.remove();
     }

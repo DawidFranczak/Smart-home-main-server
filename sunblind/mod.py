@@ -5,7 +5,7 @@ from app.const import MESSAGE_SUNBLIND
 
 
 def sunblind_move(ngrok, sensor, get_data):
-    message = 'set' + str(get_data['value'])
+    message = "set" + str(get_data["value"])
     data = {
         "message": message,
         "ip": sensor.ip,
@@ -15,17 +15,15 @@ def sunblind_move(ngrok, sensor, get_data):
         answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data)
 
     except:
-        message = {
-            'message': _("No connection home server.")
-        }
+        message = {"message": _("No connection home server.")}
         status = 504
         return message, status
 
-    message = {'message': _('No connection')}
+    message = {"message": _("No connection")}
     status = 504
     if answer.status_code == 200:
         sunblind = sensor.sunblind
-        sunblind.value = get_data['value']
+        sunblind.value = get_data["value"]
         sunblind.save(updated_fiels=["value"])
         message = ""
         status = 200
@@ -35,13 +33,13 @@ def sunblind_move(ngrok, sensor, get_data):
 
 def sunblind_move_tester(sensor, get_data) -> None:
     sunblind = sensor.sunblind
-    sunblind.value = get_data['value']
+    sunblind.value = get_data["value"]
     sunblind.save(update_fields=["value"])
 
 
 def sunblind_calibrations(ngrok, sensor, get_data):
     data = {
-        "message": get_data['action'],
+        "message": get_data["action"],
         "ip": sensor.ip,
         "port": sensor.port,
     }
@@ -52,8 +50,7 @@ def sunblind_calibrations(ngrok, sensor, get_data):
         status = 504
 
     # Ending calibration, set value to 100 and save in database
-    if get_data['action'] == 'end' and answer:
-
+    if get_data["action"] == "end" and answer:
         sunblind = sensor.sunblind
         sunblind.value = 100
         sunblind.save(update_fields=["value"])

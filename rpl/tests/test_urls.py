@@ -5,8 +5,7 @@ from rpl.views import RplView
 
 
 class TestRPLUrls(SimpleTestCase):
-
     def test_RPL_urls(self) -> None:
-        url_rpl = reverse('rpl')
+        url_rpl = reverse("rpl")
 
         self.assertEqual(resolve(url_rpl).func.view_class, RplView)

@@ -5,7 +5,6 @@ from stairs.views import StairsView
 
 
 class TestUrls(SimpleTestCase):
-
     def test_list_resolve(self):
-        url = reverse('stairs')
+        url = reverse("stairs")
         self.assertEqual(resolve(url).func.view_class, StairsView)

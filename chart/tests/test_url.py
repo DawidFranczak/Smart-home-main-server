@@ -4,7 +4,6 @@ from chart.views import Chart
 
 
 class TestUrl(SimpleTestCase):
-
     def test_url(self):
-        url = reverse('chart')
+        url = reverse("chart")
         self.assertEquals(resolve(url).func.view_class, Chart)

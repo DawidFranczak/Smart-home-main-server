@@ -21,13 +21,13 @@ def check_UID(request):
         if not user.sensor_set.filter(ip=ip).exists():
             return Response({"success": False})
         card = user.sensor_set.get(ip=ip).card_set.filter(uid=uid)
-        return Response({
-            "success": card.exists()
-        })
+        return Response({"success": card.exists()})
     except ObjectDoesNotExist:
-        return Response({
-            "success": False,
-        })
+        return Response(
+            {
+                "success": False,
+            }
+        )
 
     except Exception as e:
         print(e)
@@ -44,18 +44,16 @@ def check_lamp(request):
         sensor_lamp_ip = user.sensor_set.get(ip=ip).rfid.lamp
         lamp = user.sensor_set.get(ip=sensor_lamp_ip)
 
-        response = {
-            "success": True,
-            "ip": lamp.ip,
-            "port": lamp.port
-        }
+        response = {"success": True, "ip": lamp.ip, "port": lamp.port}
 
         return Response(response)
 
     except ObjectDoesNotExist:
-        return Response({
-            "success": False,
-        })
+        return Response(
+            {
+                "success": False,
+            }
+        )
     except Exception as e:
         print(e)
         return redirect("home")
@@ -64,13 +62,12 @@ def check_lamp(request):
 @api_view(["GET"])
 # /api/rpl/lamp/get/id/
 def get_lamp(request, id):
-
     lamp = get_object_or_404(Sensor, pk=id)
-    rfids = request.user.sensor_set.filter(
-        fun='rfid')
-    buttons = request.user.sensor_set.filter(
-        fun='btn')
+    rfids = request.user.sensor_set.filter(fun="rfid")
+    buttons = request.user.sensor_set.filter(fun="btn")
 
-    respond = {'rfid': [rfid.id for rfid in rfids if rfid.rfid.lamp == lamp.ip],
-               'btn': [button.id for button in buttons if button.button.lamp == lamp.ip]}
+    respond = {
+        "rfid": [rfid.id for rfid in rfids if rfid.rfid.lamp == lamp.ip],
+        "btn": [button.id for button in buttons if button.button.lamp == lamp.ip],
+    }
     return JsonResponse(respond, status=200)

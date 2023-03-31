@@ -12,17 +12,14 @@ import time
 from .models import *
 
 
-def tester_chart_data(user):
+def tester_chart_data(user: object) -> None:
     """
-        Additions random temperature measurment to one tester sensor
+    Additions random temperature measurment to one tester sensor
     """
 
-    sensor = Sensor.objects.get(
-        Q(user_id=user.id) &
-        Q(fun='temp') &
-        Q(name='tester'))
+    sensor = Sensor.objects.get(Q(user_id=user.id) & Q(fun="temp") & Q(name="tester"))
 
-    data_from = str(datetime.now().date() - timedelta(days=8)).split('-')
+    data_from = str(datetime.now().date() - timedelta(days=8)).split("-")
     month = int(data_from[1])
     day = int(data_from[2])
     # month = 1
@@ -53,66 +50,69 @@ def tester_chart_data(user):
         day += 1
 
 
-def add_sensors_to_tester(user):
+def add_sensors_to_tester(user: object) -> None:
     """
-        Adding few sensor to tester user
+    Adding few sensor to tester user
     """
     start = time.time()
     print("Start")
     ip = 100
-    FUNCTION = ['temp', 'sunblind', 'light',
-                'aqua', 'stairs', 'rfid', 'btn', 'lamp']
+    FUNCTION = ["temp", "sunblind", "light", "aqua", "stairs", "rfid", "btn", "lamp"]
 
-    NAME = ['', 'bardzo długa i nieciekawa nazwa ',
-            'bardzo długa i nieciekawa nazwa tylko że druga ']
+    NAME = [
+        "",
+        "bardzo długa i nieciekawa nazwa ",
+        "bardzo długa i nieciekawa nazwa tylko że druga ",
+    ]
 
     for fun in FUNCTION:
         for name in NAME:
             Sensor.objects.create(
-                user=user, name=name+'tester', ip='111.111.111.'+str(ip), port=1111, fun=fun)
+                user=user,
+                name=name + "tester",
+                ip="111.111.111." + str(ip),
+                port=1111,
+                fun=fun,
+            )
             ip += 1
-    for sensor in Sensor.objects.filter(user=user, fun='rfid'):
+    for sensor in Sensor.objects.filter(user=user, fun="rfid"):
         for name in NAME:
-            Card.objects.create(sensor=sensor, name=name +
-                                'tester', uid=11111111)
+            Card.objects.create(sensor=sensor, name=name + "tester", uid=11111111)
 
     tester_chart_data(user)
     print(f"time: {time.time()-start}")
 
 
 @receiver(post_save, sender=User)
-def create_home_nav_image(sender, instance, created, **kwarg):
+def create_home_nav_image(sender, instance, created, **kwarg) -> None:
     if created:
         HomeNavImage.objects.create(user=instance)
         Ngrok.objects.create(user=instance)
 
-        if 'tester' in instance.username:
-            temp = threading.Thread(target=add_sensors_to_tester,
-                                    args=[instance])
+        if "tester" in instance.username:
+            temp = threading.Thread(target=add_sensors_to_tester, args=[instance])
             temp.start()
-
-            # add_sensors_to_tester(instance)
 
 
 @receiver(post_save, sender=Sensor)
-def add_sensor(sender, instance, created, **kwarg):
+def add_sensor(sender, instance, created, **kwarg) -> None:
     if created:
         function = instance.fun
         match function:
-            case 'sunblind':
+            case "sunblind":
                 Sunblind.objects.create(sensor_id=instance.id)
 
-            case 'light':
+            case "light":
                 Light.objects.create(sensor_id=instance.id)
 
-            case 'stairs':
+            case "stairs":
                 Stairs.objects.create(sensor_id=instance.id)
 
-            case 'rfid':
+            case "rfid":
                 Rfid.objects.create(sensor_id=instance.id)
 
-            case 'btn':
+            case "btn":
                 Button.objects.create(sensor_id=instance.id)
 
-            case 'aqua':
+            case "aqua":
                 Aqua.objects.create(sensor_id=instance.id)

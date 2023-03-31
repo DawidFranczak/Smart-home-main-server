@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('log', '0001_initial'),
+        ("log", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ngrok',
-            name='ngrok',
-            field=models.URLField(default=''),
+            model_name="ngrok",
+            name="ngrok",
+            field=models.URLField(default=""),
         ),
     ]

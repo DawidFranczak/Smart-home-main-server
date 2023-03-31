@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('devices', '0003_aqua'),
+        ("devices", "0003_aqua"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='temp',
-            name='time',
+            model_name="temp",
+            name="time",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]
