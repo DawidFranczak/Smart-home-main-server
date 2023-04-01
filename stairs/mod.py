@@ -1,7 +1,6 @@
-from django.utils.translation import gettext as _
-from django.http import JsonResponse
 import requests
-
+from django.http import JsonResponse
+from django.utils.translation import gettext as _
 
 from app.const import CHANGE_STAIRS
 

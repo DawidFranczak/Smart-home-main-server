@@ -1,9 +1,9 @@
-from django.test import TransactionTestCase, Client
+from devices.models import Sensor
 from django.contrib.auth.models import User
+from django.test import Client, TransactionTestCase
 from django.urls import resolve, reverse
 
-from sunblind.views import SunblindView, CalibrationView
-from devices.models import Sensor
+from sunblind.views import CalibrationView, SunblindView
 
 
 class TestUrls(TransactionTestCase):

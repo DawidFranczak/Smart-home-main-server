@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+
 from .mod import data_for_chart
 
 # Create your views here.

@@ -1,10 +1,11 @@
+from django.shortcuts import redirect
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import redirect
 
 from devices.models import Sensor
 from log.models import Ngrok
+
 from .serialized import AquaSerializer, AquasSerializer
 
 

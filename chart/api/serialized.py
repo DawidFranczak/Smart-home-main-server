@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer
+
 from devices.models import Sensor
 
 

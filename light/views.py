@@ -1,11 +1,11 @@
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views import View
 import json
 
-from app.const import CHANGE_LIGHT
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+
 from devices.models import Sensor
+
 from .mod import change_light, change_light_tester
 
 # Create your views here.
@@ -30,8 +30,7 @@ class LightView(View):
         get_data = json.loads(request.body)
 
         if get_data["action"] == "change":
-            id = get_data["id"]
-            sensor = get_object_or_404(Sensor, pk=id)
+            sensor = get_object_or_404(Sensor, pk=get_data["id"])
             ngrok = request.user.ngrok.ngrok
 
             # Simulation turn on/off light
@@ -42,3 +41,4 @@ class LightView(View):
 
             message, status = change_light(sensor, ngrok)
             return JsonResponse(message, status=status)
+        return JsonResponse({}, status=404)

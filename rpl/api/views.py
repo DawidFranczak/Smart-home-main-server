@@ -1,9 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.shortcuts import redirect
-from django.http import JsonResponse
 
 from devices.models import Sensor
 from log.models import Ngrok
@@ -11,7 +10,7 @@ from log.models import Ngrok
 
 @api_view(["POST"])
 # /api/check/uid/
-def check_UID(request):
+def check_uid(request):
     try:
         ngrok = request.data.get("url")
         ip = request.data.get("ip")
@@ -19,44 +18,37 @@ def check_UID(request):
         user = Ngrok.objects.get(ngrok=ngrok).user
 
         if not user.sensor_set.filter(ip=ip).exists():
-            return Response({"success": False})
-        card = user.sensor_set.get(ip=ip).card_set.filter(uid=uid)
-        return Response({"success": card.exists()})
-    except ObjectDoesNotExist:
-        return Response(
-            {
-                "success": False,
-            }
-        )
+            return Response({"success": False}, status=404)
 
-    except Exception as e:
-        print(e)
+        card = user.sensor_set.get(ip=ip).card_set.filter(uid=uid)
+        return Response({"success": card.exists()}, status=200)
+
+    except ObjectDoesNotExist:
+        return Response({"success": False}, status=404)
+
+    except Ngrok.DoesNotExist:
         return redirect("home")
 
 
 @api_view(["POST"])
 # /api/check/lamp/
 def check_lamp(request):
+    ngrok = request.data.get("url")
+    ip = request.data.get("ip")
+
     try:
-        ngrok = request.data.get("url")
-        ip = request.data.get("ip")
         user = Ngrok.objects.get(ngrok=ngrok).user
+    except Ngrok.DoesNotExist:
+        return redirect("home")
+    try:
         sensor_lamp_ip = user.sensor_set.get(ip=ip).rfid.lamp
         lamp = user.sensor_set.get(ip=sensor_lamp_ip)
-
-        response = {"success": True, "ip": lamp.ip, "port": lamp.port}
-
-        return Response(response)
-
     except ObjectDoesNotExist:
-        return Response(
-            {
-                "success": False,
-            }
-        )
-    except Exception as e:
-        print(e)
-        return redirect("home")
+        return {"success": False}
+
+    response = {"success": True, "ip": lamp.ip, "port": lamp.port}
+
+    return Response(response, status=200)
 
 
 @api_view(["GET"])

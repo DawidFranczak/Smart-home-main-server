@@ -1,18 +1,16 @@
-from django.utils.translation import gettext as _
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views import View
-import requests
 import json
 
-from app.const import MESSAGE_SUNBLIND
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+
 from devices.models import Sensor
+
 from .mod import (
-    sunblind_move,
-    sunblind_move_tester,
     sunblind_calibrations,
     sunblind_calibrations_tester,
+    sunblind_move,
+    sunblind_move_tester,
 )
 
 # Create your views here.
@@ -37,14 +35,15 @@ class SunblindView(View):
         get_data = json.loads(request.body)
         sensor = get_object_or_404(Sensor, pk=get_data["id"])
         ngrok = request.user.ngrok.ngrok
+        value: int = get_data["id"]
 
         # Simulation sunblind
         if sensor.name == "tester":
-            sunblind_move_tester(sensor, get_data)
+            sunblind_move_tester(sensor, value)
             return JsonResponse({}, status=204)
         # End simulation
 
-        message, status = sunblind_move(ngrok, sensor, get_data)
+        message, status = sunblind_move(ngrok, sensor, value)
         return JsonResponse(message, status=status)
 
 
@@ -61,18 +60,14 @@ class CalibrationView(View):
 
         # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
+        action: str = get_data["action"]
 
         # Simulation calibration
         if sensor.name == "tester":
             sunblind_calibrations_tester(sensor)
-            return JsonResponse(status=200, data={"success": True})
+            return JsonResponse({"success": True}, status=200)
         # End simulation
 
-        answer, status = sunblind_calibrations(ngrok, sensor, get_data)
+        answer, status = sunblind_calibrations(ngrok, sensor, action)
 
-        return JsonResponse(
-            status=status,
-            data={
-                "success": answer,
-            },
-        )
+        return JsonResponse({"success": answer}, status=status)

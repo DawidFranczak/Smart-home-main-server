@@ -1,14 +1,8 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
 
-from user_page.views import (
-    UserPage,
-    UserChangePassword,
-    UserChangeEmail,
-    UserChangeNgrok,
-    UserChangeImage,
-    UserDelete,
-)
+from user_page.views import (UserChangeEmail, UserChangeImage, UserChangeNgrok,
+                             UserChangePassword, UserDelete, UserPage)
 
 
 class TestUrls(SimpleTestCase):

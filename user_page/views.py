@@ -1,16 +1,17 @@
-from django.views import View
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.views.generic.edit import UpdateView, DeleteView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
-from log.models import Ngrok
-from .models import HomeNavImage
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect, render
+from django.utils.translation import gettext_lazy as _
+from django.views import View
+from django.views.generic import TemplateView
+from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import ChangePasswordForm, ChangeEmailForm, ChangeImageForm, ChangeNgrokForm
+from log.models import Ngrok
+
+from .forms import ChangeEmailForm, ChangeImageForm, ChangeNgrokForm, ChangePasswordForm
+from .models import HomeNavImage
 
 # Create your views here.
 

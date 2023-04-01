@@ -1,5 +1,5 @@
-from django.test import TransactionTestCase, Client, SimpleTestCase
 from django.contrib.auth.models import User
+from django.test import Client, SimpleTestCase, TransactionTestCase
 from django.urls import reverse
 
 

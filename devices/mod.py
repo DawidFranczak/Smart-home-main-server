@@ -1,12 +1,14 @@
-from django.utils.translation import gettext as _
-from django.shortcuts import get_object_or_404
 import requests
+from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext as _
 
-from app.const import ADD_DEVICE, ADD_CARD
+from app.const import ADD_CARD, ADD_DEVICE
 from devices.models import Card, Sensor, SensorSettings
 
+user_object = object
 
-def add_sensor(data: dict, user: object):
+
+def add_sensor(data: dict, user: user_object):
     settings = get_object_or_404(SensorSettings, fun=data["fun"])
     url = user.ngrok.ngrok + ADD_DEVICE
     sensor_port: int = settings.port
@@ -64,7 +66,7 @@ def add_sensor_tester(get_data: dict, request: object):
     return message, status
 
 
-def add_uid(data: dict, user: object):
+def add_uid(data: dict, user: user_object):
     """
     Add new rfid card to user
     """
@@ -99,7 +101,7 @@ def add_uid(data: dict, user: object):
         }, 500
 
 
-def delete_sensor(get_data: dict, user: object):
+def delete_sensor(get_data: dict, user: user_object):
     """
     Delete user sensor
     """

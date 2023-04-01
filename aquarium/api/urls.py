@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import get_aqua, get_aqua_all, update_aqua
 
 urlpatterns = [

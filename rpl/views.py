@@ -1,9 +1,9 @@
-from django.utils.translation import gettext as _
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views import View
 import json
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.utils.translation import gettext as _
+from django.views import View
 
 from devices.models import Sensor
 
@@ -28,6 +28,7 @@ class RplView(View):
 
             message = {"message": _("unexpected error")}
             return JsonResponse(message, status=404)
+        return JsonResponse({}, status=400)
 
     @classmethod
     def get_all(cls, request) -> dict:
@@ -44,7 +45,7 @@ class RplView(View):
         return context
 
     @classmethod
-    def connect_rfid(cls, request, lamp) -> bool:
+    def connect_rfid(cls, request: object, lamp: object) -> bool:
         try:
             get_data = json.loads(request.body)
             sensors_rfid = request.user.sensor_set.filter(fun="rfid")
@@ -71,7 +72,7 @@ class RplView(View):
             return False
 
     @classmethod
-    def connect_buttons(cls, request, lamp) -> bool:
+    def connect_buttons(cls, request: object, lamp: object) -> bool:
         try:
             get_data = json.loads(request.body)
 

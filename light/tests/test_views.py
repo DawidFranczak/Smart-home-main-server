@@ -1,7 +1,6 @@
-from django.test import TransactionTestCase, Client
-from django.urls import reverse
-
 from django.contrib.auth.models import User
+from django.test import Client, TransactionTestCase
+from django.urls import reverse
 
 
 class TestLightViews(TransactionTestCase):

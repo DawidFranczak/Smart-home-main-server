@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
+
 from devices.urls import DevicesView
 
 

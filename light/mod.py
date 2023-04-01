@@ -1,10 +1,12 @@
-from django.utils.translation import gettext as _
 import requests
+from django.utils.translation import gettext as _
 
 from app.const import CHANGE_LIGHT
 
+clientServerUrl = str
 
-def change_light(sensor, ngrok):
+
+def change_light(sensor: object, ngrok: clientServerUrl):
     """
     Communicate with lamp and try to change it state
     """
@@ -14,8 +16,8 @@ def change_light(sensor, ngrok):
             "port": sensor.port,
         }
         try:
-            answer = requests.put(ngrok + CHANGE_LIGHT, data=data)
-        except:
+            answer = requests.put(ngrok + CHANGE_LIGHT, data=data, timeout=1)
+        except TimeoutError:
             return {"response": _("No connection home server.")}, 504
 
         if answer.status_code == 200:
@@ -30,13 +32,12 @@ def change_light(sensor, ngrok):
                 response = {"response": "OFF"}
             light.save(update_fields=["light"])
             return response, 200
-        else:
-            return {"response": _("No connection with lamp")}, 504
+        return {"response": _("No connection with lamp")}, 504
     except:
         return {"response": _("Unexpected error")}, 500
 
 
-def change_light_tester(sensor):
+def change_light_tester(sensor: object) -> dict[str, str]:
     light = sensor.light
     if light.light:
         light.light = False

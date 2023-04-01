@@ -1,8 +1,8 @@
-from django.test import Client, TransactionTestCase
-from django.contrib.auth.models import User
-from django.urls import reverse
-
 import datetime
+
+from django.contrib.auth.models import User
+from django.test import Client, TransactionTestCase
+from django.urls import reverse
 
 
 class TestView(TransactionTestCase):

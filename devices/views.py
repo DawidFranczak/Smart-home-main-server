@@ -4,8 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
-
-from .mod import add_uid, add_sensor, delete_sensor, add_sensor_tester
+from .mod import add_sensor, add_sensor_tester, add_uid, delete_sensor
 
 
 class DevicesView(View):

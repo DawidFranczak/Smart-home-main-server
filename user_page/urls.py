@@ -1,15 +1,15 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from .views import (
-    UserPage,
-    UserChangePassword,
     UserChangeEmail,
     UserChangeImage,
-    UserDelete,
-    UserChangeNgrok,
     UserChangeImageReset,
+    UserChangeNgrok,
+    UserChangePassword,
+    UserDelete,
+    UserPage,
 )
 
 urlpatterns = [

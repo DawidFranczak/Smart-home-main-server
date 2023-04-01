@@ -1,7 +1,7 @@
-from devices.models import Aqua
-
-from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+
+from devices.models import Aqua
 
 
 class AquaSerializer(ModelSerializer):

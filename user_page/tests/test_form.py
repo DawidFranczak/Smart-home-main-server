@@ -1,6 +1,8 @@
-from django.test import TransactionTestCase
 from django.contrib.auth.models import User
-from user_page.forms import ChangePasswordForm, ChangeEmailForm, ChangeNgrokForm
+from django.test import TransactionTestCase
+
+from user_page.forms import (ChangeEmailForm, ChangeNgrokForm,
+                             ChangePasswordForm)
 
 
 class TestChangePasswordForm(TransactionTestCase):

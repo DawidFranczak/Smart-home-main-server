@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from views import get_stairs
 
 urlpatterns = [
-    path("<str:pk>", views.getStairs, name="getStairs"),
+    path("<str:pk>", get_stairs, name="get_stairs"),
 ]

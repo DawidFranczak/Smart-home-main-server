@@ -1,12 +1,12 @@
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth import authenticate, login, logout
-from django.utils.translation import gettext_lazy as _
-from django.views.generic.edit import CreateView
-from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect, render
+from django.utils.translation import gettext_lazy as _
 from django.views import View
+from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
 
 from .forms import CreateUserForm
 

@@ -1,6 +1,7 @@
-from django.urls import path
 from django.contrib.auth.decorators import login_required
-from .views import SunblindView, CalibrationView
+from django.urls import path
+
+from .views import CalibrationView, SunblindView
 
 urlpatterns = [
     path(

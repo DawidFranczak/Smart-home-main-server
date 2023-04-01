@@ -1,7 +1,9 @@
 import json
+
 import requests
 
 from app.const import CHANGE_AQUA, CHECK_AQUA
+
 from .api.serialized import AquaSerializer
 
 

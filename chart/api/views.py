@@ -1,14 +1,14 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.core.mail import send_mail
 from django.shortcuts import redirect
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from log.models import Ngrok
-from django.core.mail import send_mail
 from smart_home.settings import EMAIL_HOST_USER
 
-from .serialized import SensorSerializer
 from .email import message
+from .serialized import SensorSerializer
 
 
 @api_view(["GET"])

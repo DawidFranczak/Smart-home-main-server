@@ -1,11 +1,11 @@
-from django.utils.translation import gettext as _
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views import View
 import json
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+
 from devices.models import Sensor
+
 from .mod import stairs_settings
 
 # Create your views here.

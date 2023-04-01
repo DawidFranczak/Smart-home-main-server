@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import sensor_get_all, sensor_update
 
 urlpatterns = [
