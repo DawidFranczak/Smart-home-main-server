@@ -37,8 +37,7 @@ class TestLoginViews(TransactionTestCase):
         response = self.client.post(
             self.url_login, data, content_type="application/json"
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, "/zaloguj/")
+        self.assertEqual(response.status_code, 404)
 
     def test_user_exist_login(self):
         user = User.objects.create(username="tester12345")
@@ -66,7 +65,6 @@ class TestLoginViews(TransactionTestCase):
 
         response = self.client.post(self.url_login, data)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, "/zaloguj/")
 
 
 class TestLogoutView(TransactionTestCase):

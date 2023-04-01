@@ -33,7 +33,7 @@ class UserLogin(View):
 
         if username == "" or password == "":
             messages.error(request, _("Please fill all fields."))
-            return render(request, self.template, status=404)
+            return render(request, self.template, status=302)
 
         if not User.objects.filter(username=username).exists():
             messages.error(request, _("User doesn't exists."))

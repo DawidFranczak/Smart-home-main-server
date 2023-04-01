@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
 
-from log.views import home, user_login, user_logout, user_register
+from log.views import Home, UserLogin, UserLogout, UserRegister
 
 
 class TestLogUrls(SimpleTestCase):
@@ -11,7 +11,7 @@ class TestLogUrls(SimpleTestCase):
         url_logout = reverse("logout")
         url_register = reverse("user_register")
 
-        self.assertEqual(resolve(url_home).func, home)
-        self.assertEqual(resolve(url_login).func, user_login)
-        self.assertEqual(resolve(url_logout).func, user_logout)
-        self.assertEqual(resolve(url_register).func, user_register)
+        self.assertEqual(resolve(url_home).func.view_class, Home)
+        self.assertEqual(resolve(url_login).func.view_class, UserLogin)
+        self.assertEqual(resolve(url_logout).func.view_class, UserLogout)
+        self.assertEqual(resolve(url_register).func.view_class, UserRegister)

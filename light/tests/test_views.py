@@ -58,4 +58,4 @@ class TestLightViews(TransactionTestCase):
         response = self.client.post(
             self.light_url, data, content_type="application/json"
         )
-        self.assertEqual(response.status_code, 504)
+        self.assertEqual(response.status_code, 500)

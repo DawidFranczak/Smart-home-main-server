@@ -1,5 +1,6 @@
 from django.urls import path
-from views import check_lamp, check_uid, get_lamp
+
+from .views import check_lamp, check_uid, get_lamp
 
 urlpatterns = [
     path("uid/", check_uid, name="check_uid"),

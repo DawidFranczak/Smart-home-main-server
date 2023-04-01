@@ -38,6 +38,7 @@ const selectAqua = async (e) => {
 
   settings = await fetch(`/api/aquarium/${aquarium.id}`);
   settings = await settings.json();
+  console.log(settings);
   tr = translation()
 
   const containerAqua = document.querySelector("#containers-aqua");
@@ -169,7 +170,7 @@ const aqua = async (e) => {
         );
 
         const modeLedButton = document.querySelector("#mode-button-led");
-
+        console.log(data)
         modeFluolampButton.innerHTML = data["fluo"] ? tr["OFF"] : tr["ON"];
         modeLedButton.innerHTML = data["led"] ? tr["OFF"] : tr["ON"];
 

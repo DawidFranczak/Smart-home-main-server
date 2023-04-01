@@ -1,6 +1,7 @@
 import json
 
 import requests
+from django.utils.translation import gettext as _
 
 from app.const import CHANGE_AQUA, CHECK_AQUA
 
@@ -14,11 +15,10 @@ def change(message, sensor, ngrok, field) -> bool:
     api = ngrok + CHANGE_AQUA
 
     try:
-        response = requests.post(api, data=data, timeout=1)
-    except TimeoutError:
+        response = requests.post(api, data=data, timeout=0.1)
+        response = response.json()["response"]
+    except:
         return False
-
-    response = response.json()["response"]
 
     if response:
         sensor.aqua.save(update_fields=[field])
@@ -50,12 +50,10 @@ def check(sensor, ngrok) -> bool:
     return success
 
 
-def aquarium_contorler(request) -> bool:
+def aquarium_contorler(request, sensor: object) -> tuple[dict, int]:
     get_data = json.loads(request.body)
-    sensor = request.user.sensor_set.get(pk=get_data["id"])
     aqua = sensor.aqua
     ngrok = request.user.ngrok.ngrok
-    response = True
 
     match get_data["action"]:
         case "changeRGB":
@@ -82,19 +80,23 @@ def aquarium_contorler(request) -> bool:
             aqua.led_start = get_data["ledStart"]
             aqua.led_stop = get_data["ledStop"]
             response = check(sensor, ngrok)
+            if response:
+                aqua.save(update_fields=["led_start", "led_stop"])
 
         case "changeFluoLampTime":
             aqua.fluo_start = get_data["fluoLampStart"]
             aqua.fluo_stop = get_data["fluoLampStop"]
             response = check(sensor, ngrok)
+            if response:
+                aqua.save(update_fields=["fluo_start", "fluo_stop"])
 
         case "changeMode":
             aqua.mode = get_data["mode"]  # True -> manual
             aqua.save(update_fields=["mode"])
 
             if get_data["mode"]:  # maunal
-                response = {"fluo": aqua.fluo_mode, "led": aqua.led_mode}
-                return response
+                return {"fluo": aqua.fluo_mode, "led": aqua.led_mode}
             response = check(sensor, ngrok)  # auto
-
-    return response
+    if response:
+        return {"message": _("Settings updated successfully")}, 200
+    return {"message": _("No connection with aquarium")}, 500
