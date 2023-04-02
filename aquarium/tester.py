@@ -4,11 +4,7 @@ from datetime import datetime
 from django.utils.translation import gettext as _
 
 
-def check_aqua_testet(aqua: object) -> None:
-    """
-    Turn on or turn off fluo lamp and led dependence on time
-    and save it to database
-    """
+def _check_aqua_testet(aqua: object) -> None:
     led_start = aqua.led_start
     led_stop = aqua.led_stop
     fluo_start = aqua.fluo_start
@@ -30,7 +26,13 @@ def check_aqua_testet(aqua: object) -> None:
     aqua.save(update_fields=["fluo_mode", "led_mode"])
 
 
-def aquarium_contorler_tester(request, aqua: object) -> dict:
+def aquarium_contorler_tester(request, aqua: object) -> None:
+    """
+    This function changes the aquarium settings without communicating with the home server.
+    This means that the operation performed below is always successful.
+    This function is only for demonstrating the website's functionality and will be removed in the near future.
+    """
+
     get_data = json.loads(request.body)
     match get_data["action"]:
         case "changeRGB":
@@ -52,13 +54,13 @@ def aquarium_contorler_tester(request, aqua: object) -> dict:
         case "changeLedTime":
             aqua.led_start = get_data["ledStart"]
             aqua.led_stop = get_data["ledStop"]
-            check_aqua_testet(aqua)
+            _check_aqua_testet(aqua)
             aqua.save(update_fields=["led_start", "led_stop"])
 
         case "changeFluoLampTime":
             aqua.fluo_start = get_data["fluoLampStart"]
             aqua.fluo_stop = get_data["fluoLampStop"]
-            check_aqua_testet(aqua)
+            _check_aqua_testet(aqua)
             aqua.save(update_fields=["fluo_start", "fluo_stop"])
 
         case "changeMode":
@@ -68,5 +70,4 @@ def aquarium_contorler_tester(request, aqua: object) -> dict:
             if get_data["mode"]:
                 response = {"fluo": aqua.fluo_mode, "led": aqua.led_mode}
                 return response
-            check_aqua_testet(aqua)
-    return {"message": _("Settings updated successfully")}
+            _check_aqua_testet(aqua)
