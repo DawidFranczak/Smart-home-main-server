@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.test import Client, TransactionTestCase
@@ -33,11 +33,12 @@ class TestView(TransactionTestCase):
     def test_POST_data_with_one_day(self):
         response = self.client.get(self.chart_url)
         sensor = response.context["list_place"][0]
-        date = str(datetime.datetime.now())[:10]
+        date = str(datetime.now())[:10]
+        date2 = str(datetime.now() + timedelta(days=1))[:10]
 
         data = {
             "data-from": date,
-            "data-to": date,
+            "data-to": date2,
             "list": sensor.name,
         }
         response = self.client.post(self.chart_url, data)
