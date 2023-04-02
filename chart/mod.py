@@ -4,9 +4,25 @@ from statistics import fmean
 from django.db.models import Q
 
 
-def data_for_chart(request, list_place):
+def data_for_chart(request: object, list_place: list) -> dict:
     """
-    Get data and avarage temperature for chart from date to date
+    This function calculates the average temperature values during
+    the day and night within the given time range from the given sensor.
+
+    :params request: This is incoming request.
+    :params ngrok: This is the list of added temperature sensors.
+
+
+    :return:  dictionary like below
+            {
+                "data_temp": a list of temperature measured every hour,
+                "data_time": a list of the hours when the measurements were taken,
+                "data_average_temp_day": a list of the average temperature at day,
+                "data_average_temp_night": a list of the average temperature at night,
+                "data_average_data": a list of dates with average measurement values,
+                "place": a place from where come above calculations
+                "list_place": a list of added sensors
+            }
     """
 
     data_from = request.POST.get("data-from")
@@ -16,10 +32,7 @@ def data_for_chart(request, list_place):
     if not place:
         place = list_place[0]
 
-    if data_from and data_to:
-        format = "%Y-%m-%d"
-        data_to = str(datetime.strptime(data_to[:19], format) + timedelta(days=1))
-    else:
+    if not data_from and not data_to:
         data_from = datetime.now().date() - timedelta(days=7)
         data_to = str(datetime.now())
 
@@ -36,10 +49,8 @@ def data_for_chart(request, list_place):
 
     temps = sensor.temp_set.filter(Q(time__gte=data_from) & Q(time__lte=data_to))
 
-    # check is it any temperature measurment
-
     try:
-        date = temps[0].time.day  # e.g. 2023-02-11 without hour
+        date = temps[0].time.day
     except IndexError:
         return {"list_place": list_place}
 
@@ -60,9 +71,7 @@ def data_for_chart(request, list_place):
             average_night.clear()
 
     context = {
-        # only temperature values
         "data_temp": [temp.temp for temp in temps],
-        # only data YYYY-MM-DD
         "data_time": [str(temp.time)[:16] for temp in temps],
         "data_average_temp_day": data_average_temp_day,
         "data_average_temp_night": data_average_temp_night,
