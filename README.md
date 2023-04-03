@@ -1,46 +1,48 @@
-# About the project
-'Smart Home' allows you to control devices connected to your localhost via the website.
 
-You can control:
+# About the project 
+**Smart home** is a project that allows controlling certain elements of a house through a website.
 
-light in the aquarium,
-light on the stairs,
-lamp in the house,
-sunblind.
+ 
+**The project includes management of** : 
+* sunblinds, 
+* indoor lighting,
+* cascading stair lighting,
+* aquarium lighting,
+* outdoor lighting,
+* opening doors/gates using magnetic cards,
+* periodic temperature measurements.
 
-You can also open the gate in the fence via an RFID card and make hourly temperature measurements.
+To check the functionality of the website, you can create an account with the suffix **"tester"**.
+Then three devices of each type and random temperature
+values from the last 8 days will be assigned. Devices with the name "tester" are "connected" to a physical device.
 
-On the website, you can create an account.
 
-If you create an account with 'tester' in the name, e.g. 'usertester' or 'testeruser', three devices from each category will be added to your account.
+## Website
 
-Device names containing 'tester' are 'connected' to real devices, so you can check what happens on the website when you control a real device.
+The website is bilingual. The default language is English, but if the browser language is set to Polish, the website will be displayed in Polish.
 
-On the website, you can do the following:
+### Login
+<img src="/readme_images/home.jpg" alt="Alt text" title="Optional title">
 
-Light -> Turn on/off light for selected light,
 
-Stairs -> Change lightning time, brightness, number of steps to full brightness and manually turn on/off lightning,
 
-Temperature -> See temperature measurement chart with average day and night temperatures,
+### Register
 
-Aquarium -> Change color of RGB LEDs, lighting time of LEDs and fluorescent lamps, manually turn on/off LEDs and fluorescent lamps
+### Home page
 
-Sunblind -> Calibrate the sunblind and its sliding and unfolding
+### Sunblinds
 
-Device -> Add, delete and search for devices
+### Aquariums
 
-RPL -> Group together outside lamps with buttons and RFID sensors
+### Stairs
 
-Settings -> Change password, email, image on home page and delete account
+### Temperature chart 
 
-If you forgot your password, you can use the 'remind password' option on the login page. To do this, you need the e-mail address provided during registration.
+### RPL
 
-To check the website, you can use https://dawidfranczak.pythonanywhere.com.
 
-# Installation
 
-python -m pip install -r requirements.txt
 
-Then you can run the server using python manage.py runserver
+The project consists of 3 repositories.
+
 

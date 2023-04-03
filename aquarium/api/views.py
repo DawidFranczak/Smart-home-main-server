@@ -11,6 +11,12 @@ from .serialized import AquaSerializer, AquasSerializer
 
 @api_view(["GET"])
 def get_aqua(request, pk):
+    """
+    The function returns settings of the selected aquarium.
+
+    endpoint: api/aquarium/<pk>
+
+    """
     try:
         settings = request.user.sensor_set.get(pk=pk).aqua
         serializer = AquaSerializer(settings, many=False)
@@ -20,8 +26,12 @@ def get_aqua(request, pk):
 
 
 @api_view(["POST"])
-# api/aquarium/all
 def get_aqua_all(request):
+    """
+    The function returns settings of the all aquariums.
+
+    endpoint: api/aquarium/all
+    """
     try:
         ngrok = request.POST.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user
@@ -36,6 +46,11 @@ def get_aqua_all(request):
 @api_view(["POST"])
 # api/aquarium/update/
 def update_aqua(request):
+    """
+    The function updated fluo and led mode of aquarium
+
+    endpoint: api/aquarium/all
+    """
     try:
         ngrok = request.data.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user
@@ -44,7 +59,7 @@ def update_aqua(request):
                 aqua = user.sensor_set.get(ip=setting["ip"]).aqua
                 aqua.fluo_mode = setting["fluo_mode"]
                 aqua.led_mode = setting["led_mode"]
-                aqua.save()
+                aqua.save(update_fields=["fluo_mode", "led_mode"])
 
         return Response({}, status=status.HTTP_200_OK)
     except Ngrok.DoesNotExist:
