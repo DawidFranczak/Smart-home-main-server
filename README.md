@@ -22,7 +22,7 @@ values from the last 8 days will be assigned. Devices with the name "tester" are
 The website is bilingual. The default language is English, but if the browser language is set to Polish, the website will be displayed in Polish.
 
 ### Login
-<img src="/readme_images/home.jpg" alt="Alt text" title="Optional title">
+<img src="/readme_images/home.png" alt="Alt text" title="Optional title">
 
 
 
