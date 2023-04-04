@@ -45,7 +45,7 @@ To add a new device, enter its name and select its functionality, then click the
 ### Sunblinds
 <img src="/readme_images/sunblind.png" alt="Sunblind page" style="width: 800px;">
 
-By setting the appropriate value on the slider, you can move the sunblind to any position. If it is not possible to communicate with the microcontroller, the message "No connection" will be displayed. However, if it is not possible to connect to the home server, the message "No connection home server" will be displayed.
+By setting the appropriate value on the slider, you can move the sunblind to any position. If it is not possible to communicate with the microcontroller, the message "No connection" will be displayed. However, if it is not possible to connect to the home server, the message "No connection to home server" will be displayed.
 To start using the sunblinds, they must be calibrated first. After pressing the "Calibration" button, calibration buttons will appear on the right side.
 
 ### Calibration
@@ -58,7 +58,7 @@ To calibrate the roller blind, use the up/down arrows and follow the instruction
 ### Aquariums
 <img src="/readme_images/aqua_1.png" alt="Aquarium page 1">
 
-After selecting the aquarium, a settings window opens up. You can change the color of the LED strip, the time when the LED and fluorescent lights turn on, and switch between automatic and manual mode.
+After selecting an aquarium, a new window will open, presenting you with various settings you can change, including: the color of the LED strip, the time when the LED and fluorescent lights turn on, and whether you want it to work in automatic or manual mode.
 
 <img src="/readme_images/aqua_2.png" alt="Aquarium page 2">
 
@@ -73,18 +73,18 @@ After selecting the stairs, you can change settings such as the lighting time, b
 ### Temperature chart 
 <img src="/readme_images/chart.png" alt="Chart page">
 
-By selecting a date range, a chart representing the measurements taken will be displayed. If the range of days is less than 8, a single chart with temperature readings taken every hour will be displayed.If the range is more than 8 days, two charts with average temperatures will be displayed. Additionally, a table with average temperature values will be displayed below the charts.
+By selecting a date range, a chart representing the measurements taken will be displayed. If the number of days in the given range is fewer than 8, a single chart with temperature readings taken every hour will be displayed.if the number is greater than 8 days, two charts with average temperatures will be displayed. Additionally, a table with average temperature values will be displayed below the charts.
 
 ### Setting
 <img src="/readme_images/settings.png" alt="Settings page">
 
-In the settings, you can change your password, email address, profile picture on the home page, delete your account, and change the address of the home server.
+In the settings, you can change your password, email address, profile picture on the home page as well as delete your account, and change the address of the home server.
 
 ### Light
 <img src="/readme_images/light.png" alt="Light page">
 
 Turning on/off the lamp is done by clicking on the light icon.
-If successful, the light bulb icon will change accordingly. If it is not possible to communicate with the microcontroller, the message "No connection" will be displayed. However, if it is not possible to connect to the home server, the message "No connection home server" will be displayed.
+If successful, the light bulb icon will change accordingly. If it is not possible to communicate with the microcontroller, the message "No connection" will be displayed. However, if it is not possible to connect to the home server, the message "No connection to home server" will be displayed.
 
 ### RPL
 <img src="/readme_images/rpl.png" alt="RPL page">
