@@ -104,7 +104,7 @@ const sensorSave = async () => {
     fun: newSensorFunction,
     id: id,
   };
-  dataRep = await sendData("POST", dict,window.location.href+"add");
+  dataRep = await sendData("POST", dict,"add");
   const status = dataRep['status']
   dataRep = await dataRep.json()
   

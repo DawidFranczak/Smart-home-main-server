@@ -160,7 +160,7 @@ const upgradeAqua = async (e) => {
           mode: mode,
           id: id,
         };
-        data = await sendData("PUT", dict,window.location.href+"update/");
+        data = await sendData("PUT", dict,"update/");
         data = await data.json()
         const modeFluolampButton = document.querySelector(
           "#mode-button-fluolamp"
@@ -204,7 +204,7 @@ const upgradeAqua = async (e) => {
         };
         break;
     }
-    let rep = await sendData("PUT", dict,window.location.href+"update/");
+    let rep = await sendData("PUT", dict,"update/");
     rep = await rep.json()
     if (rep["message"] != undefined) {
       document.querySelector("#message").innerHTML = rep["message"];

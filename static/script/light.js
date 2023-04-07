@@ -7,7 +7,7 @@ const changeLight = async (e) => {
       id: lamp.id,
     };
 
-    let dataRep = await sendData("POST", dict);
+    let dataRep = await sendData("PUT", dict,"update/");
     dataRep = await dataRep.json()
  
     switch (dataRep["response"]) {
