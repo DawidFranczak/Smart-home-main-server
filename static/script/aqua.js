@@ -38,7 +38,6 @@ const selectAqua = async (e) => {
 
   settings = await fetch(`/api/aquarium/${aquarium.id}`);
   settings = await settings.json();
-  console.log(settings);
   tr = translation()
 
   const containerAqua = document.querySelector("#containers-aqua");
@@ -72,11 +71,11 @@ const selectAqua = async (e) => {
   modeFluoLampButton.innerHTML = settings["fluo_mode"] ? tr["OFF"] : tr["ON"];
   modeLedButton.innerHTML = settings["led_mode"] ? tr["OFF"] : tr["ON"];
 
-  document.querySelector("#containers-aqua").addEventListener("click", aqua);
-  document.querySelector("#color").addEventListener("input", aqua);
+  document.querySelector("#containers-aqua").addEventListener("click", upgradeAqua);
+  document.querySelector("#color").addEventListener("input", upgradeAqua);
 };
 
-const aqua = async (e) => {
+const upgradeAqua = async (e) => {
   /* This function allow to change the aquarium settings */
 
   const target = e.target;
@@ -161,16 +160,13 @@ const aqua = async (e) => {
           mode: mode,
           id: id,
         };
-
-        data = await sendData("POST", dict);
+        data = await sendData("PUT", dict,window.location.href+"update/");
         data = await data.json()
-
         const modeFluolampButton = document.querySelector(
           "#mode-button-fluolamp"
         );
 
         const modeLedButton = document.querySelector("#mode-button-led");
-        console.log(data)
         modeFluolampButton.innerHTML = data["fluo"] ? tr["OFF"] : tr["ON"];
         modeLedButton.innerHTML = data["led"] ? tr["OFF"] : tr["ON"];
 
@@ -208,7 +204,7 @@ const aqua = async (e) => {
         };
         break;
     }
-    let rep = await sendData("POST", dict);
+    let rep = await sendData("PUT", dict,window.location.href+"update/");
     rep = await rep.json()
     if (rep["message"] != undefined) {
       document.querySelector("#message").innerHTML = rep["message"];

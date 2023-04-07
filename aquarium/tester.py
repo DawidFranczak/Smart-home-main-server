@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+from django.http import JsonResponse
 from django.utils.translation import gettext as _
 
 
@@ -26,7 +27,7 @@ def _check_aqua_testet(aqua: object) -> None:
     aqua.save(update_fields=["fluo_mode", "led_mode"])
 
 
-def aquarium_contorler_tester(request, aqua: object) -> None:
+def aquarium_contorler_tester(request, aqua: object) -> dict:
     """
     This function changes the aquarium settings without communicating with the home server.
     This means that the operation performed below is always successful.
@@ -66,8 +67,8 @@ def aquarium_contorler_tester(request, aqua: object) -> None:
         case "changeMode":
             aqua.mode = get_data["mode"]
             aqua.save(update_fields=["mode"])
-
             if get_data["mode"]:
-                response = {"fluo": aqua.fluo_mode, "led": aqua.led_mode}
-                return response
+                return {"fluo": aqua.fluo_mode, "led": aqua.led_mode}
             _check_aqua_testet(aqua)
+
+    return {"message": _("Settings updated successfully")}

@@ -11,6 +11,12 @@ from .serialized import AquaSerializer, AquasSerializer
 
 @api_view(["GET"])
 def get_aqua(request, pk):
+    """
+    This function either returns the aquarium settings or redirects the user
+    to the homepage if they are not logged in
+
+    endpotnt: api/aquarium/<int:pk>
+    """
     try:
         settings = request.user.sensor_set.get(pk=pk).aqua
         serializer = AquaSerializer(settings, many=False)
@@ -20,8 +26,13 @@ def get_aqua(request, pk):
 
 
 @api_view(["POST"])
-# api/aquarium/all
 def get_aqua_all(request):
+    """
+    This function either returns the all aquariums settings or redirects the user
+    to the homepage if they are not logged in
+
+    endpotnt: api/aquarium/all
+    """
     try:
         ngrok = request.POST.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user
@@ -36,6 +47,32 @@ def get_aqua_all(request):
 @api_view(["POST"])
 # api/aquarium/update/
 def update_aqua(request):
+    """
+    This function updated settings.
+    Request come from client sever.
+    Request should be nested dictionary for each aquarium
+    like below
+    {
+        "settings":[
+                {
+                "success": True,
+                "fluo_mode": fluo_mode,
+                "led_mode": led_mode,
+                "ip": ip,
+                },
+                {
+                "success": True,
+                "fluo_mode": fluo_mode,
+                "led_mode": led_mode,
+                "ip": ip,
+                }
+                ...
+            ]
+
+    }
+
+    endpotnt: api/aquarium/all
+    """
     try:
         ngrok = request.data.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user

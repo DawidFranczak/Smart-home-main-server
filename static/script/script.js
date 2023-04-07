@@ -13,12 +13,12 @@ function getCookie(name) {
   return cookieValue;
 }
 
-async function sendData(method, _dict) {
+async function sendData(method, dict,path) {
   const csrftoken = getCookie("csrftoken");
-  let data = await fetch(window.location.href, {
+  let data = await fetch(path, {
     method: method,
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
-    body: JSON.stringify(_dict),
+    body: JSON.stringify(dict),
   });
   return  data
 }

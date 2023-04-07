@@ -1,10 +1,8 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .views import AquariumView
+from .views import AquariumGetAll, AquariumUpdate
 
 urlpatterns = [
-    path(
-        "", login_required(AquariumView.as_view(), login_url="login"), name="aquarium"
-    ),
+    path("", AquariumGetAll.as_view(), name="aquarium"),
+    path("update/", AquariumUpdate.as_view(), name="aquarium_update"),
 ]
