@@ -1,15 +1,18 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .views import CalibrationView, SunblindView
+from .views import CalibrationGet, CalibrationUpdate, SunblindGetAll, SunblindUpdate
 
 urlpatterns = [
-    path(
-        "", login_required(SunblindView.as_view(), login_url="login"), name="sunblind"
-    ),
+    path("", SunblindGetAll.as_view(), name="sunblind"),
+    path("update/", SunblindUpdate.as_view(), name="sunblind_update"),
     path(
         "kaibracja/<int:pk>",
-        login_required(CalibrationView.as_view(), login_url="login"),
+        CalibrationGet.as_view(),
         name="calibration",
+    ),
+    path(
+        "kaibracja/<int:pk>/update/",
+        CalibrationUpdate.as_view(),
+        name="calibration_update",
     ),
 ]

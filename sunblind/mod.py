@@ -53,7 +53,7 @@ def sunblind_calibrations(
     }
     try:
         answer = requests.put(ngrok + MESSAGE_SUNBLIND, data=data, timeout=1).json()
-    except TimeoutError:
+    except:
         answer = False
         status = 504
 

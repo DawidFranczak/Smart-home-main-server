@@ -1,8 +1,10 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views import View
+from django.views.generic import TemplateView
 
 from devices.models import Sensor
 
@@ -13,29 +15,43 @@ from .mod import (
     sunblind_move_tester,
 )
 
-# Create your views here.
+
+class SunblindLoginRequired(LoginRequiredMixin):
+    login_url = "login"
 
 
-class SunblindView(View):
+class SunblindGetAll(SunblindLoginRequired, TemplateView):
+    """
+    This class give all user's sunblind
+
+    endpoint: rolety/
+    """
+
     template_name = "sunblind.html"
 
-    def get(self, request):
-        # Getting all user sensor where function is sunblind
-        sensors = request.user.sensor_set.filter(fun="sunblind")
+    def get_context_data(self):
+        sensors = self.request.user.sensor_set.filter(fun="sunblind")
 
-        context = {
+        return {
             "sensors": [
                 {"id": sensor.id, "name": sensor.name, "value": sensor.sunblind.value}
                 for sensor in sensors
             ]
         }
-        return render(request, self.template_name, context, status=200)
 
-    def post(self, request) -> JsonResponse:
+
+class SunblindUpdate(SunblindLoginRequired, View):
+    """
+    This class move selected sunblind
+
+    endpoint: rolety/update
+    """
+
+    def put(self, request) -> JsonResponse:
         get_data = json.loads(request.body)
         sensor = get_object_or_404(Sensor, pk=get_data["id"])
         ngrok = request.user.ngrok.ngrok
-        value: int = get_data["id"]
+        value: int = get_data["value"]
 
         # Simulation sunblind
         if sensor.name == "tester":
@@ -47,18 +63,33 @@ class SunblindView(View):
         return JsonResponse(message, status=status)
 
 
-class CalibrationView(View):
+class CalibrationGet(SunblindLoginRequired, TemplateView):
+    """
+    This class start sunblind's calibration
+
+    endpoint: rolety/<int:id>
+    """
+
     template_name = "calibration.html"
 
-    def get(self, request, pk):
-        get_object_or_404(Sensor, pk=pk)
-        return render(request, self.template_name, status=200)
+    def get_context_data(self, pk):
+        sensor = get_object_or_404(Sensor, pk=pk)
+        ngrok = self.request.user.ngrok.ngrok
+        sunblind_calibrations(ngrok, sensor, "calibration")
+        return super().get_context_data()
 
-    def post(self, request, pk):
+
+class CalibrationUpdate(SunblindLoginRequired, View):
+    """
+    This class start sends commands (up/down/stop)
+
+    endpoint: rolety/<int:id>/update
+    """
+
+    def put(self, request, pk):
         sensor = get_object_or_404(Sensor, pk=pk)
         ngrok = request.user.ngrok.ngrok
 
-        # Sending 'up', 'down' or 'stop' message to microcontroller
         get_data = json.loads(request.body)
         action: str = get_data["action"]
 

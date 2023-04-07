@@ -51,7 +51,7 @@ const calibration = (e) => {
     if (element.type === "button") action = "stop";
   }
   dict = { action: action };
-  if (dict["action"] != undefined) sendData("POST", dict);
+  if (dict["action"] != undefined) sendData("PUT", dict,"/update/");
 };
 
 (() => {
