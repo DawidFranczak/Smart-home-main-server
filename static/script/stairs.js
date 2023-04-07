@@ -106,7 +106,7 @@ async function settingsStairs(e) {
         };
         break;
     }
-    let respond = await sendData("POST", dict);
+    let respond = await sendData("PUT", dict,"update/");
     respond = await respond.json();
     document.querySelector("#message").innerHTML = respond["respond"];
   }

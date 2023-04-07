@@ -15,7 +15,7 @@ const sunblind = async (e) => {
           value: slider.value,
           id: slider.placeholder,
         };
-        let rep = await sendData("POST", dict);
+        let rep = await sendData("PUT", dict,"update/");
         if (rep['status']=== 504) {
           rep = await rep.json()
 

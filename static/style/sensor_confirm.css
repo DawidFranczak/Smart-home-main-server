@@ -1,0 +1,29 @@
+a{
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+
+}
+
+.Container{
+    display: flex;
+    justify-content: center;
+}
+.Container__buttons{
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}
+.Container__buttons__confirm,
+.Container__buttons__back{
+    border-style: solid;
+    margin-top: 0.25em;
+    font-size: 1em;
+    width: 7.5em;
+    background: none;
+    border-radius: 15px;
+    border-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+}

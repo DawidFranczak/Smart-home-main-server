@@ -104,8 +104,7 @@ const sensorSave = async () => {
     fun: newSensorFunction,
     id: id,
   };
-
-  dataRep = await sendData("POST", dict);
+  dataRep = await sendData("POST", dict,"add");
   const status = dataRep['status']
   dataRep = await dataRep.json()
   
@@ -207,21 +206,6 @@ const sensorSave = async () => {
     }
     document.querySelector("#response").innerHTML = dataRep["response"];
   } else document.querySelector("#response").innerHTML = dataRep["response"];
-};
-
-const deleteSensor = async (e) => {
-  if (e.target.type == "image") {
-    const sensorDelete = e.target.parentElement;
-    const sensorId = e.target.placeholder;
-    dict = {
-      id: sensorId,
-    };
-    dataRep = await sendData("DELETE", dict);
-    dataRep = await dataRep.json()
-    if (dataRep["response"] == "permission") {
-      sensorDelete.remove();
-    }
-  }
 };
 
 const search = () => {

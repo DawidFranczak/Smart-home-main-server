@@ -1,5 +1,4 @@
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from .views import (
@@ -13,35 +12,35 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", login_required(UserPage.as_view(), login_url="login"), name="user_page"),
+    path("", UserPage.as_view(), name="user_page"),
     path(
         "zmiana-hasla/",
-        login_required(UserChangePassword.as_view(), login_url="login"),
+        UserChangePassword.as_view(),
         name="user_change_password",
     ),
     path(
         "zmiana-emaila/<int:pk>",
-        login_required(UserChangeEmail.as_view(), login_url="login"),
+        UserChangeEmail.as_view(),
         name="user_change_email",
     ),
     path(
         "zmiana-zdjec/<int:pk>",
-        login_required(UserChangeImage.as_view(), login_url="login"),
+        UserChangeImage.as_view(),
         name="user_change_image",
     ),
     path(
         "zmiana-zdjec/reset/",
-        login_required(UserChangeImageReset.as_view(), login_url="login"),
+        UserChangeImageReset.as_view(),
         name="user_change_image_reset",
     ),
     path(
         "usun-konto/<int:pk>",
-        login_required(UserDelete.as_view(), login_url="login"),
+        UserDelete.as_view(),
         name="user_delete",
     ),
     path(
         "zmiana-linku/<int:pk>",
-        login_required(UserChangeNgrok.as_view(), login_url="login"),
+        UserChangeNgrok.as_view(),
         name="user_change_url",
     ),
     path(

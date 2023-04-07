@@ -1,12 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .views import StairsView
+from .views import StairsGetAll, StairsUpdate
 
 urlpatterns = [
     path(
-        "schody/",
-        login_required(StairsView.as_view(), login_url="login"),
+        "",
+        StairsGetAll.as_view(),
         name="stairs",
     ),
+    path("update/", StairsUpdate.as_view(), name="stairs_update"),
 ]

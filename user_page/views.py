@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
@@ -16,11 +17,27 @@ from .models import HomeNavImage
 # Create your views here.
 
 
-class UserPage(TemplateView):
+class UserLoginRequired(LoginRequiredMixin):
+    login_url = "login"
+
+
+class UserPage(UserLoginRequired, TemplateView):
+    """
+    This class render user's settings page
+
+    endpoint: ustawienia/
+    """
+
     template_name = "user_page.html"
 
 
-class UserChangePassword(View):
+class UserChangePassword(UserLoginRequired, View):
+    """
+    This class change user's password
+
+    endpoint: ustawienia/zmiana-hasla/
+    """
+
     template_name = "user_page.html"
     form_class = ChangePasswordForm
 
@@ -43,7 +60,13 @@ class UserChangePassword(View):
         return render(request, self.template_name, context, status=200)
 
 
-class UserChangeEmail(SuccessMessageMixin, UpdateView):
+class UserChangeEmail(UserLoginRequired, SuccessMessageMixin, UpdateView):
+    """
+    This class change user's email
+
+    endpoint: ustawienia/zmiana-emaila/
+    """
+
     model = User
     success_message = _("Email successfully updated")
     form_class = ChangeEmailForm
@@ -56,7 +79,13 @@ class UserChangeEmail(SuccessMessageMixin, UpdateView):
         return context
 
 
-class UserChangeNgrok(SuccessMessageMixin, UpdateView):
+class UserChangeNgrok(UserLoginRequired, SuccessMessageMixin, UpdateView):
+    """
+    This class change user's home server url
+
+    endpoint: ustawienia/zmiana-linku/
+    """
+
     model = Ngrok
     form_class = ChangeNgrokForm
     success_url = "/ustawienia/"
@@ -69,7 +98,13 @@ class UserChangeNgrok(SuccessMessageMixin, UpdateView):
         return context
 
 
-class UserChangeImage(SuccessMessageMixin, UpdateView):
+class UserChangeImage(UserLoginRequired, SuccessMessageMixin, UpdateView):
+    """
+    This class change user's icons on home page
+
+    endpoint: ustawienia/zmiana-zdjec/
+    """
+
     template_name = "user_page.html"
     model = HomeNavImage
     form_class = ChangeImageForm
@@ -82,7 +117,13 @@ class UserChangeImage(SuccessMessageMixin, UpdateView):
         return context
 
 
-class UserChangeImageReset(View):
+class UserChangeImageReset(UserLoginRequired, View):
+    """
+    This class reset user's icons on home page
+
+    endpoint: ustawienia/zmiana-zdjec/reset/
+    """
+
     def get(self, request):
         user_image = request.user.homenavimage
         user_image.home = "images/home.png"
@@ -101,7 +142,13 @@ class UserChangeImageReset(View):
         return redirect("user_page")
 
 
-class UserDelete(SuccessMessageMixin, DeleteView):
+class UserDelete(UserLoginRequired, SuccessMessageMixin, DeleteView):
+    """
+    This class delete user's account
+
+    endpoint: usun-konto/<int:pk>
+    """
+
     model = User
     success_message = _("Account has deleted")
     success_url = "/zaloguj/"

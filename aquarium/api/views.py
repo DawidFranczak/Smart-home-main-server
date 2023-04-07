@@ -11,12 +11,6 @@ from .serialized import AquaSerializer, AquasSerializer
 
 @api_view(["GET"])
 def get_aqua(request, pk):
-    """
-    The function returns settings of the selected aquarium.
-
-    endpoint: api/aquarium/<pk>
-
-    """
     try:
         settings = request.user.sensor_set.get(pk=pk).aqua
         serializer = AquaSerializer(settings, many=False)
@@ -27,11 +21,6 @@ def get_aqua(request, pk):
 
 @api_view(["POST"])
 def get_aqua_all(request):
-    """
-    The function returns settings of the all aquariums.
-
-    endpoint: api/aquarium/all
-    """
     try:
         ngrok = request.POST.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user
@@ -46,11 +35,6 @@ def get_aqua_all(request):
 @api_view(["POST"])
 # api/aquarium/update/
 def update_aqua(request):
-    """
-    The function updated fluo and led mode of aquarium
-
-    endpoint: api/aquarium/all
-    """
     try:
         ngrok = request.data.get("url")
         user = Ngrok.objects.get(ngrok=ngrok).user

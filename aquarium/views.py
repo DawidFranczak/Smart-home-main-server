@@ -1,9 +1,12 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.views import View
+from django.views.generic import ListView
+
+from devices.models import Sensor
 
 from .mod import (
     change_fluo_lamp_state,
@@ -18,25 +21,43 @@ from .tester import aquarium_contorler_tester
 # Create your views here.
 
 
-class AquariumView(View):
+class AquariumGetAll(LoginRequiredMixin, ListView):
+    """
+    This class give all user's aquariums
+
+    endpoint: akwaria/
+    """
+
+    login_url = "login"
+    model = Sensor
+    template_name = "aquarium.html"
+    context_object_name = "aquas"
+
+    def get_queryset(self):
+        user = self.request.user
+        filters = {"user": user, "fun": "aqua"}
+        return super().get_queryset().filter(**filters)
+
+
+class AquariumUpdate(LoginRequiredMixin, View):
+    """
+    This class update selected aquarium
+
+    endpoint: akwaria/update
+    """
+
+    login_url = "login"
     template_name = "aquarium.html"
 
-    def get(self, request):
-        aquas = request.user.sensor_set.filter(fun="aqua")
-        context = {
-            "aquas": aquas,
-        }
-        return render(request, self.template_name, context, status=200)
-
-    def post(self, request):
+    def put(self, request):
         get_data = json.loads(request.body)
         sensor = request.user.sensor_set.get(pk=get_data["id"])
         ngrok = request.user.ngrok.ngrok
 
         # Control simulation
         if sensor.name == "tester":
-            aquarium_contorler_tester(request, sensor.aqua)
-            return JsonResponse({"message": _("Settings updated successfully")})
+            response = aquarium_contorler_tester(request, sensor.aqua)
+            return JsonResponse(response)
         # End simulation
 
         match get_data["action"]:
@@ -50,7 +71,6 @@ class AquariumView(View):
                 response = change_led_state(sensor, ngrok, get_data["value"])
 
             case "changeLedTime":
-
                 data = {
                     "led_start": get_data["ledStart"],
                     "led_stop": get_data["ledStop"],
@@ -59,7 +79,6 @@ class AquariumView(View):
                 response = change_led_time(sensor, ngrok, data)
 
             case "changeFluoLampTime":
-
                 data = {
                     "fluo_lamp_start": get_data["fluoLampStart"],
                     "fluo_lamp_stop": get_data["fluoLampStop"],

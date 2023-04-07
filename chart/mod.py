@@ -25,16 +25,16 @@ def data_for_chart(request: object, list_place: list) -> dict:
             }
     """
 
-    data_from = request.POST.get("data-from")
-    data_to = request.POST.get("data-to")
-    place = request.POST.get("list")
+    data_from = request.GET.get("data-from")
+    data_to = request.GET.get("data-to")
+    place = request.GET.get("list")
 
     if not place:
         place = list_place[0]
 
     if not data_from and not data_to:
         data_from = datetime.now().date() - timedelta(days=7)
-        data_to = str(datetime.now())
+        data_to = datetime.now()
 
     data_average_temp_day = []
     data_average_temp_night = []

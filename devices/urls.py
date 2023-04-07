@@ -1,8 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from .views import DevicesView
+from .views import DeviceAdd, DevicesCardDelete, DevicesDelete, DevicesGetAll
 
 urlpatterns = [
-    path("", login_required(DevicesView.as_view(), login_url="login"), name="devices"),
+    path("", DevicesGetAll.as_view(), name="devices"),
+    path("<int:pk>/delete", DevicesDelete.as_view(), name="device_delete"),
+    path(
+        "<int:pk>/delete/card", DevicesCardDelete.as_view(), name="device_card_delete"
+    ),
+    path("add", DeviceAdd.as_view(), name="device_add"),
 ]

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-13 19:24+0100\n"
+"POT-Creation-Date: 2023-04-07 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,53 +20,59 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: mod.py:54 mod.py:115
+#: mod.py:26 mod.py:85
 msgid "No communication with home server."
 msgstr "Brak komunikacji z serwerem w domu"
 
-#: mod.py:61
-#, fuzzy
-#| msgid "Sensor already exist"
+#: mod.py:32
 msgid "Sensor already exists"
 msgstr "Czujnik juz dodano"
 
-#: mod.py:69
-#, fuzzy
-#| msgid "Successfully added card."
+#: mod.py:38
 msgid "Successfully added device"
 msgstr "Udało się dodać kartę"
 
-#: mod.py:74 mod.py:136
+#: mod.py:43 mod.py:100
 msgid "System failed to add the device"
 msgstr "Nie udało się dodać urządzenia"
 
-#: mod.py:85
+#: mod.py:54
 msgid "Sorry, you can't add this type of device in the test version"
 msgstr "Wybacz ale nie możesz dodać tego typu urządzenia w wersji testowej"
 
-#: mod.py:92
+#: mod.py:63
 msgid "Device added successfully"
 msgstr "Udało sie dodać urządzenie"
 
-#: mod.py:122
+#: mod.py:89
 msgid "This card is already exists."
 msgstr "Ta karta jest już dodana"
 
-#: mod.py:128
+#: mod.py:94
 #, fuzzy
 #| msgid "Device added successfully"
 msgid "Card addes successfully."
 msgstr "Udało sie dodać urządzenie"
 
-#: mod.py:159
-#, fuzzy
-#| msgid "Sensor already exist"
+#: mod.py:123
 msgid "Sensor does not exists"
 msgstr "Czujnik juz dodano"
 
-#: mod.py:162
+#: mod.py:126
 msgid "Failed deleted device"
 msgstr "Nie udało się usunąc urządzenia"
+
+#: templates/confirm_delete.html:8
+msgid "Are you sure you want to delete"
+msgstr "Czy jesteś pewien że chcesz usunąć"
+
+#: templates/confirm_delete.html:9
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: templates/confirm_delete.html:10
+msgid "NO back"
+msgstr "NIE wróć"
 
 #: templates/devices.html:4
 msgid "Devices"

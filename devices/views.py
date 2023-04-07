@@ -1,17 +1,22 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.views import View
+from django.views.generic import TemplateView, View
+from django.views.generic.edit import DeleteView
 
 from .mod import add_sensor, add_sensor_tester, add_uid, delete_sensor
+from .models import Card, Sensor
 
 
-class DevicesView(View):
+class DeviceAuthMixins(LoginRequiredMixin):
+    login_url = "login"
     template_name = "devices.html"
 
-    def get(self, request):
-        sensors = request.user.sensor_set.all()
+
+class DevicesGetAll(DeviceAuthMixins, TemplateView):
+    def get_context_data(self, **kwargs):
+        sensors = self.request.user.sensor_set.all()
 
         context = {
             "sensors": [
@@ -30,11 +35,12 @@ class DevicesView(View):
             ]
         }
 
-        return render(request, "devices.html", context)
+        return context
 
+
+class DeviceAdd(DeviceAuthMixins, View):
     def post(self, request):
         get_data = json.loads(request.body)
-
         # Simulation adding sensors
         if get_data["name"] == "tester":
             message, status = add_sensor_tester(get_data, request)
@@ -48,7 +54,14 @@ class DevicesView(View):
 
         return JsonResponse(message, status=status)
 
-    def delete(self, request):
-        get_data = json.loads(request.body)
-        message, status = delete_sensor(get_data, request.user)
-        return JsonResponse(message, status=status)
+
+class DevicesDelete(DeviceAuthMixins, DeleteView):
+    model = Sensor
+    success_url = "/urzadzenia/"
+    template_name = "confirm_delete.html"
+
+
+class DevicesCardDelete(DeviceAuthMixins, DeleteView):
+    model = Card
+    success_url = "/urzadzenia/"
+    template_name = "confirm_delete.html"

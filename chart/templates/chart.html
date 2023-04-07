@@ -7,8 +7,7 @@
 <script src='{% static "script/chart2.js" %}'></script>
 <link rel='stylesheet' type='text/css' media='screen' href='{% static "style/chart.css" %}'>
 <div class="char-containers">
-    <form class="Get-data" method="post">
-        {% csrf_token %}
+    <form class="Get-data" method="GET">
         <div class="Get-data__select-data">
             <div class="Get-data__select-data__div">
                 <p class="Get-data__select-data__div__p">{% trans "Start on"%}</p>

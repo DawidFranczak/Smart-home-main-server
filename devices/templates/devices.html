@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 {% load i18n %}
-{% block title %} {% trans "Devices" %} {%endblock %}
+{% block title %} {% trans "Confirm" %} {%endblock %}
 {% block content %}
 <link
   rel="stylesheet"
@@ -166,13 +166,14 @@
               alt="Czujnik temperatury"
               class="Sensor-container__ul__sensor__sensor-img"
             />
-            <input
-              type="image"
-              src="{% static 'images/cross.png' %}"
-              id="sensor-del-button"
-              class="Sensor-container__ul__sensor__del-button"
-              placeholder="{{sensor.id}}"
-            />
+            <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+              <img
+                src="{% static 'images/cross.png' %}"
+                id="sensor-del-button"
+                alt="Delete"
+                class="Sensor-container__ul__sensor__del-button"
+              />
+            </a>
           </ul>
         {% endif %}
       {% endfor %}
@@ -187,13 +188,14 @@
               alt="Roleta"
               class="Sensor-container__ul__sensor__sensor-img"
             />
-            <input
-              type="image"
-              src="{% static 'images/cross.png' %}"
-              id="sensor-del-button"
-              class="Sensor-container__ul__sensor__del-button"
-              placeholder="{{sensor.id}}"
-            />
+            <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+              <img
+                src="{% static 'images/cross.png' %}"
+                id="sensor-del-button"
+                alt="Delete"
+                class="Sensor-container__ul__sensor__del-button"
+              />
+            </a>
           </ul>
         {% endif %}
       {% endfor %}
@@ -203,18 +205,21 @@
         {% if sensor.fun == "light" %}
           <ul class="Sensor-container__ul__sensor">
             <p class="Sensor-container__ul__sensor__name" id="sensor-name">{{sensor.name}}</p>
+            
             <img
               src="{% static 'images/lamp.png' %}"
               alt="Lampa"
               class="Sensor-container__ul__sensor__sensor-img"
             />
-            <input
-              type="image"
-              src="{% static 'images/cross.png' %}"
-              id="sensor-del-button"
-              class="Sensor-container__ul__sensor__del-button"
-              placeholder="{{sensor.id}}"
-            />
+            <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+              <img
+                src="{% static 'images/cross.png' %}"
+                id="sensor-del-button"
+                alt="Delete"
+                class="Sensor-container__ul__sensor__del-button"
+              />
+            </a>
+            </a>
           </ul>
         {% endif %}
       {% endfor %}
@@ -229,13 +234,14 @@
               alt="Akwarium"
               class="Sensor-container__ul__sensor__sensor-img"
             />
-            <input
-              type="image"
-              src="{% static 'images/cross.png' %}"
-              id="sensor-del-button"
-              class="Sensor-container__ul__sensor__del-button"
-              placeholder="{{sensor.id}}"
-            />
+            <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+              <img
+                src="{% static 'images/cross.png' %}"
+                id="sensor-del-button"
+                alt="Delete"
+                class="Sensor-container__ul__sensor__del-button"
+              />
+            </a>
           </ul>
         {% endif %}
       {% endfor %}
@@ -250,14 +256,14 @@
               alt="Schody"
               class="Sensor-container__ul__sensor__sensor-img"
             />
-
-            <input
-              type="image"
-              src="{% static 'images/cross.png' %}"
-              id="sensor-del-button"
-              class="Sensor-container__ul__sensor__del-button"
-              placeholder="{{sensor.id}}"
-            />
+            <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+              <img
+                src="{% static 'images/cross.png' %}"
+                id="sensor-del-button"
+                alt="Delete"
+                class="Sensor-container__ul__sensor__del-button"
+              />
+            </a>
           </ul>
         {% endif %}
       {% endfor %}
@@ -272,13 +278,14 @@
             alt="Czujnik rfid"
             class="Sensor-container__ul__sensor__sensor-img"
           />
-          <input
-            type="image"
-            src="{% static 'images/cross.png' %}"
-            id="sensor-del-button"
-            class="Sensor-container__ul__sensor__del-button"
-            placeholder="{{sensor.id}}"
-          />
+          <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+            <img
+              src="{% static 'images/cross.png' %}"
+              id="sensor-del-button"
+              alt="Delete"
+              class="Sensor-container__ul__sensor__del-button"
+            />
+          </a>
         </ul>
           {% for card in sensor.cards %}
             <ul class="Sensor-container__ul__sensor">
@@ -288,13 +295,14 @@
                 alt="Karta rfid"
                 class="Sensor-container__ul__sensor__sensor-img"
               />
-              <input
-                type="image"
-                src="{% static 'images/cross.png' %}"
-                id="sensor-del-button"
-                class="Sensor-container__ul__sensor__del-button"
-                placeholder="card {{card.id}}"
-              />
+              <a href= "{% url 'device_card_delete' card.id %}" class="Sensor-container__ul__sensor__a">
+                <img
+                  src="{% static 'images/cross.png' %}"
+                  id="sensor-del-button"
+                  alt="Delete"
+                  class="Sensor-container__ul__sensor__del-button"
+                />
+              </a>
             </ul>
 
           {% endfor %}
@@ -311,13 +319,14 @@
             alt="Przycisk"
             class="Sensor-container__ul__sensor__sensor-img"
           />
-          <input
-            type="image"
-            src="{% static 'images/cross.png' %}"
-            id="sensor-del-button"
-            class="Sensor-container__ul__sensor__del-button"
-            placeholder="{{sensor.id}}"
-          />
+          <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+            <img
+              src="{% static 'images/cross.png' %}"
+              id="sensor-del-button"
+              alt="Delete"
+              class="Sensor-container__ul__sensor__del-button"
+            />
+          </a>
         </ul>
         {% endif %}
       {% endfor %}
@@ -332,13 +341,14 @@
             alt="Lampa zewnętrzna"
             class="Sensor-container__ul__sensor__sensor-img"
           />
-          <input
-            type="image"
-            src="{% static 'images/cross.png' %}"
-            id="sensor-del-button"
-            class="Sensor-container__ul__sensor__del-button"
-            placeholder="{{sensor.id}}"
-          />
+          <a href= "{% url 'device_delete' sensor.id %}" class="Sensor-container__ul__sensor__a">
+            <img
+              src="{% static 'images/cross.png' %}"
+              id="sensor-del-button"
+              alt="Delete"
+              class="Sensor-container__ul__sensor__del-button"
+            />
+          </a>
         </ul>
         {% endif %}
       {% endfor %}
