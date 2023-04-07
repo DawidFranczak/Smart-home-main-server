@@ -153,12 +153,16 @@
   place-self: center;
   margin-left: 0.5em;
 }
-
+.Sensor-container__ul__sensor__a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  place-self: center;
+}
 .Sensor-container__ul__sensor__del-button {
   display: none;
-  place-self: center;
-  width: 3.5em;
-  margin-left: 2em;
+  width: 2.5em;
+  margin-left: 1em;
 }
 
 .Sensor-container__ul__sensor__del-button--active {

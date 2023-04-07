@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %} {% trans "Confirm" %} {% endblock %}
+{% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+  href='{% static "style/sensor_confirm.css" %}'
+/>
+<div class="Container">
+    <form method="POST">{% csrf_token %}
+        <p>{% trans "Are you sure you want to delete" %} "{{ object }}"?</p>
+        <div class="Container__buttons">
+            <input type="submit" value="{% trans "Confirm" %}" class="Container__buttons__confirm">
+            <a href = "{% url "devices"%}" class="Container__buttons__back">{% trans "NO back" %}</a>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
