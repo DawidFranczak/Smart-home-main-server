@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
@@ -10,7 +11,9 @@ from django.views.generic.edit import CreateView
 
 from .forms import CreateUserForm
 
-# Create your views here.
+
+class UserLoginRequired(LoginRequiredMixin):
+    login_url = "login"
 
 
 class UserRegister(SuccessMessageMixin, CreateView):
@@ -21,11 +24,12 @@ class UserRegister(SuccessMessageMixin, CreateView):
     success_message = _("Registration was successful.")
 
 
-class UserLogin(View):
-    template = "login.html"
+class UserLogin(TemplateView):
+    template_name = "login.html"
 
-    def get(self, request):
-        return render(request, self.template, status=200)
+
+class UserLoginCheck(View):
+    template = "login.html"
 
     def post(self, request):
         username = request.POST.get("username")
@@ -49,7 +53,7 @@ class UserLogin(View):
         return redirect("home")
 
 
-class Home(TemplateView):
+class Home(UserLoginRequired, TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
@@ -58,7 +62,7 @@ class Home(TemplateView):
         return context
 
 
-class UserLogout(View):
+class UserLogout(UserLoginRequired, View):
     def get(self, request):
         logout(request)
         return redirect("login")
