@@ -1,24 +1,22 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
+from django.views.generic import TemplateView
 
 from .mod import data_for_chart
 
 # Create your views here.
 
 
-@login_required(login_url="login")
-def chart(request):
+class ChartGetData(LoginRequiredMixin, TemplateView):
+    login_url = "login"
     template_name = "chart.html"
 
-    if request.method == "POST" or request.method == "GET":
-        list_place = request.user.sensor_set.filter(fun="temp")
+    def get_context_data(self, **kwargs):
+        list_place = self.request.user.sensor_set.filter(fun="temp")
 
         if len(list_place) == 0:
             context = {"list_place": [_("No sensors have been added")]}
-            return render(request, template_name, context, status=404)
-
-        context = data_for_chart(request, list_place)
-        return render(request, template_name, context, status=200)
-
-    return render(request, template_name, status=405)
+            return context
+        context = data_for_chart(self.request, list_place)
+        return context
