@@ -71,7 +71,6 @@ class AquariumUpdate(LoginRequiredMixin, View):
                 response = change_led_state(sensor, ngrok, get_data["value"])
 
             case "changeLedTime":
-
                 data = {
                     "led_start": get_data["ledStart"],
                     "led_stop": get_data["ledStop"],
@@ -80,7 +79,6 @@ class AquariumUpdate(LoginRequiredMixin, View):
                 response = change_led_time(sensor, ngrok, data)
 
             case "changeFluoLampTime":
-
                 data = {
                     "fluo_lamp_start": get_data["fluoLampStart"],
                     "fluo_lamp_stop": get_data["fluoLampStop"],
