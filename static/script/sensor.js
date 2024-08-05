@@ -107,6 +107,7 @@ const sensorSave = async () => {
   dataRep = await sendData("POST", dict,"add");
   const status = dataRep['status']
   dataRep = await dataRep.json()
+  console.log(dataRep)
   
   if (status === 201) {
     const parent = document.createElement("ul");
@@ -155,7 +156,7 @@ const sensorSave = async () => {
         document.querySelector("#add-aquas-container").appendChild(parent);
         break;
       case "rfid":
-        pFun.setAttribute("src", "/static/images/sensor-rfid.png");
+        pFun.setAttribute("src", "/static/images/rfid-sensor.png");
         pFun.setAttribute("alt", "Czytnik");
         document.querySelector("#add-rfids-container").appendChild(parent);
 
@@ -178,11 +179,11 @@ const sensorSave = async () => {
         break;
 
       case "uid":
-        pFun.setAttribute("alt", "Akwarium");
-        pFun.setAttribute("src", "/static/images/aqua.png");
+        pFun.setAttribute("alt", "Krta");
+        pFun.setAttribute("src", "/static/images/rfid.png");
 
         input.setAttribute("id", "card " + dataRep["id"]);
-        document.querySelector("#add-rfid-container").appendChild(parent);
+        document.querySelector("#add-rfids-container").appendChild(parent);
         break;
 
       case "btn":

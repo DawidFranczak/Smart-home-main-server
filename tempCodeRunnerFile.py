@@ -10,3 +10,4 @@
 #             light_lamp(data_rec)
 #         else:
 #             check_uid(data_rec)
+# ngrok http --domain=dashing-cod-pretty.ngrok-free.app 8000

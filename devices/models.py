@@ -10,6 +10,9 @@ class SensorSettings(models.Model):
     answer = models.CharField(max_length=100, default="")
     port = models.IntegerField()
 
+    def __str__(self) -> str:
+        return self.fun
+
 
 class Sensor(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
