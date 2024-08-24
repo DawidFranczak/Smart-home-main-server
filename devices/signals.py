@@ -5,7 +5,7 @@ from random import randint
 
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
 from log.models import Ngrok
@@ -27,7 +27,7 @@ def tester_chart_data(user: object) -> None:
     # month = 1
     # day = 1
     hour = 0
-    year = 2023
+    year = 2024
     # for i in range(50):
     for j in range(9):
         for k in range(24):
@@ -118,3 +118,47 @@ def add_sensor(sender, instance, created, **kwarg) -> None:
 
             case "aqua":
                 Aqua.objects.create(sensor_id=instance.id)
+
+
+@receiver(post_migrate)
+def add_default_values(sender, **kwargs):
+    if not SensorSettings.objects.filter(fun="aqua").exists():
+        SensorSettings.objects.create(
+            fun="aqua", message="password_aqua", answer="respond_aqua", port=7863
+        )
+    # if not SensorSettings.objects.filter(fun="sunblind").exists():
+    #     SensorSettings.objects.create(
+    #         fun="sunblind", message="", answer="", port=
+    #     )
+    # if not SensorSettings.objects.filter(fun="temp").exists():
+    #     SensorSettings.objects.create(
+    #         fun="temp", message="", answer="", port=
+    #     )
+    # if not SensorSettings.objects.filter(fun="light").exists():
+    #     SensorSettings.objects.create(
+    #         fun="light", message="", answer="", port=
+    #     )
+    # if not SensorSettings.objects.filter(fun="stairs").exists():
+    #     SensorSettings.objects.create(
+    #         fun="stairs", message="", answer="", port=
+    #     )
+    if not SensorSettings.objects.filter(fun="rfid").exists():
+        SensorSettings.objects.create(
+            fun="rfid", message="password_rfid", answer="respond_rfid", port=3984
+        )
+    if not SensorSettings.objects.filter(fun="button").exists():
+        SensorSettings.objects.create(
+            fun="button", message="password_btn", answer="respond_btn", port=7894
+        )
+    if not SensorSettings.objects.filter(fun="lamp").exists():
+        SensorSettings.objects.create(
+            fun="lamp", message="password_lamp", answer="respond_lamp", port=4569
+        )
+    # if not SensorSettings.objects.filter(fun="uid").exists():
+    #     SensorSettings.objects.create(
+    #         fun="uid", message="", answer="", port=
+    #     )
+    # if not SensorSettings.objects.filter(fun="").exists():
+    #     SensorSettings.objects.create(
+    #         fun="", message="", answer="", port=
+    #     )

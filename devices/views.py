@@ -24,12 +24,14 @@ class DevicesGetAll(DeviceAuthMixins, TemplateView):
                     "fun": sensor.fun,
                     "name": sensor.name,
                     "id": sensor.id,
-                    "cards": [
-                        {"id": card.id, "name": card.name}
-                        for card in sensor.card_set.all()
-                    ]
-                    if sensor.fun == "rfid"
-                    else "",
+                    "cards": (
+                        [
+                            {"id": card.id, "name": card.name}
+                            for card in sensor.card_set.all()
+                        ]
+                        if sensor.fun == "rfid"
+                        else ""
+                    ),
                 }
                 for sensor in sensors
             ]
@@ -41,6 +43,7 @@ class DevicesGetAll(DeviceAuthMixins, TemplateView):
 class DeviceAdd(DeviceAuthMixins, View):
     def post(self, request):
         get_data = json.loads(request.body)
+        print(get_data)
         # Simulation adding sensors
         if get_data["name"] == "tester":
             message, status = add_sensor_tester(get_data, request)
