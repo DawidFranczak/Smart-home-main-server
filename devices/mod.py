@@ -166,7 +166,7 @@ def _add_device(message: str, answer: str, port: int) -> dict:
                     "ip": new_sensor_ip,
                 }
 
-        except TimeoutError:
+        except:
             continue
 
     sock.close()

@@ -97,22 +97,15 @@ def _check_aqua(settings: object) -> dict:
         "ip": ip, // microcontroller's ip
     }
     """
-    led_start: str = settings.get("led_start")
-    led_stop: str = settings.get("led_stop")
-    fluo_start: str = settings.get("fluo_start")
-    fluo_stop: str = settings.get("fluo_stop")
+    led_start: int = convertHourToMinutes(settings.get("led_start"))
+    led_stop: int = convertHourToMinutes(settings.get("led_stop"))
+    fluo_start: int = convertHourToMinutes(settings.get("fluo_start"))
+    fluo_stop: int = convertHourToMinutes(settings.get("fluo_stop"))
     ip: str = settings.get("ip")
     port: int = int(settings.get("port"))
 
-    hour: int = datetime.now().hour
-    hours: str = str(hour) if hour > 9 else "0" + str(hour)
-
-    minute = datetime.now().minute
-    minutes = str(minute) if minute > 9 else "0" + str(minute)
-
-    time_now = "".join((hours, ":", minutes))
-
-    if led_start < time_now < led_stop:
+    time_now = datetime.now().hour * 60 + datetime.now().minute
+    if checkTime(led_start, led_stop, time_now, led_start > led_stop):
         led = "r1"
         led_mode = True
     else:
@@ -122,13 +115,14 @@ def _check_aqua(settings: object) -> dict:
     if not send_data(led, ip, port):
         return {"success": False}
 
-    if fluo_start < time_now < fluo_stop:
+    if checkTime(fluo_start, fluo_stop, time_now, fluo_start > fluo_stop):
         fluo = "s1"
         fluo_mode = True
     else:
         fluo = "s0"
         fluo_mode = False
-
+    print(led)
+    print(fluo)
     if not send_data(fluo, ip, port):
         return {"success": False}
     return {
@@ -137,6 +131,14 @@ def _check_aqua(settings: object) -> dict:
         "led_mode": led_mode,
         "ip": ip,
     }
+
+
+def convertHourToMinutes(time: str) -> int:
+    return int(time.split(":")[0]) * 60 + int(time.split(":")[1])
+
+
+def checkTime(start: int, stop: int, currnet: int, reversed: bool) -> bool:
+    return start > currnet > stop if reversed else start < currnet < stop
 
 
 def change_rgb(sensor: object, ngrok: str, data: dict):
