@@ -19,7 +19,7 @@ class RplView(View):
 
     def put(self, request):
         get_data = json.loads(request.body)
-
+        print(get_data)
         if get_data["action"] == "connect":
             lamp = get_object_or_404(Sensor, pk=get_data["lamp"])
             if self.connect_rfid(request, lamp) and self.connect_buttons(request, lamp):
@@ -53,7 +53,6 @@ class RplView(View):
                 [sensor.id for sensor in sensors_rfid if sensor.rfid.lamp == lamp.ip]
             )
             add_rfids = set([int(rfid_id) for rfid_id in get_data["rfids"]])
-
             connect_rfid = add_rfids - connected_rfid
             remove_rfid = connected_rfid - add_rfids
 

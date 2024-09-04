@@ -103,8 +103,8 @@ def _check_aqua(settings: object) -> dict:
     fluo_stop: int = convertHourToMinutes(settings.get("fluo_stop"))
     ip: str = settings.get("ip")
     port: int = int(settings.get("port"))
-
     time_now = datetime.now().hour * 60 + datetime.now().minute
+
     if checkTime(led_start, led_stop, time_now, led_start > led_stop):
         led = "r1"
         led_mode = True
@@ -121,8 +121,7 @@ def _check_aqua(settings: object) -> dict:
     else:
         fluo = "s0"
         fluo_mode = False
-    print(led)
-    print(fluo)
+
     if not send_data(fluo, ip, port):
         return {"success": False}
     return {
@@ -138,7 +137,7 @@ def convertHourToMinutes(time: str) -> int:
 
 
 def checkTime(start: int, stop: int, currnet: int, reversed: bool) -> bool:
-    return start > currnet > stop if reversed else start < currnet < stop
+    return currnet > start or currnet < stop if reversed else start < currnet < stop
 
 
 def change_rgb(sensor: object, ngrok: str, data: dict):

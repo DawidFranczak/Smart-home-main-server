@@ -17,9 +17,6 @@ def listener() -> None:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(("", 6785))
-    local_address = sock.getsockname()
-    print(f"Gniazdo nasłuchuje na IP: {local_address[0]}, port: {local_address[1]}")
-
     while True:
         try:
             data_rec = sock.recvfrom(1024)
@@ -39,7 +36,6 @@ def listener() -> None:
                                 check_uid(uid, ip, port)
                         except Exception as e:
                             pass
-                            print(f"Szczegóły wyjątku: {e}")
         except Exception as e:
             pass
 

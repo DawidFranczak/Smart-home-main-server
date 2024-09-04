@@ -146,7 +146,7 @@ def add_default_values(sender, **kwargs):
         SensorSettings.objects.create(
             fun="rfid", message="password_rfid", answer="respond_rfid", port=3984
         )
-    if not SensorSettings.objects.filter(fun="button").exists():
+    if not SensorSettings.objects.filter(fun="btn").exists():
         SensorSettings.objects.create(
             fun="button", message="password_btn", answer="respond_btn", port=7894
         )
